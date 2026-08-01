@@ -28,3 +28,11 @@ test('covers the full UK bounding box with a plausible point count', () => {
     assert.ok(point.lon >= UK_BBOX.west && point.lon <= UK_BBOX.east);
   }
 });
+
+test('reaches the exact north/east edges even when the range is not an even multiple of stepDeg', () => {
+  const points = buildGridPoints(UK_BBOX, 1);
+  const lats = [...new Set(points.map((p) => p.lat))];
+  const lons = [...new Set(points.map((p) => p.lon))];
+  assert.ok(lats.includes(UK_BBOX.north), `expected lats to include north edge ${UK_BBOX.north}, got max ${Math.max(...lats)}`);
+  assert.ok(lons.includes(UK_BBOX.east), `expected lons to include east edge ${UK_BBOX.east}, got max ${Math.max(...lons)}`);
+});
