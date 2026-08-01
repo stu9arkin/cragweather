@@ -1,7 +1,7 @@
 // js/heatmapView.js
-import { getNeutralColor, temperatureColor, rainfallColor } from './logic/colorScale.js';
+import { getNeutralColor, colorForVariable } from './logic/colorScale.js';
 
-export function createHeatmapView(map, gridPoints, stepDeg = 1) {
+export function createHeatmapView(gridPoints, stepDeg = 1) {
   const layer = L.layerGroup();
   const latBoundsByValue = axisBounds(gridPoints.map((p) => p.lat), stepDeg);
   const lonBoundsByValue = axisBounds(gridPoints.map((p) => p.lon), stepDeg);
@@ -18,6 +18,7 @@ export function createHeatmapView(map, gridPoints, stepDeg = 1) {
       weight: 0,
       fillColor: getNeutralColor(),
       fillOpacity: 0.35,
+      interactive: false,
     });
     rect.addTo(layer);
     return rect;
@@ -43,13 +44,13 @@ function axisBounds(values, stepDeg) {
 }
 
 export function updateHeatmapColors(heatmapView, gridWeather, variable, timeIndex) {
-  const colorFn = variable === 'rainfall' ? rainfallColor : temperatureColor;
+  const colorFn = colorForVariable(variable);
   const valueKey = variable === 'rainfall' ? 'rainfall' : 'temperature';
 
   heatmapView.cellsByIndex.forEach((rect, i) => {
     const forecast = gridWeather[i];
     const value = forecast ? forecast.hourly[valueKey][timeIndex] : null;
-    rect.setStyle({ fillColor: value === null || value === undefined ? getNeutralColor() : colorFn(value) });
+    rect.setStyle({ fillColor: colorFn(value) });
   });
 }
 

@@ -1,3 +1,4 @@
+// js/logic/colorScale.js
 const NEUTRAL_COLOR = '#9e9e9e';
 
 const TEMPERATURE_STOPS = [
@@ -29,6 +30,10 @@ export function temperatureColor(celsius) {
 
 export function rainfallColor(mm) {
   return interpolateStops(RAINFALL_STOPS, mm);
+}
+
+export function colorForVariable(variable) {
+  return variable === 'rainfall' ? rainfallColor : temperatureColor;
 }
 
 export function getLegendStops(variable) {

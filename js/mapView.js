@@ -1,5 +1,5 @@
 // js/mapView.js
-import { getNeutralColor, temperatureColor, rainfallColor } from './logic/colorScale.js';
+import { getNeutralColor, colorForVariable } from './logic/colorScale.js';
 import { average } from './logic/clusterAggregate.js';
 
 export function createMapView(mapElementId, crags) {
@@ -54,7 +54,7 @@ function createClusterIcon(cluster, view) {
 }
 
 export function updateMarkerColors(view, weatherByCragId, variable, timeIndex) {
-  const colorFn = variable === 'rainfall' ? rainfallColor : temperatureColor;
+  const colorFn = colorForVariable(variable);
   const valueKey = variable === 'rainfall' ? 'rainfall' : 'temperature';
   view.activeColorFn = colorFn;
 
@@ -62,7 +62,7 @@ export function updateMarkerColors(view, weatherByCragId, variable, timeIndex) {
     const forecast = weatherByCragId.get(cragId);
     const value = forecast ? forecast.hourly[valueKey][timeIndex] : null;
     marker.cragValue = value ?? null;
-    marker.setStyle({ fillColor: value === null || value === undefined ? getNeutralColor() : colorFn(value) });
+    marker.setStyle({ fillColor: colorFn(value) });
   }
 
   view.markerCluster.refreshClusters();
