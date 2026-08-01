@@ -49,13 +49,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Aldery%20Edge%20crag"
   },
   {
-    "id": "way/78324114",
-    "name": "Alter Rock Climbing Centre",
-    "lat": 52.9081448,
-    "lon": -1.4694527,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Alter%20Rock%20Climbing%20Centre%20crag"
-  },
-  {
     "id": "way/855185133",
     "name": "Amphitheatre Buttress",
     "lat": 53.1544833,
@@ -221,21 +214,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Baslow%20Edge%20crag"
   },
   {
-    "id": "way/335352481",
-    "name": "Beacon Climbing",
-    "lat": 53.1383709,
-    "lon": -4.2525623,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Beacon%20Climbing%20crag"
-  },
-  {
-    "id": "way/1389897771",
-    "name": "Benmore School Climbing Wall",
-    "lat": 56.02879,
-    "lon": -4.9840656,
-    "access": "private",
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Benmore%20School%20Climbing%20Wall%20crag"
-  },
-  {
     "id": "node/2266386024",
     "name": "Benny Beg",
     "lat": 56.348556,
@@ -251,20 +229,6 @@
       "bouldering"
     ],
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Bens%20Wall%20crag"
-  },
-  {
-    "id": "way/201536596",
-    "name": "Big Depot (Leeds)",
-    "lat": 53.7843192,
-    "lon": -1.5762644,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Big%20Depot%20(Leeds)%20crag"
-  },
-  {
-    "id": "way/87265815",
-    "name": "Big Rock Climbing",
-    "lat": 52.0386534,
-    "lon": -0.686825,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Big%20Rock%20Climbing%20crag"
   },
   {
     "id": "node/7737629440",
@@ -364,13 +328,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Blaenllechau%20Quarry%20crag"
   },
   {
-    "id": "way/1269154095",
-    "name": "BlocHaus Climbing",
-    "lat": 53.4743333,
-    "lon": -2.1835031,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20BlocHaus%20Climbing%20crag"
-  },
-  {
     "id": "node/1274238089",
     "name": "Block Buttress",
     "lat": 51.561053,
@@ -460,13 +417,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Boulder%20Ruckle%20crag"
   },
   {
-    "id": "node/2085564841",
-    "name": "Boulder UK",
-    "lat": 53.7461223,
-    "lon": -2.4864374,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Boulder%20UK%20crag"
-  },
-  {
     "id": "node/3715351288",
     "name": "Boulder World",
     "lat": 54.5820345,
@@ -475,16 +425,6 @@
       "boulder"
     ],
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Boulder%20World%20crag"
-  },
-  {
-    "id": "way/507577826",
-    "name": "Boulderworld Climbing Gym",
-    "lat": 54.5793802,
-    "lon": -5.9630391,
-    "climbingStyles": [
-      "boulder"
-    ],
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Boulderworld%20Climbing%20Gym%20crag"
   },
   {
     "id": "node/1759697226",
@@ -781,24 +721,10 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Climbing%20Compound%20crag"
   },
   {
-    "id": "way/297237156",
-    "name": "Climbing tower",
-    "lat": 52.5672747,
-    "lon": -1.7033524,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Climbing%20tower%20crag"
-  },
-  {
     "id": "node/1445595271",
     "name": "Climbing Wall",
     "lat": 57.4644668,
     "lon": -4.2400176,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Climbing%20Wall%20crag"
-  },
-  {
-    "id": "way/1000823921",
-    "name": "Climbing Wall",
-    "lat": 55.8876956,
-    "lon": -3.5112718,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Climbing%20Wall%20crag"
   },
   {
@@ -1412,32 +1338,11 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Glynfach%20crag"
   },
   {
-    "id": "way/188156023",
-    "name": "Go Ape",
-    "lat": 52.3658116,
-    "lon": -2.3701524,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Go%20Ape%20crag"
-  },
-  {
     "id": "way/44373894",
     "name": "Go Ape! Sherwood Pines",
     "lat": 53.1675208,
     "lon": -1.0844921,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Go%20Ape!%20Sherwood%20Pines%20crag"
-  },
-  {
-    "id": "way/137552625",
-    "name": "Go Outdoors",
-    "lat": 53.3700874,
-    "lon": -1.4748733,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Go%20Outdoors%20crag"
-  },
-  {
-    "id": "way/293326666",
-    "name": "Go-Ape",
-    "lat": 51.656167,
-    "lon": -0.148967,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Go-Ape%20crag"
   },
   {
     "id": "way/712268675",
@@ -1546,13 +1451,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Green%20Oak%20Boulder%20crag"
   },
   {
-    "id": "way/540068518",
-    "name": "Green Park Apex",
-    "lat": 52.7730231,
-    "lon": -1.5600048,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Green%20Park%20Apex%20crag"
-  },
-  {
     "id": "way/495230018",
     "name": "Grey Crag",
     "lat": 54.5220009,
@@ -1599,13 +1497,6 @@
     "lat": 51.0998689,
     "lon": 0.1870506,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Harrison's%20Rocks%20crag"
-  },
-  {
-    "id": "node/6695727486",
-    "name": "Harrowall",
-    "lat": 51.5806563,
-    "lon": -0.3443853,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Harrowall%20crag"
   },
   {
     "id": "node/1295015146",
@@ -2049,13 +1940,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Lover's%20Leap%20crag"
   },
   {
-    "id": "way/475825219",
-    "name": "Low Hallgarth Climbing Hut",
-    "lat": 54.4166153,
-    "lon": -3.065446,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Low%20Hallgarth%20Climbing%20Hut%20crag"
-  },
-  {
     "id": "way/984675231",
     "name": "Lower Cave Crag",
     "lat": 56.5758077,
@@ -2296,13 +2180,6 @@
     "lat": 51.4404062,
     "lon": -0.0631736,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Outdoor%20climbing%20wall%20crag"
-  },
-  {
-    "id": "way/294267473",
-    "name": "Overhang Climbing Centre",
-    "lat": 51.8567044,
-    "lon": -4.3168694,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Overhang%20Climbing%20Centre%20crag"
   },
   {
     "id": "node/1809665092",
@@ -2666,13 +2543,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Ravn's%20Crag%20crag"
   },
   {
-    "id": "way/377204883",
-    "name": "Redpoint Bristol",
-    "lat": 51.4339109,
-    "lon": -2.6117979,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Redpoint%20Bristol%20crag"
-  },
-  {
     "id": "node/957327418",
     "name": "Reiver's Stone",
     "lat": 56.4327708,
@@ -2776,34 +2646,6 @@
     "lat": 52.9886197,
     "lon": -6.4422214,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Rock%20climbing%20access%20crag"
-  },
-  {
-    "id": "node/3166867541",
-    "name": "Rock On",
-    "lat": 52.489281,
-    "lon": -1.895995,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Rock%20On%20crag"
-  },
-  {
-    "id": "way/406067622",
-    "name": "Rock Over Climbing",
-    "lat": 53.3969639,
-    "lon": -2.2529831,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Rock%20Over%20Climbing%20crag"
-  },
-  {
-    "id": "node/9254777160",
-    "name": "Rock Up",
-    "lat": 51.4858983,
-    "lon": 0.2846426,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Rock%20Up%20crag"
-  },
-  {
-    "id": "way/1034201339",
-    "name": "ROF 59 Climbing Centre",
-    "lat": 54.6003095,
-    "lon": -1.57242,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20ROF%2059%20Climbing%20Centre%20crag"
   },
   {
     "id": "way/260107853",
@@ -3093,13 +2935,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Southwest%20Ridge%20crag"
   },
   {
-    "id": "way/169411968",
-    "name": "Sports Hall",
-    "lat": 50.9385373,
-    "lon": -0.6602358,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Sports%20Hall%20crag"
-  },
-  {
     "id": "way/1213156201",
     "name": "St Aldhelm's Head",
     "lat": 50.5786297,
@@ -3302,16 +3137,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Telegraph%20Slab%20crag"
   },
   {
-    "id": "node/11042163878",
-    "name": "The Arch Climbing Wall Surrey Quays",
-    "lat": 51.4955073,
-    "lon": -0.0472809,
-    "climbingStyles": [
-      "boulder"
-    ],
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Arch%20Climbing%20Wall%20Surrey%20Quays%20crag"
-  },
-  {
     "id": "node/7086044290",
     "name": "The Armoured Car",
     "lat": 53.3275172,
@@ -3337,13 +3162,6 @@
     "lat": 56.7742889,
     "lon": -5.0217213,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Block%20crag"
-  },
-  {
-    "id": "way/218230693",
-    "name": "The Boardroom",
-    "lat": 53.2014411,
-    "lon": -3.0104076,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Boardroom%20crag"
   },
   {
     "id": "node/5113631663",
@@ -3400,13 +3218,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Cornice%20crag"
   },
   {
-    "id": "way/229422688",
-    "name": "The Depot Climbing Centre",
-    "lat": 52.9570231,
-    "lon": -1.1433302,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Depot%20Climbing%20Centre%20crag"
-  },
-  {
     "id": "node/7086036769",
     "name": "The Dog",
     "lat": 53.3283019,
@@ -3422,13 +3233,6 @@
     "lat": 52.2504433,
     "lon": -7.5290743,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20East-facing%20Cliffs%20crag"
-  },
-  {
-    "id": "node/4232021898",
-    "name": "The Expedition Shop at Adventure Peaks",
-    "lat": 54.4296799,
-    "lon": -2.9625471,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Expedition%20Shop%20at%20Adventure%20Peaks%20crag"
   },
   {
     "id": "node/5113631662",
@@ -3865,13 +3669,6 @@
     "lat": 51.4535262,
     "lon": -3.6225426,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Twinkle%20Buttress%20crag"
-  },
-  {
-    "id": "way/275133732",
-    "name": "Undercover Rock",
-    "lat": 51.4717673,
-    "lon": -2.5763882,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Undercover%20Rock%20crag"
   },
   {
     "id": "way/1213156222",
