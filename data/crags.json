@@ -1,12 +1,5 @@
 [
   {
-    "id": "node/2717854959",
-    "name": "16th Kilcock Scout Group",
-    "lat": 53.3998614,
-    "lon": -6.6689579,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%2016th%20Kilcock%20Scout%20Group%20crag"
-  },
-  {
     "id": "node/13733438939",
     "name": "Above the Block",
     "lat": 56.774497,
@@ -2231,13 +2224,6 @@
     "lat": 51.6503685,
     "lon": -3.2544258,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Parc%20Penallta%20Bouldering%20Rocks%20crag"
-  },
-  {
-    "id": "node/3793198364",
-    "name": "Parisella's Caves",
-    "lat": 53.3321191,
-    "lon": -3.8314254,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Parisella's%20Caves%20crag"
   },
   {
     "id": "node/13901507772",
