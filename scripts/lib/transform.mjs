@@ -8,11 +8,25 @@ function elementToCoord(element) {
   return null;
 }
 
+const INDOOR_LEISURE_VALUES = new Set([
+  'climbing_wall',
+  'climbing_hall',
+  'fitness_centre',
+  'fitness_station',
+  'sports_hall',
+  'sports_centre',
+  'high_ropes_course',
+]);
+
 function isIndoor(tags) {
   return (
     tags.climbing === 'indoor' ||
     tags.indoor === 'yes' ||
-    tags.leisure === 'sports_centre'
+    INDOOR_LEISURE_VALUES.has(tags.leisure) ||
+    Boolean(tags.building) ||
+    Boolean(tags.shop) ||
+    tags.climbing_wall === 'indoor' ||
+    tags['disused:leisure'] === 'sports_centre'
   );
 }
 

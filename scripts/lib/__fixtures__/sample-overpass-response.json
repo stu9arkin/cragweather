@@ -57,6 +57,40 @@
         "climbing": "yes",
         "rock": "basalt"
       }
+    },
+    {
+      "type": "node",
+      "id": 1005,
+      "lat": 51.45,
+      "lon": -2.58,
+      "tags": {
+        "name": "Redpoint Bristol",
+        "sport": "climbing",
+        "building": "commercial",
+        "leisure": "fitness_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1006,
+      "lat": 52.2,
+      "lon": -0.9,
+      "tags": {
+        "name": "Go Outdoors",
+        "sport": "climbing",
+        "shop": "outdoor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1007,
+      "lat": 53.8,
+      "lon": -1.55,
+      "tags": {
+        "name": "BlocHaus Climbing",
+        "sport": "climbing",
+        "climbing_wall": "indoor"
+      }
     }
   ]
 }

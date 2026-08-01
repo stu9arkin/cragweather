@@ -41,10 +41,70 @@ test('elementToCrag handles natural=cliff crags', () => {
   assert.equal(crag.climbingStyles, undefined);
 });
 
+test('elementToCrag returns null for building=commercial + leisure=fitness_centre (real-world gym mistagging)', () => {
+  assert.equal(elementToCrag(fixture.elements[5]), null); // Redpoint Bristol
+});
+
+test('elementToCrag returns null for shop=outdoor (gear shop, not a crag)', () => {
+  assert.equal(elementToCrag(fixture.elements[6]), null); // Go Outdoors
+});
+
+test('elementToCrag returns null for climbing_wall=indoor', () => {
+  assert.equal(elementToCrag(fixture.elements[7]), null); // BlocHaus Climbing
+});
+
+test('elementToCrag returns null for any element with a building tag, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9001,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Some Warehouse Wall', sport: 'climbing', building: 'warehouse' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for any element with a shop tag, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9002,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Climbers Shop', sport: 'climbing', shop: 'sports' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for disused:leisure=sports_centre, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9003,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Old Sports Centre', sport: 'climbing', 'disused:leisure': 'sports_centre' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for leisure values like climbing_hall, high_ropes_course, sports_hall', () => {
+  for (const leisure of ['climbing_hall', 'high_ropes_course', 'sports_hall']) {
+    const element = {
+      type: 'node',
+      id: 9004,
+      lat: 51.0,
+      lon: -1.0,
+      tags: { name: `Test ${leisure}`, sport: 'climbing', leisure },
+    };
+    assert.equal(elementToCrag(element), null, `expected leisure=${leisure} to be filtered`);
+  }
+});
+
 test('elementsToCrags maps and drops nulls, but does not dedupe', () => {
-  // 5 fixture elements: Stanage node + Stanage way (both valid, dedup is a
+  // 8 fixture elements: Stanage node + Stanage way (both valid, dedup is a
   // separate step handled in Task 5/7, not here), 1 indoor (dropped),
-  // 1 unnamed (dropped), 1 Dumbarton Rock (valid) => 3 results
+  // 1 unnamed (dropped), 1 Dumbarton Rock (valid), 3 real-world indoor
+  // mistagging shapes (building+leisure, shop, climbing_wall - all dropped)
+  // => 3 results
   const crags = elementsToCrags(fixture.elements);
   assert.equal(crags.length, 3);
   assert.deepEqual(
