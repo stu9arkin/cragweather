@@ -18,6 +18,20 @@ const INDOOR_LEISURE_VALUES = new Set([
   'high_ropes_course',
 ]);
 
+// amenity=* values that indicate a building/venue rather than a real outdoor
+// crag. Note: `shelter` is deliberately NOT included here - amenity=shelter
+// is legitimately used on natural rock shelters (e.g. Parisella's Caves,
+// node/3793198364), which are real outdoor bouldering venues.
+const NON_CRAG_AMENITY_VALUES = new Set([
+  'community_centre',
+  'social_centre',
+  'place_of_worship',
+  'arts_centre',
+  'scout_hall',
+  'theatre',
+  'cinema',
+]);
+
 function isIndoor(tags) {
   return (
     tags.climbing === 'indoor' ||
@@ -25,6 +39,7 @@ function isIndoor(tags) {
     INDOOR_LEISURE_VALUES.has(tags.leisure) ||
     Boolean(tags.building) ||
     Boolean(tags.shop) ||
+    NON_CRAG_AMENITY_VALUES.has(tags.amenity) ||
     tags.climbing_wall === 'indoor' ||
     tags['disused:leisure'] === 'sports_centre'
   );
