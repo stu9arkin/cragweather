@@ -28,7 +28,7 @@ async function main() {
 
   const mapView = createMapView('map', crags);
   const gridPoints = buildGridPoints(UK_BBOX);
-  const heatmapView = createHeatmapView(mapView.map, gridPoints);
+  const heatmapView = createHeatmapView(gridPoints);
 
   mapView.map.on('crag:selected', ({ crag }) => {
     showDetailPanel(crag, weatherByCragId.get(crag.id));
@@ -43,6 +43,12 @@ async function main() {
 
   renderLegend(document.getElementById('legend'), state.variable);
 
+  // The time scrollbar can fire many `input` events per second during a
+  // drag; coalesce those into at most one render() per animation frame so
+  // dragging stays smooth. Other state changes (variable/mode/weather
+  // resolution) are infrequent and still render immediately.
+  let pendingRenderFrame = null;
+
   const { timeSteps } = initControls({
     onVariableChange: (variable) => {
       state.variable = variable;
@@ -56,7 +62,11 @@ async function main() {
     },
     onTimeChange: (index) => {
       state.timeIndex = index;
-      render();
+      if (pendingRenderFrame !== null) cancelAnimationFrame(pendingRenderFrame);
+      pendingRenderFrame = requestAnimationFrame(() => {
+        pendingRenderFrame = null;
+        render();
+      });
     },
   });
 
@@ -66,6 +76,12 @@ async function main() {
 
   fetchWeatherForLocations(cragLocations, timeSteps)
     .then((results) => {
+      if (results.length !== crags.length) {
+        console.warn(
+          `Weather fetch result count (${results.length}) does not match crag count (${crags.length}); ` +
+            'crag-to-forecast pairing may be misaligned.'
+        );
+      }
       results.forEach((forecast, i) => weatherByCragId.set(crags[i].id, forecast));
       render();
     })
