@@ -1,0 +1,96 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API",
+  "elements": [
+    {
+      "type": "node",
+      "id": 1001,
+      "lat": 53.3403,
+      "lon": -1.6294,
+      "tags": {
+        "name": "Stanage Edge",
+        "sport": "climbing",
+        "rock": "gritstone",
+        "climbing:trad": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 2002,
+      "center": { "lat": 53.3405, "lon": -1.6290 },
+      "tags": {
+        "name": "Stanage Edge",
+        "sport": "climbing",
+        "climbing:trad": "yes",
+        "climbing:sport": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1002,
+      "lat": 51.5,
+      "lon": -0.1,
+      "tags": {
+        "name": "City Climb Centre",
+        "sport": "climbing",
+        "climbing": "indoor",
+        "leisure": "sports_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1003,
+      "lat": 50.0,
+      "lon": -5.0,
+      "tags": {
+        "sport": "climbing"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1004,
+      "lat": 56.1,
+      "lon": -3.9,
+      "tags": {
+        "name": "Dumbarton Rock",
+        "natural": "cliff",
+        "climbing": "yes",
+        "rock": "basalt"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1005,
+      "lat": 51.45,
+      "lon": -2.58,
+      "tags": {
+        "name": "Redpoint Bristol",
+        "sport": "climbing",
+        "building": "commercial",
+        "leisure": "fitness_centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1006,
+      "lat": 52.2,
+      "lon": -0.9,
+      "tags": {
+        "name": "Go Outdoors",
+        "sport": "climbing",
+        "shop": "outdoor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1007,
+      "lat": 53.8,
+      "lon": -1.55,
+      "tags": {
+        "name": "BlocHaus Climbing",
+        "sport": "climbing",
+        "climbing_wall": "indoor"
+      }
+    }
+  ]
+}

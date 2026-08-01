@@ -1,0 +1,12 @@
+{
+  "name": "cragweather-data",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"scripts/**/*.test.mjs\"",
+    "fetch-crags": "node scripts/fetch-crags.mjs"
+  }
+}
