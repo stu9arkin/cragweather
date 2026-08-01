@@ -9,21 +9,26 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: refresh-crags
+  cancel-in-progress: false
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Run test suite
         run: npm test
 
       - name: Fetch latest crag data
-        run: node scripts/fetch-crags.mjs
+        run: npm run fetch-crags
 
       - name: Commit updated crag data if changed
         run: |
