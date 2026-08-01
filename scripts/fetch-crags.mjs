@@ -1,6 +1,7 @@
 // scripts/fetch-crags.mjs
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
+import { dirname } from 'node:path';
 import { fetchOverpassElements } from './lib/overpass.mjs';
 import { elementsToCrags } from './lib/transform.mjs';
 import { dedupeCrags } from './lib/dedupe.mjs';
@@ -19,6 +20,7 @@ export async function generateCragsData({ fetchImpl = fetch, outputPath = 'data/
     .map((crag) => ({ ...crag, ukcSearchUrl: buildUkcSearchUrl(crag.name) }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
+  await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, JSON.stringify(crags, null, 2) + '\n');
 
   return crags;
