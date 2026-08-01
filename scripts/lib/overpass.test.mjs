@@ -29,6 +29,7 @@ test('fetchOverpassElements posts the query and returns elements', async () => {
   assert.equal(capturedUrl, 'https://overpass-api.de/api/interpreter');
   assert.equal(capturedOptions.method, 'POST');
   assert.ok(capturedOptions.body.startsWith('data='));
+  assert.ok(capturedOptions.headers['User-Agent']);
   assert.equal(elements.length, 1);
 });
 

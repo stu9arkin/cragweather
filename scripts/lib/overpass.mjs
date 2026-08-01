@@ -20,7 +20,10 @@ export async function fetchOverpassElements(fetchImpl = fetch, bbox = UK_BBOX) {
   const query = buildOverpassQuery(bbox);
   const response = await fetchImpl(OVERPASS_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'User-Agent': 'cragweather-data-pipeline/1.0 (+https://github.com/stu9arkin/cragweather)',
+    },
     body: `data=${encodeURIComponent(query)}`,
   });
 
