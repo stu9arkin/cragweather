@@ -6,7 +6,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node --test scripts/",
+    "test": "node --test \"scripts/**/*.test.mjs\"",
     "fetch-crags": "node scripts/fetch-crags.mjs"
   }
 }
