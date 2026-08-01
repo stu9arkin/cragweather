@@ -91,6 +91,18 @@
         "sport": "climbing",
         "climbing_wall": "indoor"
       }
+    },
+    {
+      "type": "node",
+      "id": 2717854959,
+      "lat": 53.4,
+      "lon": -6.67,
+      "tags": {
+        "name": "16th Kilcock Scout Group",
+        "amenity": "community_centre",
+        "sport": "climbing",
+        "operator": "16th Kilcock Scout Group"
+      }
     }
   ]
 }

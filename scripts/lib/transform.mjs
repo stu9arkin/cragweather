@@ -25,6 +25,7 @@ function isIndoor(tags) {
     INDOOR_LEISURE_VALUES.has(tags.leisure) ||
     Boolean(tags.building) ||
     Boolean(tags.shop) ||
+    Boolean(tags.amenity) ||
     tags.climbing_wall === 'indoor' ||
     tags['disused:leisure'] === 'sports_centre'
   );

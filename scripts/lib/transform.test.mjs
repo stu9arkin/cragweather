@@ -86,6 +86,10 @@ test('elementToCrag returns null for disused:leisure=sports_centre, in isolation
   assert.equal(elementToCrag(element), null);
 });
 
+test('elementToCrag returns null for amenity=community_centre, in isolation (16th Kilcock Scout Group)', () => {
+  assert.equal(elementToCrag(fixture.elements[8]), null); // 16th Kilcock Scout Group
+});
+
 test('elementToCrag returns null for leisure values like climbing_hall, high_ropes_course, sports_hall', () => {
   for (const leisure of ['climbing_hall', 'high_ropes_course', 'sports_hall']) {
     const element = {
@@ -100,10 +104,11 @@ test('elementToCrag returns null for leisure values like climbing_hall, high_rop
 });
 
 test('elementsToCrags maps and drops nulls, but does not dedupe', () => {
-  // 8 fixture elements: Stanage node + Stanage way (both valid, dedup is a
+  // 9 fixture elements: Stanage node + Stanage way (both valid, dedup is a
   // separate step handled in Task 5/7, not here), 1 indoor (dropped),
-  // 1 unnamed (dropped), 1 Dumbarton Rock (valid), 3 real-world indoor
-  // mistagging shapes (building+leisure, shop, climbing_wall - all dropped)
+  // 1 unnamed (dropped), 1 Dumbarton Rock (valid), 4 real-world indoor
+  // mistagging shapes (building+leisure, shop, climbing_wall, amenity
+  // community_centre - all dropped)
   // => 3 results
   const crags = elementsToCrags(fixture.elements);
   assert.equal(crags.length, 3);
