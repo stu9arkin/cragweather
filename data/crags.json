@@ -2226,6 +2226,13 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Parc%20Penallta%20Bouldering%20Rocks%20crag"
   },
   {
+    "id": "node/3793198364",
+    "name": "Parisella's Caves",
+    "lat": 53.3321191,
+    "lon": -3.8314254,
+    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Parisella's%20Caves%20crag"
+  },
+  {
     "id": "node/13901507772",
     "name": "Pathside",
     "lat": 55.000836,
