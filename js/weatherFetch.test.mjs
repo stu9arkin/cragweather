@@ -54,36 +54,63 @@ test('retries on a 503 and succeeds on a later attempt', async () => {
   assert.equal(results.length, 1);
 });
 
-test('throws after exhausting retries on repeated 503s', async () => {
+test('resolves with null for a location whose batch exhausts retries on repeated 503s', async () => {
   const fakeFetch = async () => new Response('busy', { status: 503 });
-  await assert.rejects(
-    () => fetchWeatherForLocations([{ lat: 1, lon: 1 }], timeSteps, { fetchImpl: fakeFetch, retryBackoffMs: 1 }),
-    /503/
-  );
+  const results = await fetchWeatherForLocations([{ lat: 1, lon: 1 }], timeSteps, {
+    fetchImpl: fakeFetch,
+    retryBackoffMs: 1,
+  });
+  assert.deepEqual(results, [null]);
 });
 
-test('does not retry a non-retryable 4xx', async () => {
+test('degrades only the failed batch: one batch failing does not discard other successful batches', async () => {
+  const locations = Array.from({ length: 3 }, (_, i) => ({ lat: i, lon: i }));
+  let callCount = 0;
+  const fakeFetch = async (url) => {
+    callCount++;
+    const parsed = new URL(url);
+    const n = parsed.searchParams.get('latitude').split(',').length;
+    // First batch (2 locations) always fails; second batch (1 location) succeeds.
+    if (n === 2) return new Response('busy', { status: 503 });
+    return new Response(JSON.stringify(sampleApiResponse(n)), { status: 200 });
+  };
+  const results = await fetchWeatherForLocations(locations, timeSteps, {
+    fetchImpl: fakeFetch,
+    batchSize: 2,
+    retryBackoffMs: 1,
+  });
+  assert.equal(results.length, 3);
+  assert.deepEqual(results[0], null);
+  assert.deepEqual(results[1], null);
+  assert.equal(results[2].hourly.temperature[0], 10);
+  // 3 attempts for the failing batch of 2 (MAX_ATTEMPTS) + 1 for the successful batch of 1.
+  assert.equal(callCount, 4);
+});
+
+test('does not retry a non-retryable 4xx, and resolves with null for that location', async () => {
   let attempt = 0;
   const fakeFetch = async () => {
     attempt++;
     return new Response('bad request', { status: 400 });
   };
-  await assert.rejects(
-    () => fetchWeatherForLocations([{ lat: 1, lon: 1 }], timeSteps, { fetchImpl: fakeFetch, retryBackoffMs: 1 }),
-    /400/
-  );
+  const results = await fetchWeatherForLocations([{ lat: 1, lon: 1 }], timeSteps, {
+    fetchImpl: fakeFetch,
+    retryBackoffMs: 1,
+  });
+  assert.deepEqual(results, [null]);
   assert.equal(attempt, 1);
 });
 
-test('does not retry a malformed (non-array) 200 response', async () => {
+test('does not retry a malformed (non-array) 200 response, and resolves with null for that location', async () => {
   let attempt = 0;
   const fakeFetch = async () => {
     attempt++;
     return new Response(JSON.stringify({ oops: true }), { status: 200 });
   };
-  await assert.rejects(
-    () => fetchWeatherForLocations([{ lat: 1, lon: 1 }], timeSteps, { fetchImpl: fakeFetch, retryBackoffMs: 1 }),
-    /array/i
-  );
+  const results = await fetchWeatherForLocations([{ lat: 1, lon: 1 }], timeSteps, {
+    fetchImpl: fakeFetch,
+    retryBackoffMs: 1,
+  });
+  assert.deepEqual(results, [null]);
   assert.equal(attempt, 1);
 });

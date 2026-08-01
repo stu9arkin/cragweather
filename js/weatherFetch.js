@@ -55,8 +55,13 @@ export async function fetchWeatherForLocations(locations, timeSteps, {
   const batches = chunk(locations, batchSize);
   const results = [];
   for (const batch of batches) {
-    const json = await fetchBatchWithRetry(batch, { fetchImpl, retryBackoffMs });
-    results.push(...json.map((result) => parseLocationForecast(result, timeSteps)));
+    try {
+      const json = await fetchBatchWithRetry(batch, { fetchImpl, retryBackoffMs });
+      results.push(...json.map((result) => parseLocationForecast(result, timeSteps)));
+    } catch (error) {
+      console.error('Weather batch fetch failed; affected locations will have no forecast', error);
+      results.push(...batch.map(() => null));
+    }
   }
   return results;
 }
