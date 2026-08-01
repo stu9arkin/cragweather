@@ -36,6 +36,7 @@ function renderForecast(forecast) {
     return '<p>Forecast unavailable.</p>';
   }
   return forecast.daily
+    .slice(0, 7)
     .map((day) => {
       const { icon, label } = weatherCodeToIcon(day.weathercode);
       return `
@@ -57,5 +58,5 @@ function formatDayName(isoDate) {
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
-  return div.innerHTML;
+  return div.innerHTML.replace(/"/g, '&quot;');
 }
