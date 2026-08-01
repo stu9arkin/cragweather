@@ -25,11 +25,12 @@ test('generateCragsData writes deduped, linked crags to outputPath', async () =>
     });
 
     // fixture has: Stanage Edge (node+way, deduped to 1), indoor (dropped),
-    // unnamed (dropped), Dumbarton Rock -> 2 crags expected
-    assert.equal(crags.length, 2);
+    // unnamed (dropped), Dumbarton Rock, Parisella's Caves (amenity=shelter,
+    // a real rock shelter, not dropped) -> 3 crags expected
+    assert.equal(crags.length, 3);
     assert.deepEqual(
       crags.map((c) => c.name),
-      ['Dumbarton Rock', 'Stanage Edge'] // sorted alphabetically
+      ['Dumbarton Rock', "Parisella's Caves", 'Stanage Edge'] // sorted alphabetically
     );
     for (const crag of crags) {
       assert.ok(crag.ukcSearchUrl.startsWith('https://www.google.com/search?q='));

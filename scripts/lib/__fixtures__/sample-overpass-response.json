@@ -103,6 +103,19 @@
         "sport": "climbing",
         "operator": "16th Kilcock Scout Group"
       }
+    },
+    {
+      "type": "node",
+      "id": 3793198364,
+      "lat": 53.2205,
+      "lon": -4.0913,
+      "tags": {
+        "name": "Parisella's Caves",
+        "amenity": "shelter",
+        "shelter_type": "rock_shelter",
+        "sport": "climbing",
+        "climbing:boulder": "yes"
+      }
     }
   ]
 }
