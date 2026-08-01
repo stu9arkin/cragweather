@@ -16,25 +16,68 @@ export function buildOverpassQuery(bbox = UK_BBOX) {
   );
 }
 
-export async function fetchOverpassElements(fetchImpl = fetch, bbox = UK_BBOX) {
+const MAX_ATTEMPTS = 3;
+const RETRY_BACKOFF_MS = 2000;
+const REQUEST_TIMEOUT_MS = 120_000;
+
+function isRetryableStatus(status) {
+  return status === 429 || status >= 500;
+}
+
+export async function fetchOverpassElements(
+  fetchImpl = fetch,
+  bbox = UK_BBOX,
+  { retryBackoffMs = RETRY_BACKOFF_MS, maxAttempts = MAX_ATTEMPTS } = {}
+) {
   const query = buildOverpassQuery(bbox);
-  const response = await fetchImpl(OVERPASS_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'User-Agent': 'cragweather-data-pipeline/1.0 (+https://github.com/stu9arkin/cragweather)',
-    },
-    body: `data=${encodeURIComponent(query)}`,
-  });
 
-  if (!response.ok) {
-    throw new Error(`Overpass API returned ${response.status}`);
+  let lastError;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    let response;
+    try {
+      response = await fetchImpl(OVERPASS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'User-Agent': 'cragweather-data-pipeline/1.0 (+https://github.com/stu9arkin/cragweather)',
+        },
+        body: `data=${encodeURIComponent(query)}`,
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      });
+    } catch (error) {
+      // Network error / fetchImpl threw - retryable.
+      lastError = error;
+      if (attempt < maxAttempts) {
+        await sleep(retryBackoffMs);
+        continue;
+      }
+      throw error;
+    }
+
+    if (!response.ok) {
+      if (isRetryableStatus(response.status) && attempt < maxAttempts) {
+        lastError = new Error(`Overpass API returned ${response.status}`);
+        await sleep(retryBackoffMs);
+        continue;
+      }
+      throw new Error(`Overpass API returned ${response.status}`);
+    }
+
+    // A 200 with a malformed body is a real bug, not a transient failure -
+    // do not retry, throw immediately.
+    const json = await response.json();
+    if (!Array.isArray(json.elements)) {
+      throw new Error('Overpass API response missing elements array');
+    }
+
+    return json.elements;
   }
 
-  const json = await response.json();
-  if (!Array.isArray(json.elements)) {
-    throw new Error('Overpass API response missing elements array');
-  }
+  // Should be unreachable (the loop always returns or throws), but keep a
+  // safety net in case maxAttempts is misconfigured to 0.
+  throw lastError ?? new Error('Overpass API request failed with no attempts made');
+}
 
-  return json.elements;
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

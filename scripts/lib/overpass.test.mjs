@@ -33,12 +33,89 @@ test('fetchOverpassElements posts the query and returns elements', async () => {
   assert.equal(elements.length, 1);
 });
 
-test('fetchOverpassElements throws on a non-OK response', async () => {
-  const fakeFetch = async () => new Response('busy', { status: 504 });
-  await assert.rejects(() => fetchOverpassElements(fakeFetch), /504/);
+test('fetchOverpassElements retries on a retryable non-OK response and throws after exhausting retries', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    return new Response('busy', { status: 504 });
+  };
+  await assert.rejects(
+    () => fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 }),
+    /504/
+  );
+  assert.equal(callCount, 3);
 });
 
-test('fetchOverpassElements throws when elements array is missing', async () => {
-  const fakeFetch = async () => new Response(JSON.stringify({ oops: true }), { status: 200 });
-  await assert.rejects(() => fetchOverpassElements(fakeFetch), /elements/);
+test('fetchOverpassElements retries transient 503 failures and succeeds on the 3rd attempt', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    if (callCount < 3) {
+      return new Response('busy', { status: 503 });
+    }
+    return new Response(JSON.stringify({ elements: [{ type: 'node', id: 1, tags: {} }] }), {
+      status: 200,
+    });
+  };
+
+  const elements = await fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 });
+
+  assert.equal(callCount, 3);
+  assert.equal(elements.length, 1);
+});
+
+test('fetchOverpassElements throws after exhausting retries when every attempt fails with 503', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    return new Response('busy', { status: 503 });
+  };
+
+  await assert.rejects(
+    () => fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 }),
+    /503/
+  );
+  assert.equal(callCount, 3);
+});
+
+test('fetchOverpassElements does not retry a non-retryable 4xx response', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    return new Response('bad request', { status: 400 });
+  };
+
+  await assert.rejects(
+    () => fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 }),
+    /400/
+  );
+  assert.equal(callCount, 1);
+});
+
+test('fetchOverpassElements retries on a thrown network error', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    if (callCount < 2) {
+      throw new Error('network down');
+    }
+    return new Response(JSON.stringify({ elements: [{ type: 'node', id: 1, tags: {} }] }), {
+      status: 200,
+    });
+  };
+
+  const elements = await fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 });
+
+  assert.equal(callCount, 2);
+  assert.equal(elements.length, 1);
+});
+
+test('fetchOverpassElements throws when elements array is missing, without retrying', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    return new Response(JSON.stringify({ oops: true }), { status: 200 });
+  };
+  await assert.rejects(() => fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 }), /elements/);
+  assert.equal(callCount, 1);
 });
