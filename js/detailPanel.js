@@ -21,7 +21,7 @@ export function showDetailPanel(crag, forecast) {
     ${crag.description ? `<p>${escapeHtml(crag.description)}</p>` : ''}
     <h3>7-day forecast</h3>
     <div id="detail-forecast">${renderForecast(forecast)}</div>
-    <p><a href="${crag.ukcSearchUrl}" target="_blank" rel="noopener noreferrer">Search on UKC</a></p>
+    <p><a href="${escapeHtml(crag.ukcSearchUrl)}" target="_blank" rel="noopener noreferrer">Search on UKC</a></p>
   `;
 
   panel.hidden = false;
