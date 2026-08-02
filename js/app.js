@@ -10,6 +10,8 @@ import { showDetailPanel, initDetailPanel } from './detailPanel.js';
 
 const UK_BBOX = { south: 49.8, west: -8.6, north: 60.9, east: 1.8 };
 const GRID_STEP_DEG = 0.5;
+// Flip to true and restore the Style dropdown in index.html to re-enable heatmap mode.
+const HEATMAP_ENABLED = false;
 
 async function main() {
   initDetailPanel();
@@ -28,8 +30,8 @@ async function main() {
   let gridWeather = [];
 
   const mapView = createMapView('map', crags);
-  const gridPoints = buildGridPoints(UK_BBOX, GRID_STEP_DEG);
-  const heatmapView = createHeatmapView(gridPoints, UK_BBOX);
+  const gridPoints = HEATMAP_ENABLED ? buildGridPoints(UK_BBOX, GRID_STEP_DEG) : [];
+  const heatmapView = HEATMAP_ENABLED ? createHeatmapView(gridPoints, UK_BBOX) : null;
 
   mapView.map.on('crag:selected', ({ crag }) => {
     showDetailPanel(crag, weatherByCragId.get(crag.id));
@@ -37,7 +39,7 @@ async function main() {
 
   function render() {
     updateMarkerColors(mapView, weatherByCragId, state.variable, state.timeIndex);
-    if (state.mode === 'heatmap') {
+    if (HEATMAP_ENABLED && state.mode === 'heatmap') {
       updateHeatmapColors(heatmapView, gridWeather, state.variable, state.timeIndex);
     }
   }
@@ -90,14 +92,16 @@ async function main() {
       console.error('Weather fetch failed for crags', error);
     });
 
-  fetchWeatherForLocations(gridPoints, timeSteps)
-    .then((results) => {
-      gridWeather = results;
-      render();
-    })
-    .catch((error) => {
-      console.error('Weather fetch failed for grid', error);
-    });
+  if (HEATMAP_ENABLED) {
+    fetchWeatherForLocations(gridPoints, timeSteps)
+      .then((results) => {
+        gridWeather = results;
+        render();
+      })
+      .catch((error) => {
+        console.error('Weather fetch failed for grid', error);
+      });
+  }
 }
 
 function showErrorBanner(message) {
