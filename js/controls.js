@@ -22,9 +22,11 @@ export function initControls({ onVariableChange, onModeChange, onTimeChange }) {
     onVariableChange(variableToggle.value);
   });
 
-  modeToggle.addEventListener('change', () => {
-    onModeChange(modeToggle.value);
-  });
+  if (modeToggle) {
+    modeToggle.addEventListener('change', () => {
+      onModeChange(modeToggle.value);
+    });
+  }
 
   return { timeSteps };
 }
