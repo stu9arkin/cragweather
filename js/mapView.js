@@ -16,6 +16,8 @@ export function createMapView(mapElementId, crags) {
 
   const markerCluster = L.markerClusterGroup({
     iconCreateFunction: (cluster) => createClusterIcon(cluster, view),
+    maxClusterRadius: 40,
+    disableClusteringAtZoom: 11,
   });
 
   const markersByCragId = new Map();
