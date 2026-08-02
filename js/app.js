@@ -9,6 +9,7 @@ import { renderLegend } from './legendView.js';
 import { showDetailPanel, initDetailPanel } from './detailPanel.js';
 
 const UK_BBOX = { south: 49.8, west: -8.6, north: 60.9, east: 1.8 };
+const GRID_STEP_DEG = 0.5;
 
 async function main() {
   initDetailPanel();
@@ -27,8 +28,8 @@ async function main() {
   let gridWeather = [];
 
   const mapView = createMapView('map', crags);
-  const gridPoints = buildGridPoints(UK_BBOX);
-  const heatmapView = createHeatmapView(gridPoints);
+  const gridPoints = buildGridPoints(UK_BBOX, GRID_STEP_DEG);
+  const heatmapView = createHeatmapView(gridPoints, UK_BBOX);
 
   mapView.map.on('crag:selected', ({ crag }) => {
     showDetailPanel(crag, weatherByCragId.get(crag.id));
