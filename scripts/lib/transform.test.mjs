@@ -111,6 +111,158 @@ test('elementToCrag returns null for leisure values like climbing_hall, high_rop
   }
 });
 
+test('elementToCrag returns null for any element with an addr:street tag, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9005,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Some Venue', sport: 'climbing', 'addr:street': 'High Street' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for any element with a brand tag, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9006,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Some Chain Gym', sport: 'climbing', brand: 'Some Chain' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for The Climbing Station (real-world indoor gym with no leisure/building/shop tags)', () => {
+  const element = {
+    type: 'node',
+    id: 2465942518,
+    lat: 52.7697544,
+    lon: -1.1917757,
+    tags: {
+      'addr:city': 'Loughborough',
+      'addr:housename': 'The Climbing Station',
+      'addr:postcode': 'LE11 1RH',
+      'addr:street': 'Empress Road',
+      internet_access: 'wlan',
+      name: 'The Climbing Station',
+      phone: '+44 1509 217 636',
+      sport: 'climbing',
+      website: 'https://theclimbingstation.com/',
+      wheelchair: 'limited',
+    },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for Southampton Climbing Wall (real-world indoor gym, addr:street only)', () => {
+  const element = {
+    type: 'node',
+    id: 3362564126,
+    lat: 50.9,
+    lon: -1.4,
+    tags: {
+      'addr:street': 'St Marys Road',
+      name: 'Southampton Climbing Wall',
+      sport: 'climbing',
+      website: 'southamptonclimbingwall.co.uk',
+    },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for Granite Planet Climbing (real-world indoor gym in an industrial unit)', () => {
+  const element = {
+    type: 'node',
+    id: 9209667613,
+    lat: 50.2,
+    lon: -5.2,
+    tags: {
+      'addr:street': 'Unit 10 Parkengue Kernik Industrial Estate',
+      name: 'Granite Planet Climbing',
+      sport: 'climbing',
+    },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for Eden Rock Carlisle (real-world indoor gym)', () => {
+  const element = {
+    type: 'node',
+    id: 11033796951,
+    lat: 54.89,
+    lon: -2.93,
+    tags: {
+      'addr:housenumber': '9',
+      'addr:street': 'Brunel Way',
+      name: 'Eden Rock Carlisle',
+      phone: '+441228 522 127',
+      sport: 'climbing',
+      website: 'https://www.edenrockclimbing.com/contact-carlisle',
+    },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for West Bromwich Walking & Mountaineering Club (a club HQ, not a crag)', () => {
+  const element = {
+    type: 'node',
+    id: 13574656592,
+    lat: 52.52,
+    lon: -1.99,
+    tags: {
+      'addr:housename': 'The Red Lion PH',
+      'addr:housenumber': '190',
+      'addr:street': 'All Saints Way',
+      check_date: '2026-02-17',
+      club: 'sport',
+      'contact:facebook': 'https://www.facebook.com/profile.php?id=100064679917542',
+      email: 'hut-secretary@wbmc.org',
+      name: 'West Bromwich Walking & Mountaineering Club',
+      short_name: 'WBMC',
+      sport: 'climbing',
+      start_date: '1952-01-13',
+      website: 'https://wbmc.org',
+      wikidata: 'Q7984587',
+      wikipedia: 'en:West Bromwich Mountaineering Club',
+    },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for Go Ape! Sherwood Pines (real-world high-ropes adventure park, brand tag only)', () => {
+  const element = {
+    type: 'way',
+    id: 44373894,
+    center: { lat: 53.18, lon: -1.03 },
+    tags: {
+      area: 'yes',
+      brand: 'Go Ape',
+      'brand:website': 'https://goape.co.uk/',
+      'brand:wikidata': 'Q5574692',
+      'brand:wikipedia': 'en:Go Ape',
+      name: 'Go Ape! Sherwood Pines',
+      sport: 'climbing',
+      tourism: 'attraction',
+      website: 'https://goape.co.uk/locations/sherwood-pines',
+    },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag does NOT return null for Rathgormuck Climbing Club (real outdoor crag tagged only with club=sport)', () => {
+  const element = {
+    type: 'node',
+    id: 20001,
+    lat: 52.23,
+    lon: -7.53,
+    tags: { club: 'sport', name: 'Rathgormuck Climbing Club', sport: 'climbing' },
+  };
+  const crag = elementToCrag(element);
+  assert.notEqual(crag, null);
+  assert.equal(crag.name, 'Rathgormuck Climbing Club');
+});
+
 test('elementsToCrags maps and drops nulls, but does not dedupe', () => {
   // 10 fixture elements: Stanage node + Stanage way (both valid, dedup is a
   // separate step handled in Task 5/7, not here), 1 indoor (dropped),

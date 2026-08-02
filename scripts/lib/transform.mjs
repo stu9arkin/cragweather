@@ -32,6 +32,12 @@ const NON_CRAG_AMENITY_VALUES = new Set([
   'cinema',
 ]);
 
+const ADDRESS_KEYS = ['addr:housenumber', 'addr:street', 'addr:housename', 'addr:postcode'];
+
+function hasAddress(tags) {
+  return ADDRESS_KEYS.some((key) => tags[key] !== undefined);
+}
+
 function isIndoor(tags) {
   return (
     tags.climbing === 'indoor' ||
@@ -41,7 +47,9 @@ function isIndoor(tags) {
     Boolean(tags.shop) ||
     NON_CRAG_AMENITY_VALUES.has(tags.amenity) ||
     tags.climbing_wall === 'indoor' ||
-    tags['disused:leisure'] === 'sports_centre'
+    tags['disused:leisure'] === 'sports_centre' ||
+    hasAddress(tags) ||
+    Boolean(tags.brand)
   );
 }
 
