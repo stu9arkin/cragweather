@@ -60,7 +60,7 @@ async function main() {
     },
     onModeChange: (mode) => {
       state.mode = mode;
-      setHeatmapVisible(heatmapView, mapView.map, mode === 'heatmap');
+      if (HEATMAP_ENABLED) setHeatmapVisible(heatmapView, mapView.map, mode === 'heatmap');
       render();
     },
     onTimeChange: (index) => {
