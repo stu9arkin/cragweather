@@ -1,5 +1,5 @@
 // js/logic/grid.js
-export function buildGridPoints(bbox, stepDeg = 1) {
+export function buildGridPoints(bbox, stepDeg) {
   const lats = axisValues(bbox.south, bbox.north, stepDeg);
   const lons = axisValues(bbox.west, bbox.east, stepDeg);
   const points = [];

@@ -3,6 +3,7 @@ import { interpolateGrid } from './logic/gridInterpolate.js';
 import { gridToImageData } from './logic/gridToImageData.js';
 
 const MAX_CANVAS_DIMENSION = 600;
+const HEATMAP_OPACITY = 0.35;
 const BLANK_IMAGE_URL =
   'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
@@ -11,21 +12,22 @@ export function createHeatmapView(gridPoints, bbox) {
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
+  const ctx = canvas.getContext('2d');
 
   const bounds = [
     [bbox.south, bbox.west],
     [bbox.north, bbox.east],
   ];
   const overlay = L.imageOverlay(BLANK_IMAGE_URL, bounds, {
-    opacity: 0.35,
+    opacity: HEATMAP_OPACITY,
     interactive: false,
   });
 
-  return { overlay, canvas, gridPoints, bbox };
+  return { overlay, canvas, ctx, gridPoints, bbox };
 }
 
 export function updateHeatmapColors(heatmapView, gridWeather, variable, timeIndex) {
-  const { canvas, gridPoints, bbox } = heatmapView;
+  const { canvas, ctx, gridPoints, bbox } = heatmapView;
   const valueKey = variable === 'rainfall' ? 'rainfall' : 'temperature';
 
   const values = gridPoints.map((_, i) => {
@@ -42,7 +44,6 @@ export function updateHeatmapColors(heatmapView, gridWeather, variable, timeInde
   });
   const rgba = gridToImageData(interpolated, variable);
 
-  const ctx = canvas.getContext('2d');
   ctx.putImageData(new ImageData(rgba, canvas.width, canvas.height), 0, 0);
   heatmapView.overlay.setUrl(canvas.toDataURL());
 }
@@ -62,6 +63,11 @@ export function setHeatmapVisible(heatmapView, map, visible) {
 export function canvasDimensions(bbox, maxDimension) {
   const latSpan = bbox.north - bbox.south;
   const lonSpan = bbox.east - bbox.west;
+  if (latSpan <= 0 || lonSpan <= 0) {
+    throw new Error(
+      `canvasDimensions: bbox must have positive area (got latSpan=${latSpan}, lonSpan=${lonSpan})`
+    );
+  }
   if (lonSpan >= latSpan) {
     return { width: maxDimension, height: Math.round((maxDimension * latSpan) / lonSpan) };
   }

@@ -101,6 +101,34 @@ test('updateHeatmapColors draws interpolated pixels to the canvas and pushes the
   }
 });
 
+test('updateHeatmapColors reads the rainfall values (not temperature) when variable is "rainfall"', () => {
+  const { putImageDataCalls } = installStubs();
+  try {
+    const bbox = { south: 50, north: 51, west: -2, east: -1 };
+    const gridPoints = [
+      { lat: 50, lon: -2 },
+      { lat: 50, lon: -1 },
+      { lat: 51, lon: -2 },
+      { lat: 51, lon: -1 },
+    ];
+    const view = createHeatmapView(gridPoints, bbox);
+    // rainfall is null (no data) at every corner but temperature is defined --
+    // if the code mistakenly read hourly.temperature, every pixel would come
+    // out opaque; reading hourly.rainfall correctly means every pixel is
+    // transparent (no-data).
+    const gridWeather = gridPoints.map(() => ({ hourly: { rainfall: [null], temperature: [10] } }));
+
+    updateHeatmapColors(view, gridWeather, 'rainfall', 0);
+
+    const data = putImageDataCalls[0].imageData.data;
+    for (let i = 3; i < data.length; i += 4) {
+      assert.equal(data[i], 0, 'expected transparent alpha when rainfall data is null');
+    }
+  } finally {
+    uninstallStubs();
+  }
+});
+
 test('setHeatmapVisible adds the overlay to the map when visible, removes it when not', () => {
   const { fakeOverlay, addToCalls } = installStubs();
   try {

@@ -19,6 +19,12 @@ const LUT_SIZE = 1024;
 // scale into a small lookup table once per call, then do a cheap
 // interpolated array lookup per pixel.
 export function gridToImageData({ width, height, data }, variable) {
+  if (data.length !== width * height) {
+    throw new Error(
+      `gridToImageData: data.length (${data.length}) does not match width*height (${width * height})`
+    );
+  }
+
   const lut = buildColorLut(variable);
   const rgba = new Uint8ClampedArray(width * height * 4);
 
@@ -81,14 +87,11 @@ function buildColorLut(variable) {
   };
 }
 
+// LUT samples are always real numbers within the color scale's domain, so
+// colorFn (colorForVariable's temperatureColor/rainfallColor) always
+// returns its interpolated 'rgb(r, g, b)' form here -- the hex NEUTRAL_COLOR
+// path only fires for null/undefined/NaN input, which the LUT never passes.
 function parseColor(colorStr) {
-  if (colorStr.startsWith('#')) {
-    return {
-      r: parseInt(colorStr.slice(1, 3), 16),
-      g: parseInt(colorStr.slice(3, 5), 16),
-      b: parseInt(colorStr.slice(5, 7), 16),
-    };
-  }
   const [, r, g, b] = colorStr.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
   return { r: Number(r), g: Number(g), b: Number(b) };
 }
