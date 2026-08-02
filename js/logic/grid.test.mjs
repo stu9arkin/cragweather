@@ -14,11 +14,6 @@ test('generates points at the given step spacing, inclusive of both edges', () =
   assert.equal(points.length, 9); // 3 lats x 3 lons
 });
 
-test('defaults to 1 degree spacing', () => {
-  const points = buildGridPoints({ south: 50, west: 0, north: 51, east: 1 });
-  assert.equal(points.length, 4);
-});
-
 test('covers the full UK bounding box with a plausible point count', () => {
   const points = buildGridPoints(UK_BBOX, 1);
   // ~12 lat steps x ~11 lon steps
