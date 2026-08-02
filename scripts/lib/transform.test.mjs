@@ -250,6 +250,16 @@ test('elementToCrag returns null for Go Ape! Sherwood Pines (real-world high-rop
   assert.equal(elementToCrag(element), null);
 });
 
+test('elementToCrag does NOT return null for Kilnsey Crag (real outdoor crag tagged tourism=attraction)', () => {
+  const element = {
+    type: 'way',
+    id: 20002,
+    center: { lat: 54.03, lon: -2.03 },
+    tags: { name: 'Kilnsey Crag', sport: 'climbing', tourism: 'attraction' },
+  };
+  assert.notEqual(elementToCrag(element), null);
+});
+
 test('elementToCrag does NOT return null for Rathgormuck Climbing Club (real outdoor crag tagged only with club=sport)', () => {
   const element = {
     type: 'node',

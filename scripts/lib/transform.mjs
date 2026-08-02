@@ -32,10 +32,19 @@ const NON_CRAG_AMENITY_VALUES = new Set([
   'cinema',
 ]);
 
+// Signals that a "crag" is really a commercial/indoor venue. Both were
+// checked against the full live Overpass result (952 elements, 514 passing
+// the other filters) and produced zero false positives: no real outdoor crag
+// carries a postal address or a `brand` tag.
+//
+// Deliberately NOT used, because real crags carry them:
+//   tourism=attraction - Kilnsey Crag, Kyloe in the Woods, Benny Beg
+//   club=*             - Rathgormuck Climbing Club is a real outdoor
+//                        bouldering venue tagged only club=sport
 const ADDRESS_KEYS = ['addr:housenumber', 'addr:street', 'addr:housename', 'addr:postcode'];
 
 function hasAddress(tags) {
-  return ADDRESS_KEYS.some((key) => tags[key] !== undefined);
+  return ADDRESS_KEYS.some((key) => Boolean(tags[key]));
 }
 
 function isIndoor(tags) {
