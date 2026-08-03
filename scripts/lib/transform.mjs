@@ -1,12 +1,4 @@
-function elementToCoord(element) {
-  if (element.type === 'node' && typeof element.lat === 'number') {
-    return { lat: element.lat, lon: element.lon };
-  }
-  if (element.center && typeof element.center.lat === 'number') {
-    return { lat: element.center.lat, lon: element.center.lon };
-  }
-  return null;
-}
+import { elementCoord } from './geo.mjs';
 
 const INDOOR_LEISURE_VALUES = new Set([
   'climbing_wall',
@@ -84,7 +76,7 @@ export function elementToCrag(element) {
   if (!tags.name) return null;
   if (isIndoor(tags)) return null;
 
-  const coord = elementToCoord(element);
+  const coord = elementCoord(element);
   if (!coord) return null;
 
   const crag = {

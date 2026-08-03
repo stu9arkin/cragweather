@@ -10,3 +10,13 @@ export function haversineMeters(lat1, lon1, lat2, lon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return EARTH_RADIUS_METERS * c;
 }
+
+export function elementCoord(element) {
+  if (element.type === 'node' && typeof element.lat === 'number') {
+    return { lat: element.lat, lon: element.lon };
+  }
+  if (element.center && typeof element.center.lat === 'number') {
+    return { lat: element.center.lat, lon: element.center.lon };
+  }
+  return null;
+}
