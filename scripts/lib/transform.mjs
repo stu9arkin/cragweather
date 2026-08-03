@@ -32,6 +32,30 @@ const NON_CRAG_AMENITY_VALUES = new Set([
   'cinema',
 ]);
 
+// Signals that a "crag" is really a commercial/indoor venue or a club's
+// facility. All three were checked against the full live Overpass result
+// (952 elements, 514 passing the other filters) and produced zero false
+// positives in that snapshot: no real outdoor crag carried a postal
+// address, a `brand` tag, or a `club` tag.
+//
+// club=* was initially assumed unsafe because of "Rathgormuck Climbing
+// Club" (node/1496777386), which looked like a real outdoor venue from its
+// tags alone. It isn't: it's the club's indoor bouldering wall, used in
+// winter while the club climbs outdoors elsewhere in summer (see
+// https://rathgormackcc.blogspot.com/2009/05/rathgormack-climbing-club.html).
+// Every club=* element in the live dataset (3 total) is a club facility,
+// not a natural crag - the other two (Last Sun Dance, West Bromwich Walking
+// & Mountaineering Club) are also caught by the leisure/address checks
+// above, so `club` is what closes the gap for club-only nodes like this one.
+//
+// Deliberately NOT used, because real crags carry it:
+//   tourism=attraction - Kilnsey Crag, Kyloe in the Woods, Benny Beg
+const ADDRESS_KEYS = ['addr:housenumber', 'addr:street', 'addr:housename', 'addr:postcode'];
+
+function hasAddress(tags) {
+  return ADDRESS_KEYS.some((key) => Boolean(tags[key]));
+}
+
 function isIndoor(tags) {
   return (
     tags.climbing === 'indoor' ||
@@ -41,7 +65,10 @@ function isIndoor(tags) {
     Boolean(tags.shop) ||
     NON_CRAG_AMENITY_VALUES.has(tags.amenity) ||
     tags.climbing_wall === 'indoor' ||
-    tags['disused:leisure'] === 'sports_centre'
+    tags['disused:leisure'] === 'sports_centre' ||
+    hasAddress(tags) ||
+    Boolean(tags.brand) ||
+    Boolean(tags.club)
   );
 }
 

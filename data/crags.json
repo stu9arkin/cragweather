@@ -1119,13 +1119,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Eden%20Community%20Outdoors%20crag"
   },
   {
-    "id": "node/11033796951",
-    "name": "Eden Rock Carlisle",
-    "lat": 54.8830931,
-    "lon": -2.9097024,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Eden%20Rock%20Carlisle%20crag"
-  },
-  {
     "id": "node/1284742117",
     "name": "Engine Room Slab",
     "lat": 51.542514,
@@ -1331,13 +1324,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Glynfach%20crag"
   },
   {
-    "id": "way/44373894",
-    "name": "Go Ape! Sherwood Pines",
-    "lat": 53.1675208,
-    "lon": -1.0844921,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Go%20Ape!%20Sherwood%20Pines%20crag"
-  },
-  {
     "id": "way/712268675",
     "name": "Goin Back Area",
     "lat": 54.1617587,
@@ -1377,13 +1363,6 @@
     "lat": 51.6951887,
     "lon": -3.8625223,
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Graig%20Ola%20crag"
-  },
-  {
-    "id": "node/9209667613",
-    "name": "Granite Planet Climbing",
-    "lat": 50.1677505,
-    "lon": -5.1231201,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Granite%20Planet%20Climbing%20crag"
   },
   {
     "id": "node/1334333042",
@@ -2498,13 +2477,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Rams%20Tor%20crag"
   },
   {
-    "id": "node/1496777386",
-    "name": "Rathgormuck Climbing Club",
-    "lat": 52.3068717,
-    "lon": -7.4994953,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Rathgormuck%20Climbing%20Club%20crag"
-  },
-  {
     "id": "way/61161567",
     "name": "Raven Crag",
     "lat": 54.4925675,
@@ -2911,13 +2883,6 @@
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20South-East%20Buttress%20crag"
   },
   {
-    "id": "node/3362564126",
-    "name": "Southampton Climbing Wall",
-    "lat": 50.9107714,
-    "lon": -1.3993479,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Southampton%20Climbing%20Wall%20crag"
-  },
-  {
     "id": "way/306666058",
     "name": "Southwest Ridge",
     "lat": 55.6375546,
@@ -3185,13 +3150,6 @@
       "bouldering"
     ],
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Business%20Boulder%20crag"
-  },
-  {
-    "id": "node/2465942518",
-    "name": "The Climbing Station",
-    "lat": 52.7697544,
-    "lon": -1.1917757,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20The%20Climbing%20Station%20crag"
   },
   {
     "id": "way/310692125",
@@ -3813,13 +3771,6 @@
       "sport"
     ],
     "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20Wedge%20Wall%20crag"
-  },
-  {
-    "id": "node/13574656592",
-    "name": "West Bromwich Walking & Mountaineering Club",
-    "lat": 52.5320949,
-    "lon": -1.9876304,
-    "ukcSearchUrl": "https://www.google.com/search?q=site%3Aukclimbing.com%20West%20Bromwich%20Walking%20%26%20Mountaineering%20Club%20crag"
   },
   {
     "id": "node/475721824",
