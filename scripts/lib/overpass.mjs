@@ -2,7 +2,7 @@ export const UK_BBOX = { south: 49.8, west: -8.6, north: 60.9, east: 1.8 };
 
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 
-export function buildOverpassQuery(bbox = UK_BBOX) {
+export function buildNarrowOverpassQuery(bbox = UK_BBOX) {
   const bboxStr = `${bbox.south},${bbox.west},${bbox.north},${bbox.east}`;
   return (
     `[out:json][timeout:60][bbox:${bboxStr}];` +
@@ -16,6 +16,20 @@ export function buildOverpassQuery(bbox = UK_BBOX) {
   );
 }
 
+export function buildBroadenedOverpassQuery(bbox = UK_BBOX) {
+  const bboxStr = `${bbox.south},${bbox.west},${bbox.north},${bbox.east}`;
+  return (
+    `[out:json][timeout:110][bbox:${bboxStr}];` +
+    `(` +
+    `node["natural"="bare_rock"]["name"];` +
+    `way["natural"="bare_rock"]["name"];` +
+    `node["natural"="cliff"]["name"];` +
+    `way["natural"="cliff"]["name"];` +
+    `);` +
+    `out center tags;`
+  );
+}
+
 const MAX_ATTEMPTS = 3;
 const RETRY_BACKOFF_MS = 2000;
 const REQUEST_TIMEOUT_MS = 120_000;
@@ -24,13 +38,7 @@ function isRetryableStatus(status) {
   return status === 429 || status >= 500;
 }
 
-export async function fetchOverpassElements(
-  fetchImpl = fetch,
-  bbox = UK_BBOX,
-  { retryBackoffMs = RETRY_BACKOFF_MS, maxAttempts = MAX_ATTEMPTS } = {}
-) {
-  const query = buildOverpassQuery(bbox);
-
+async function fetchQueryWithRetry(fetchImpl, query, retryBackoffMs, maxAttempts) {
   let lastError;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     let response;
@@ -63,9 +71,19 @@ export async function fetchOverpassElements(
       throw new Error(`Overpass API returned ${response.status}`);
     }
 
+    const json = await response.json();
+
+    if (json.remark) {
+      lastError = new Error(`Overpass API error: ${json.remark}`);
+      if (attempt < maxAttempts) {
+        await sleep(retryBackoffMs);
+        continue;
+      }
+      throw lastError;
+    }
+
     // A 200 with a malformed body is a real bug, not a transient failure -
     // do not retry, throw immediately.
-    const json = await response.json();
     if (!Array.isArray(json.elements)) {
       throw new Error('Overpass API response missing elements array');
     }
@@ -76,6 +94,26 @@ export async function fetchOverpassElements(
   // Should be unreachable (the loop always returns or throws), but keep a
   // safety net in case maxAttempts is misconfigured to 0.
   throw lastError ?? new Error('Overpass API request failed with no attempts made');
+}
+
+export async function fetchOverpassElements(
+  fetchImpl = fetch,
+  bbox = UK_BBOX,
+  { retryBackoffMs = RETRY_BACKOFF_MS, maxAttempts = MAX_ATTEMPTS } = {}
+) {
+  const narrowElements = await fetchQueryWithRetry(
+    fetchImpl,
+    buildNarrowOverpassQuery(bbox),
+    retryBackoffMs,
+    maxAttempts
+  );
+  const broadenedElements = await fetchQueryWithRetry(
+    fetchImpl,
+    buildBroadenedOverpassQuery(bbox),
+    retryBackoffMs,
+    maxAttempts
+  );
+  return [...narrowElements, ...broadenedElements];
 }
 
 function sleep(ms) {

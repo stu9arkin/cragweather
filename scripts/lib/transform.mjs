@@ -1,12 +1,4 @@
-function elementToCoord(element) {
-  if (element.type === 'node' && typeof element.lat === 'number') {
-    return { lat: element.lat, lon: element.lon };
-  }
-  if (element.center && typeof element.center.lat === 'number') {
-    return { lat: element.center.lat, lon: element.center.lon };
-  }
-  return null;
-}
+import { elementCoord } from './geo.mjs';
 
 const INDOOR_LEISURE_VALUES = new Set([
   'climbing_wall',
@@ -68,8 +60,16 @@ function isIndoor(tags) {
     tags['disused:leisure'] === 'sports_centre' ||
     hasAddress(tags) ||
     Boolean(tags.brand) ||
-    Boolean(tags.club)
+    Boolean(tags.club) ||
+    tags.landuse === 'recreation_ground'
   );
+}
+
+// Checked against the live 507-element passing snapshot (August 2026):
+// matches only "Llanfyllin High school Climbing Wall" (node/1427062498),
+// which carries no other distinguishing tag - name+sport=climbing only.
+function isLikelySchoolFacility(tags) {
+  return /school/i.test(tags.name || '');
 }
 
 function extractClimbingStyles(tags) {
@@ -82,9 +82,9 @@ function extractClimbingStyles(tags) {
 export function elementToCrag(element) {
   const tags = element.tags || {};
   if (!tags.name) return null;
-  if (isIndoor(tags)) return null;
+  if (isIndoor(tags) || isLikelySchoolFacility(tags)) return null;
 
-  const coord = elementToCoord(element);
+  const coord = elementCoord(element);
   if (!coord) return null;
 
   const crag = {
