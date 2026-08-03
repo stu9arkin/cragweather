@@ -1,5 +1,33 @@
 # cragweather
-A weather visualisation website specifically aimed at climbers in the UK
+
+A weather visualisation website for UK outdoor climbing crags. It plots every
+known crag on a map of the UK, colours each marker by forecast temperature or
+rainfall at a chosen point in the next 7 days, and lets you search for a crag
+by name, see its details in a side panel (rock type, climbing styles, access,
+a 7-day forecast, and a link to search for it on UKC), and jump straight to it
+on the map.
+
+## How it works
+
+- **Crag data** (`data/crags.json`) is generated ahead of time from
+  OpenStreetMap via the pipeline described below, and committed to the repo —
+  the site itself never talks to Overpass.
+- **Weather data** is fetched client-side, on page load, from the
+  [Open-Meteo](https://open-meteo.com/) API (`js/weatherFetch.js`), in batches
+  of up to 100 locations at a time, with retries on rate-limiting/server
+  errors.
+- **The map** (`js/mapView.js`, using [Leaflet](https://leafletjs.com/) and
+  its marker-clustering plugin) renders one marker per crag, coloured by the
+  selected weather variable (temperature or rainfall) at the selected time
+  step. The time scrollbar covers the next 7 days in 3-hour steps.
+- **Search** (`js/searchView.js`, `js/logic/cragSearch.js`) is a fuzzy-matching
+  combobox over the crag list; selecting a result pans/zooms the map to it.
+- **The detail panel** (`js/detailPanel.js`) opens when a crag marker is
+  clicked, showing its metadata, a 7-day forecast, and a "Search on UKC" link
+  built from the crag name.
+- A grid-based heatmap mode (`js/heatmapView.js`) is implemented but currently
+  disabled behind a feature flag (`HEATMAP_ENABLED` in `js/app.js`) and has no
+  UI control wired up in `index.html`.
 
 ## Crag data pipeline
 
