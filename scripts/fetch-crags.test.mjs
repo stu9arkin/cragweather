@@ -33,7 +33,7 @@ test('generateCragsData writes deduped, linked crags to outputPath', async () =>
       ['Dumbarton Rock', "Parisella's Caves", 'Stanage Edge'] // sorted alphabetically
     );
     for (const crag of crags) {
-      assert.ok(crag.ukcSearchUrl.startsWith('https://www.google.com/search?q='));
+      assert.ok(crag.ukcSearchUrl.startsWith('https://www.ukclimbing.com/logbook/search/?sort=score&query='));
     }
 
     const written = JSON.parse(readFileSync(outputPath, 'utf8'));

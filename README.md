@@ -41,10 +41,9 @@ Each entry in `data/crags.json` has the shape:
 }
 ```
 
-Note: `ukcSearchUrl` is a Google `site:ukclimbing.com` search link rather than
-a link into UKC's own search, because UKC's real search endpoint couldn't be
-verified during design (Cloudflare blocks automated access). This is isolated
-in `scripts/lib/ukc-link.mjs` if someone wants to swap it out later.
+Note: `ukcSearchUrl` links directly into UKC's own logbook search
+(`ukclimbing.com/logbook/search/`), built from the crag name in
+`scripts/lib/ukc-link.mjs`.
 
 Run `npm test` to run the test suite (158 tests, dependency-free, uses
 Node's built-in test runner).

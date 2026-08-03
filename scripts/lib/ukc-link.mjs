@@ -1,4 +1,3 @@
 export function buildUkcSearchUrl(name) {
-  const query = `site:ukclimbing.com ${name} crag`;
-  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  return `https://www.ukclimbing.com/logbook/search/?sort=score&query=${encodeURIComponent(name)}&type=all`;
 }
