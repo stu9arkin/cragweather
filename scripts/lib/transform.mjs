@@ -32,15 +32,24 @@ const NON_CRAG_AMENITY_VALUES = new Set([
   'cinema',
 ]);
 
-// Signals that a "crag" is really a commercial/indoor venue. Both were
-// checked against the full live Overpass result (952 elements, 514 passing
-// the other filters) and produced zero false positives: no real outdoor crag
-// carries a postal address or a `brand` tag.
+// Signals that a "crag" is really a commercial/indoor venue or a club's
+// facility. All three were checked against the full live Overpass result
+// (952 elements, 514 passing the other filters) and produced zero false
+// positives: no real outdoor crag carries a postal address, a `brand` tag,
+// or a `club` tag.
 //
-// Deliberately NOT used, because real crags carry them:
+// club=* was initially assumed unsafe because of "Rathgormuck Climbing
+// Club" (node/1496777386), which looked like a real outdoor venue from its
+// tags alone. It isn't: it's the club's indoor bouldering wall, used in
+// winter while the club climbs outdoors elsewhere in summer (see
+// https://www.waterfordsportspartnership.ie/rathgormack-climbing-club/).
+// Every club=* element in the live dataset (3 total) is a club facility,
+// not a natural crag - the other two (Last Sun Dance, West Bromwich Walking
+// & Mountaineering Club) are also caught by the leisure/address checks
+// above, so `club` is what closes the gap for club-only nodes like this one.
+//
+// Deliberately NOT used, because real crags carry it:
 //   tourism=attraction - Kilnsey Crag, Kyloe in the Woods, Benny Beg
-//   club=*             - Rathgormuck Climbing Club is a real outdoor
-//                        bouldering venue tagged only club=sport
 const ADDRESS_KEYS = ['addr:housenumber', 'addr:street', 'addr:housename', 'addr:postcode'];
 
 function hasAddress(tags) {
@@ -58,7 +67,8 @@ function isIndoor(tags) {
     tags.climbing_wall === 'indoor' ||
     tags['disused:leisure'] === 'sports_centre' ||
     hasAddress(tags) ||
-    Boolean(tags.brand)
+    Boolean(tags.brand) ||
+    Boolean(tags.club)
   );
 }
 

@@ -260,17 +260,26 @@ test('elementToCrag does NOT return null for Kilnsey Crag (real outdoor crag tag
   assert.notEqual(elementToCrag(element), null);
 });
 
-test('elementToCrag does NOT return null for Rathgormuck Climbing Club (real outdoor crag tagged only with club=sport)', () => {
+test('elementToCrag returns null for Rathgormuck Climbing Club (real-world club facility, not an outdoor crag)', () => {
   const element = {
     type: 'node',
-    id: 20001,
-    lat: 52.23,
-    lon: -7.53,
+    id: 1496777386,
+    lat: 52.3068717,
+    lon: -7.4994953,
     tags: { club: 'sport', name: 'Rathgormuck Climbing Club', sport: 'climbing' },
   };
-  const crag = elementToCrag(element);
-  assert.notEqual(crag, null);
-  assert.equal(crag.name, 'Rathgormuck Climbing Club');
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for any element with a club tag, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9007,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Some Club', sport: 'climbing', club: 'sport' },
+  };
+  assert.equal(elementToCrag(element), null);
 });
 
 test('elementsToCrags maps and drops nulls, but does not dedupe', () => {
