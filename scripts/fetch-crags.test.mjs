@@ -43,6 +43,27 @@ test('generateCragsData writes deduped, linked crags to outputPath', async () =>
   }
 });
 
+test('generateCragsData applies exclude/include overrides', async () => {
+  const outputPath = join(tmpdir(), `crags-test-overrides-${Date.now()}.json`);
+  try {
+    const crags = await generateCragsData({
+      fetchImpl: fakeFetchReturning(fixtureBody),
+      outputPath,
+      overrides: {
+        exclude: ['node/1004'], // Dumbarton Rock
+        include: [{ id: 'node/9999', name: 'Manually Added Crag', lat: 51.0, lon: -1.0 }],
+      },
+    });
+
+    assert.deepEqual(
+      crags.map((c) => c.name),
+      ['Manually Added Crag', "Parisella's Caves", 'Stanage Edge']
+    );
+  } finally {
+    rmSync(outputPath, { force: true });
+  }
+});
+
 test('generateCragsData throws instead of writing an empty file', async () => {
   const outputPath = join(tmpdir(), `crags-test-empty-${Date.now()}.json`);
   try {

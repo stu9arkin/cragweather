@@ -6,16 +6,24 @@ import { fetchOverpassElements } from './lib/overpass.mjs';
 import { elementsToCrags } from './lib/transform.mjs';
 import { dedupeCrags } from './lib/dedupe.mjs';
 import { buildUkcSearchUrl } from './lib/ukc-link.mjs';
+import { filterToSeedClusters } from './lib/cluster.mjs';
+import { applyOverrides, loadOverrides } from './lib/overrides.mjs';
 
 // scripts/fetch-crags.mjs -> ../data/crags.json, resolved against this
 // script's own location rather than the process cwd, so the script writes
 // to the right place even when invoked from outside the package root.
 export const DEFAULT_OUTPUT_PATH = fileURLToPath(new URL('../data/crags.json', import.meta.url));
 
-export async function generateCragsData({ fetchImpl = fetch, outputPath = DEFAULT_OUTPUT_PATH } = {}) {
+export async function generateCragsData({
+  fetchImpl = fetch,
+  outputPath = DEFAULT_OUTPUT_PATH,
+  overrides = loadOverrides(),
+} = {}) {
   const elements = await fetchOverpassElements(fetchImpl);
-  const rawCrags = elementsToCrags(elements);
-  const deduped = dedupeCrags(rawCrags);
+  const clustered = filterToSeedClusters(elements);
+  const rawCrags = elementsToCrags(clustered);
+  const overridden = applyOverrides(rawCrags, overrides);
+  const deduped = dedupeCrags(overridden);
 
   if (deduped.length === 0) {
     throw new Error('No crags found after transform/dedup - refusing to write an empty crags.json');
