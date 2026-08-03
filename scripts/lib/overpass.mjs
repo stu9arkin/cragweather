@@ -113,6 +113,12 @@ export async function fetchOverpassElements(
     retryBackoffMs,
     maxAttempts
   );
+  // Narrow must come first: dedupeCrags (scripts/lib/dedupe.mjs) is
+  // first-wins on same-name/same-location collisions, and the narrow query's
+  // climbing-tagged elements carry richer metadata (rock, climbingStyles,
+  // access, description) than a same-named broadened-query element, which
+  // typically has none of those optional fields. Swapping this order would
+  // silently strip that metadata from existing crags.
   return [...narrowElements, ...broadenedElements];
 }
 
