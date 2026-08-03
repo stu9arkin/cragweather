@@ -5,12 +5,16 @@ const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 export function buildOverpassQuery(bbox = UK_BBOX) {
   const bboxStr = `${bbox.south},${bbox.west},${bbox.north},${bbox.east}`;
   return (
-    `[out:json][timeout:60][bbox:${bboxStr}];` +
+    `[out:json][timeout:90][bbox:${bboxStr}];` +
     `(` +
     `node["sport"="climbing"];` +
     `way["sport"="climbing"];` +
     `node["natural"="cliff"]["climbing"];` +
     `way["natural"="cliff"]["climbing"];` +
+    `node["natural"="bare_rock"]["name"];` +
+    `way["natural"="bare_rock"]["name"];` +
+    `node["natural"="cliff"]["name"];` +
+    `way["natural"="cliff"]["name"];` +
     `);` +
     `out center tags;`
   );

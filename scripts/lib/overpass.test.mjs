@@ -119,3 +119,12 @@ test('fetchOverpassElements throws when elements array is missing, without retry
   await assert.rejects(() => fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 }), /elements/);
   assert.equal(callCount, 1);
 });
+
+test('buildOverpassQuery includes the broadened bare_rock and named-cliff clauses', () => {
+  const query = buildOverpassQuery();
+  assert.ok(query.includes('[timeout:90]'));
+  assert.ok(query.includes('node["natural"="bare_rock"]["name"]'));
+  assert.ok(query.includes('way["natural"="bare_rock"]["name"]'));
+  assert.ok(query.includes('node["natural"="cliff"]["name"]'));
+  assert.ok(query.includes('way["natural"="cliff"]["name"]'));
+});
