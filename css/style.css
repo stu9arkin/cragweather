@@ -133,3 +133,75 @@ html, body {
   border: 2px solid white;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
+
+.search-box {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  width: 280px;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.search-results {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.search-result {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.search-result:hover,
+.search-result.active {
+  background: #eef3ff;
+}
+
+.search-result-empty {
+  color: #888;
+  cursor: default;
+}
+
+.search-result-empty:hover {
+  background: none;
+}
+
+.search-result-coords {
+  display: block;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* Below this width, the centered .search-box (280px wide, centered on
+   viewport) overlaps the .controls panel (left: 1rem, min-width: 280px).
+   Overlap starts once viewport width drops below roughly
+   1rem + 280px (controls) + 280px/2 (half of search-box) + 1rem gap ≈ 936px.
+   Stack the search box below the controls panel instead of centering it. */
+@media (max-width: 900px) {
+  .search-box {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    width: auto;
+    max-width: 280px;
+    top: calc(1rem + 96px);
+  }
+}

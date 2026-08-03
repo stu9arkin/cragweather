@@ -2,11 +2,12 @@
 import { loadCrags } from './cragData.js';
 import { fetchWeatherForLocations } from './weatherFetch.js';
 import { buildGridPoints } from './logic/grid.js';
-import { createMapView, updateMarkerColors } from './mapView.js';
+import { createMapView, updateMarkerColors, focusCrag } from './mapView.js';
 import { createHeatmapView, updateHeatmapColors, setHeatmapVisible } from './heatmapView.js';
 import { initControls } from './controls.js';
 import { renderLegend } from './legendView.js';
 import { showDetailPanel, initDetailPanel } from './detailPanel.js';
+import { initSearch } from './searchView.js';
 
 const UK_BBOX = { south: 49.8, west: -8.6, north: 60.9, east: 1.8 };
 const GRID_STEP_DEG = 0.5;
@@ -35,6 +36,11 @@ async function main() {
 
   mapView.map.on('crag:selected', ({ crag }) => {
     showDetailPanel(crag, weatherByCragId.get(crag.id));
+  });
+
+  initSearch({
+    crags,
+    onSelect: (crag) => focusCrag(mapView, crag),
   });
 
   function render() {

@@ -73,3 +73,8 @@ export function updateMarkerColors(view, weatherByCragId, variable, timeIndex) {
 
   view.markerCluster.refreshClusters();
 }
+
+export function focusCrag(view, crag) {
+  view.map.setView([crag.lat, crag.lon], 14);
+  view.map.fire('crag:selected', { crag });
+}
