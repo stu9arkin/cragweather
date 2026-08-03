@@ -16,6 +16,12 @@ export function createMapView(mapElementId, crags) {
 
   const markerCluster = L.markerClusterGroup({
     iconCreateFunction: (cluster) => createClusterIcon(cluster, view),
+    // Tuned against the real 492-crag dataset (issue #12): radius 20 keeps
+    // the worst-case cluster near ~110 crags instead of the pre-tuning
+    // ~155. disableClusteringAtZoom relies on the tile layer's maxZoom
+    // (19, above) being >= 11 for clustering to actually turn off.
+    maxClusterRadius: 20,
+    disableClusteringAtZoom: 11,
   });
 
   const markersByCragId = new Map();
