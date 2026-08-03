@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+﻿import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -278,6 +278,57 @@ test('elementToCrag returns null for any element with a club tag, in isolation',
     lat: 51.0,
     lon: -1.0,
     tags: { name: 'Some Club', sport: 'climbing', club: 'sport' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for any element with landuse=recreation_ground, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9008,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Some Recreation Ground', sport: 'climbing', landuse: 'recreation_ground' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for High Ropes Course (real-world council-run high ropes facility)', () => {
+  const element = {
+    type: 'way',
+    id: 311127503,
+    center: { lat: 52.9451591, lon: -1.0972515 },
+    tags: {
+      access: 'customers',
+      barrier: 'fence',
+      landuse: 'recreation_ground',
+      name: 'High Ropes Course',
+      operator: 'Nottingham City Council',
+      source: 'Bing',
+      sport: 'climbing',
+    },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for any element with "school" in its name, in isolation', () => {
+  const element = {
+    type: 'node',
+    id: 9009,
+    lat: 51.0,
+    lon: -1.0,
+    tags: { name: 'Some School Wall', sport: 'climbing' },
+  };
+  assert.equal(elementToCrag(element), null);
+});
+
+test('elementToCrag returns null for Llanfyllin High school Climbing Wall (real-world school wall, no distinguishing tag)', () => {
+  const element = {
+    type: 'node',
+    id: 1427062498,
+    lat: 52.7632261,
+    lon: -3.2711738,
+    tags: { name: 'Llanfyllin High school Climbing Wall', sport: 'climbing' },
   };
   assert.equal(elementToCrag(element), null);
 });
