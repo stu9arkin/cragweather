@@ -122,9 +122,49 @@ test('fetchOverpassElements throws when elements array is missing, without retry
 
 test('buildOverpassQuery includes the broadened bare_rock and named-cliff clauses', () => {
   const query = buildOverpassQuery();
-  assert.ok(query.includes('[timeout:90]'));
   assert.ok(query.includes('node["natural"="bare_rock"]["name"]'));
   assert.ok(query.includes('way["natural"="bare_rock"]["name"]'));
   assert.ok(query.includes('node["natural"="cliff"]["name"]'));
   assert.ok(query.includes('way["natural"="cliff"]["name"]'));
+});
+
+test('buildOverpassQuery uses a 110s internal timeout', () => {
+  const query = buildOverpassQuery();
+  assert.ok(query.includes('[timeout:110]'));
+});
+
+test('fetchOverpassElements retries when the response has a remark field (Overpass soft timeout) and succeeds on a later attempt', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    if (callCount < 3) {
+      return new Response(
+        JSON.stringify({ elements: [], remark: 'runtime error: Query timed out in "query" at line 1 after 91 seconds.' }),
+        { status: 200 }
+      );
+    }
+    return new Response(JSON.stringify({ elements: [{ type: 'node', id: 1, tags: {} }] }), { status: 200 });
+  };
+
+  const elements = await fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 });
+
+  assert.equal(callCount, 3);
+  assert.equal(elements.length, 1);
+});
+
+test('fetchOverpassElements throws after exhausting retries when every attempt returns a remark', async () => {
+  let callCount = 0;
+  const fakeFetch = async () => {
+    callCount++;
+    return new Response(
+      JSON.stringify({ elements: [], remark: 'runtime error: Query timed out in "query" at line 1 after 91 seconds.' }),
+      { status: 200 }
+    );
+  };
+
+  await assert.rejects(
+    () => fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 }),
+    /timed out/
+  );
+  assert.equal(callCount, 3);
 });

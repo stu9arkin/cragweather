@@ -5,7 +5,7 @@ const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 export function buildOverpassQuery(bbox = UK_BBOX) {
   const bboxStr = `${bbox.south},${bbox.west},${bbox.north},${bbox.east}`;
   return (
-    `[out:json][timeout:90][bbox:${bboxStr}];` +
+    `[out:json][timeout:110][bbox:${bboxStr}];` +
     `(` +
     `node["sport"="climbing"];` +
     `way["sport"="climbing"];` +
@@ -70,6 +70,16 @@ export async function fetchOverpassElements(
     // A 200 with a malformed body is a real bug, not a transient failure -
     // do not retry, throw immediately.
     const json = await response.json();
+
+    if (json.remark) {
+      lastError = new Error(`Overpass API error: ${json.remark}`);
+      if (attempt < maxAttempts) {
+        await sleep(retryBackoffMs);
+        continue;
+      }
+      throw lastError;
+    }
+
     if (!Array.isArray(json.elements)) {
       throw new Error('Overpass API response missing elements array');
     }
