@@ -12,6 +12,9 @@ test('builds a UKC logbook search URL for a simple name', () => {
 
 test('URL-encodes special characters in the crag name', () => {
   const url = buildUkcSearchUrl("Anglezarke & Stronstrey Bank");
-  assert.ok(url.startsWith('https://www.ukclimbing.com/logbook/search/?sort=score&query='));
-  assert.ok(!url.includes('query=Anglezarke &'), 'raw & from the name must be encoded, not left as a query separator');
+  assert.equal(
+    url,
+    'https://www.ukclimbing.com/logbook/search/?sort=score&query=Anglezarke%20%26%20Stronstrey%20Bank&type=all'
+  );
+  assert.ok(url.includes('%26'), 'raw & from the name must be percent-encoded, not left as a query separator');
 });
