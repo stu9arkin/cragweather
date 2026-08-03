@@ -44,3 +44,13 @@ test('matchScore ranks a substring match below the fuzzy-match offset', () => {
 test('matchScore returns null when the typo distance is too large relative to the query', () => {
   assert.equal(matchScore('xyz123', 'Portland'), null);
 });
+
+test('matchScore returns null for a very long, clearly-non-matching query without computing full Levenshtein distance', () => {
+  // A huge length difference between the query and every candidate word
+  // means the length-based lower bound alone rules out a match, so the
+  // fuzzy-fallback short-circuit in bestWordDistance should skip the
+  // O(m*n) DP computation entirely rather than running it against a
+  // 500-character string.
+  const longQuery = 'x'.repeat(500);
+  assert.equal(matchScore(longQuery, 'Stanage Edge'), null);
+});

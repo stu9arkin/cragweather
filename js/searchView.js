@@ -22,9 +22,21 @@ export function initSearch({ crags, onSelect }) {
     matches.forEach((crag, index) => {
       const li = document.createElement('li');
       li.className = index === activeIndex ? 'search-result active' : 'search-result';
-      li.textContent = crag.name;
       li.id = `search-result-${index}`;
       li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', index === activeIndex ? 'true' : 'false');
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'search-result-name';
+      nameSpan.textContent = crag.name;
+
+      const coordsSpan = document.createElement('span');
+      coordsSpan.className = 'search-result-coords';
+      coordsSpan.textContent = `${crag.lat.toFixed(2)}, ${crag.lon.toFixed(2)}`;
+
+      li.appendChild(nameSpan);
+      li.appendChild(coordsSpan);
+
       li.addEventListener('mousedown', (event) => {
         event.preventDefault();
         selectMatch(index);
@@ -59,6 +71,7 @@ export function initSearch({ crags, onSelect }) {
     activeIndex = Math.max(0, Math.min(index, matches.length - 1));
     render();
     input.setAttribute('aria-activedescendant', `search-result-${activeIndex}`);
+    list.children[activeIndex]?.scrollIntoView?.({ block: 'nearest' });
   }
 
   input.addEventListener('input', () => {

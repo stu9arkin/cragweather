@@ -183,3 +183,25 @@ html, body {
 .search-result-empty:hover {
   background: none;
 }
+
+.search-result-coords {
+  display: block;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* Below this width, the centered .search-box (280px wide, centered on
+   viewport) overlaps the .controls panel (left: 1rem, min-width: 280px).
+   Overlap starts once viewport width drops below roughly
+   1rem + 280px (controls) + 280px/2 (half of search-box) + 1rem gap ≈ 936px.
+   Stack the search box below the controls panel instead of centering it. */
+@media (max-width: 900px) {
+  .search-box {
+    left: 1rem;
+    right: 1rem;
+    transform: none;
+    width: auto;
+    max-width: 280px;
+    top: calc(1rem + 96px);
+  }
+}

@@ -70,8 +70,36 @@ test('typing a matching query renders results and opens the list', () => {
 
     assert.equal(list.hidden, false);
     assert.equal(list.children.length, 1);
-    assert.equal(list.children[0].textContent, 'Stanage Edge');
+    // Each result li has two children: a name span and a coords span --
+    // li.children[0] is the name span (see js/searchView.js render()).
+    assert.equal(list.children[0].children[0].textContent, 'Stanage Edge');
+    assert.equal(list.children[0].children[1].textContent, '53.34, -1.62');
     assert.equal(input.getAttribute('aria-expanded'), 'true');
+  } finally {
+    uninstallDom();
+  }
+});
+
+test('duplicate crag names are disambiguated by their coordinate line', () => {
+  const DUPLICATE_CRAGS = [
+    { id: '1', name: 'Bamford Edge', lat: 53.34, lon: -1.62 },
+    { id: '2', name: 'Bamford Edge', lat: 53.35, lon: -1.63 },
+  ];
+  const { input, list } = installDom();
+  try {
+    initSearch({ crags: DUPLICATE_CRAGS, onSelect: noop });
+    input.value = 'bamford';
+    input.fire('input');
+
+    assert.equal(list.children.length, 2);
+    assert.equal(list.children[0].children[0].textContent, 'Bamford Edge');
+    assert.equal(list.children[1].children[0].textContent, 'Bamford Edge');
+    // Same name, but the coordinate lines must differ to disambiguate.
+    const coords0 = list.children[0].children[1].textContent;
+    const coords1 = list.children[1].children[1].textContent;
+    assert.notEqual(coords0, coords1);
+    assert.equal(coords0, '53.34, -1.62');
+    assert.equal(coords1, '53.35, -1.63');
   } finally {
     uninstallDom();
   }
@@ -121,6 +149,28 @@ test('ArrowDown/ArrowUp move the highlighted result, clamped to the list bounds'
     input.fire('keydown', { key: 'ArrowUp', preventDefault: noop });
     // clamped at the top: first result stays highlighted
     assert.equal(list.children[0].className, 'search-result active');
+  } finally {
+    uninstallDom();
+  }
+});
+
+test('ArrowDown clamps at the bottom of the list', () => {
+  const { input, list } = installDom();
+  try {
+    initSearch({ crags: CRAGS, onSelect: noop });
+    input.value = 'a'; // substring-matches all three sample crag names
+    input.fire('input');
+    assert.equal(list.children.length, 3);
+
+    // Fire ArrowDown more times than there are results.
+    for (let i = 0; i < 5; i++) {
+      input.fire('keydown', { key: 'ArrowDown', preventDefault: noop });
+    }
+
+    const lastIndex = list.children.length - 1;
+    assert.ok(list.children[lastIndex].className.includes('active'));
+    // Only the last result should be highlighted.
+    assert.ok(!list.children[0].className.includes('active'));
   } finally {
     uninstallDom();
   }
