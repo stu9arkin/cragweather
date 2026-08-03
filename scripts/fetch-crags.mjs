@@ -22,14 +22,15 @@ export async function generateCragsData({
   const elements = await fetchOverpassElements(fetchImpl);
   const clustered = filterToSeedClusters(elements);
   const rawCrags = elementsToCrags(clustered);
-  const overridden = applyOverrides(rawCrags, overrides);
-  const deduped = dedupeCrags(overridden);
+  const deduped = dedupeCrags(rawCrags);
 
   if (deduped.length === 0) {
     throw new Error('No crags found after transform/dedup - refusing to write an empty crags.json');
   }
 
-  const crags = deduped
+  const overridden = applyOverrides(deduped, overrides);
+
+  const crags = overridden
     .map((crag) => ({ ...crag, ukcSearchUrl: buildUkcSearchUrl(crag.name) }))
     .sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
 

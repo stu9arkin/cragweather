@@ -5,10 +5,13 @@ A weather visualisation website specifically aimed at climbers in the UK
 
 `scripts/fetch-crags.mjs` builds `data/crags.json`, the dataset of UK outdoor
 climbing crags used by the site. It queries the [Overpass API](https://overpass-api.de/)
-(an OpenStreetMap query service) for climbing-tagged nodes/ways within the UK
-bounding box, filters out indoor venues and gear shops, deduplicates
-near-identical entries, and attaches a UKC search link to each crag. Run it
-with:
+(an OpenStreetMap query service) in two parts: climbing-tagged nodes/ways, and
+named `bare_rock`/`cliff` features that lack an explicit climbing tag but sit
+near a verified climbing feature (a geographic "seed and cluster" filter
+recovers real crags OSM doesn't tag consistently, without pulling in unrelated
+named rocks). It then filters out indoor venues, gear shops, and other
+non-crag facilities, deduplicates near-identical entries, and attaches a UKC
+search link to each crag. Run it with:
 
 ```sh
 npm run fetch-crags
@@ -43,8 +46,34 @@ a link into UKC's own search, because UKC's real search endpoint couldn't be
 verified during design (Cloudflare blocks automated access). This is isolated
 in `scripts/lib/ukc-link.mjs` if someone wants to swap it out later.
 
-Run `npm test` to run the test suite (79 tests, dependency-free, uses
+Run `npm test` to run the test suite (158 tests, dependency-free, uses
 Node's built-in test runner).
+
+### Manual overrides
+
+`scripts/crag-overrides.json` is a small, hand-maintained file for edge cases
+the automated filters can't resolve correctly on their own:
+
+```json
+{
+  "exclude": ["node/1234567"],
+  "include": [
+    { "id": "way/7654321", "name": "Some Crag", "lat": 53.1, "lon": -1.2 }
+  ]
+}
+```
+
+- `exclude`: an array of crag `id` strings (the same `"type/id"` format used
+  in `data/crags.json`, e.g. `"node/1234567"`) to drop from the dataset even
+  if they'd otherwise pass every filter.
+- `include`: an array of literal crag objects (same shape as a `data/crags.json`
+  entry — `id`, `name`, `lat`, `lon`, and optionally `rock`, `climbingStyles`,
+  `access`, `description`) to add to the dataset regardless of what the
+  Overpass query and filters produced. Any `ukcSearchUrl` you supply is
+  ignored and regenerated from `name`.
+
+Both lists start empty and should stay small — this is a safety valve for
+rare cases, not a primary data source.
 
 ## Frontend
 
@@ -59,7 +88,7 @@ via `file://` will not work: both `import`/`export` ES modules and the
 are loaded directly from the unpkg CDN in `index.html`, so no `npm install`
 is required to run the frontend itself.
 
-`npm test` runs the full test suite (79 tests): pure logic modules and
+`npm test` runs the full test suite (158 tests): pure logic modules and
 modules with injectable `fetch` implementations are unit-tested; DOM-rendering
 modules (map/marker/heatmap/panel rendering) are verified manually in a
 browser rather than unit-tested.
