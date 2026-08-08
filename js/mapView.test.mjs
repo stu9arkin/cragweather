@@ -1,7 +1,7 @@
 // js/mapView.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { focusCrag, buildCragIcon } from './mapView.js';
+import { focusCrag, buildCragIcon, updateMarkerColors } from './mapView.js';
 
 function installLeafletStub() {
   const divIconCalls = [];
@@ -63,6 +63,37 @@ test('buildCragIcon falls back to neutral color and en dash for null value', () 
     buildCragIcon(null, 'rainfall', colorFn);
     assert.match(divIconCalls[0].html, /–/);
     assert.match(divIconCalls[0].html, /#9e9e9e/);
+  } finally {
+    uninstallLeafletStub();
+  }
+});
+
+test('updateMarkerColors rebuilds each marker icon with the current value and variable', () => {
+  const { divIconCalls } = installLeafletStub();
+  try {
+    const setIconCalls = [];
+    const fakeMarker = {
+      cragValue: null,
+      setIcon(icon) {
+        setIconCalls.push(icon);
+      },
+    };
+    const view = {
+      activeColorFn: null,
+      activeVariable: null,
+      markersByCragId: new Map([['crag-1', fakeMarker]]),
+      markerCluster: { refreshClusters: () => {} },
+    };
+    const weatherByCragId = new Map([
+      ['crag-1', { hourly: { temperature: [10, 20], rainfall: [1, 2] } }],
+    ]);
+
+    updateMarkerColors(view, weatherByCragId, 'temperature', 1);
+
+    assert.equal(fakeMarker.cragValue, 20);
+    assert.equal(view.activeVariable, 'temperature');
+    assert.equal(setIconCalls.length, 1);
+    assert.match(divIconCalls[divIconCalls.length - 1].html, /20°C/);
   } finally {
     uninstallLeafletStub();
   }

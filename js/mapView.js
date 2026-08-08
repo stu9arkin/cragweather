@@ -70,12 +70,13 @@ export function updateMarkerColors(view, weatherByCragId, variable, timeIndex) {
   const colorFn = colorForVariable(variable);
   const valueKey = variable === 'rainfall' ? 'rainfall' : 'temperature';
   view.activeColorFn = colorFn;
+  view.activeVariable = variable;
 
   for (const [cragId, marker] of view.markersByCragId) {
     const forecast = weatherByCragId.get(cragId);
     const value = forecast ? forecast.hourly[valueKey][timeIndex] : null;
     marker.cragValue = value ?? null;
-    marker.setStyle({ fillColor: colorFn(value) });
+    marker.setIcon(buildCragIcon(marker.cragValue, variable, colorFn));
   }
 
   view.markerCluster.refreshClusters();
