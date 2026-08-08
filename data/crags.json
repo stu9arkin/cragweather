@@ -188,36 +188,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bamford%20Edge&type=all"
   },
   {
-    "id": "way/372860509",
-    "name": "Bamford Edge",
-    "lat": 53.3565769,
-    "lon": -1.6812768,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bamford%20Edge&type=all"
-  },
-  {
-    "id": "way/377915793",
-    "name": "Bamford Edge",
-    "lat": 53.359482,
-    "lon": -1.6877118,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bamford%20Edge&type=all"
-  },
-  {
-    "id": "way/377915794",
-    "name": "Bamford Edge",
-    "lat": 53.3578849,
-    "lon": -1.6849927,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bamford%20Edge&type=all"
-  },
-  {
     "id": "way/1013749050",
     "name": "Baravore Valley Lower",
     "lat": 52.9901535,
@@ -615,16 +585,6 @@
     "name": "Burbage North",
     "lat": 53.3405634,
     "lon": -1.6044425,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Burbage%20North&type=all"
-  },
-  {
-    "id": "way/1213281227",
-    "name": "Burbage North",
-    "lat": 53.3352859,
-    "lon": -1.5995142,
     "climbingStyles": [
       "trad"
     ],
@@ -1144,26 +1104,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Curbar%20Edge&type=all"
   },
   {
-    "id": "way/377548428",
-    "name": "Curbar Edge",
-    "lat": 53.2804968,
-    "lon": -1.62474,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Curbar%20Edge&type=all"
-  },
-  {
-    "id": "way/1273385380",
-    "name": "Curbar Edge",
-    "lat": 53.2698404,
-    "lon": -1.6114873,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Curbar%20Edge&type=all"
-  },
-  {
     "id": "way/306666936",
     "name": "Curved Ridge",
     "lat": 56.6476916,
@@ -1296,13 +1236,6 @@
     "name": "Dinas Mot",
     "lat": 53.0858068,
     "lon": -4.0516913,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Dinas%20Mot&type=all"
-  },
-  {
-    "id": "way/390923845",
-    "name": "Dinas Mot",
-    "lat": 53.0865522,
-    "lon": -4.0557153,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Dinas%20Mot&type=all"
   },
   {
@@ -2353,16 +2286,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Millstone%20Edge&type=all"
   },
   {
-    "id": "way/283619694",
-    "name": "Millstone Edge",
-    "lat": 53.3204762,
-    "lon": -1.6289209,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Millstone%20Edge&type=all"
-  },
-  {
     "id": "node/2383975374",
     "name": "Minchen Hole",
     "lat": 51.5620981,
@@ -2703,20 +2626,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pelstone%20Crag&type=all"
   },
   {
-    "id": "way/52117098",
-    "name": "Pelstone Crag",
-    "lat": 53.8953243,
-    "lon": -1.6832995,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pelstone%20Crag&type=all"
-  },
-  {
-    "id": "way/685258623",
-    "name": "Pelstone Crag",
-    "lat": 53.8948884,
-    "lon": -1.687403,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pelstone%20Crag&type=all"
-  },
-  {
     "id": "node/538072039",
     "name": "Penallta Rocks",
     "lat": 51.6460372,
@@ -2752,13 +2661,6 @@
     "name": "Pillar Rock",
     "lat": 54.4973296,
     "lon": -3.2784806,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pillar%20Rock&type=all"
-  },
-  {
-    "id": "way/841349451",
-    "name": "Pillar Rock",
-    "lat": 54.5000784,
-    "lon": -3.2807033,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pillar%20Rock&type=all"
   },
   {
@@ -3087,27 +2989,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Rock%20climbing%20access&type=all"
   },
   {
-    "id": "way/1014049285",
-    "name": "Rock climbing access",
-    "lat": 52.9840899,
-    "lon": -6.4396395,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Rock%20climbing%20access&type=all"
-  },
-  {
-    "id": "way/1014049287",
-    "name": "Rock climbing access",
-    "lat": 52.9835778,
-    "lon": -6.4456423,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Rock%20climbing%20access&type=all"
-  },
-  {
-    "id": "way/1014049288",
-    "name": "Rock climbing access",
-    "lat": 52.9886197,
-    "lon": -6.4422214,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Rock%20climbing%20access&type=all"
-  },
-  {
     "id": "way/260107853",
     "name": "Rosyth Quarry",
     "lat": 56.0351251,
@@ -3170,13 +3051,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Rylstone%20crag&type=all"
   },
   {
-    "id": "way/520866333",
-    "name": "Rylstone Crag",
-    "lat": 54.0145099,
-    "lon": -2.0279919,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Rylstone%20Crag&type=all"
-  },
-  {
     "id": "node/10998537595",
     "name": "S Crack",
     "lat": 53.9163617,
@@ -3201,13 +3075,6 @@
     "name": "Salisbury Crags",
     "lat": 55.9480431,
     "lon": -3.1722303,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Salisbury%20Crags&type=all"
-  },
-  {
-    "id": "way/106629722",
-    "name": "Salisbury Crags",
-    "lat": 55.9444416,
-    "lon": -3.1703255,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Salisbury%20Crags&type=all"
   },
   {
@@ -3527,40 +3394,10 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Stanage&type=all"
   },
   {
-    "id": "way/1175175801",
-    "name": "Stanage",
-    "lat": 53.3438108,
-    "lon": -1.6250414,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Stanage&type=all"
-  },
-  {
-    "id": "way/1185068503",
-    "name": "Stanage",
-    "lat": 53.348754,
-    "lon": -1.6340206,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Stanage&type=all"
-  },
-  {
     "id": "way/377546210",
     "name": "Stanage Edge",
     "lat": 53.3632015,
     "lon": -1.6545366,
-    "climbingStyles": [
-      "trad"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Stanage%20Edge&type=all"
-  },
-  {
-    "id": "way/377546217",
-    "name": "Stanage Edge",
-    "lat": 53.3687084,
-    "lon": -1.664099,
     "climbingStyles": [
       "trad"
     ],
@@ -4042,16 +3879,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=The%20Sheep&type=all"
   },
   {
-    "id": "node/7692017264",
-    "name": "The Sheep",
-    "lat": 53.3187412,
-    "lon": -1.603826,
-    "climbingStyles": [
-      "bouldering"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=The%20Sheep&type=all"
-  },
-  {
     "id": "way/829981253",
     "name": "The Slabs",
     "lat": 54.5215126,
@@ -4505,13 +4332,6 @@
     "name": "Wharncliffe Crags",
     "lat": 53.473637,
     "lon": -1.5511617,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Wharncliffe%20Crags&type=all"
-  },
-  {
-    "id": "way/1118236335",
-    "name": "Wharncliffe Crags",
-    "lat": 53.4660286,
-    "lon": -1.5427903,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Wharncliffe%20Crags&type=all"
   },
   {
