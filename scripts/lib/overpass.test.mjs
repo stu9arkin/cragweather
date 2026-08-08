@@ -47,6 +47,32 @@ test('fetchOverpassElements fetches both queries and merges their elements', asy
   assert.deepEqual(elements.map((e) => e.id).sort(), [1, 2, 3]);
 });
 
+test('fetchOverpassElements dedupes an element returned by both queries, keeping the narrow-query version', async () => {
+  const fakeFetch = fakeFetchReturningTwoSets(
+    [{ type: 'node', id: 5, tags: { climbing: 'yes' } }],
+    [{ type: 'node', id: 5, tags: { name: 'Some Rock' } }]
+  );
+
+  const elements = await fetchOverpassElements(fakeFetch);
+
+  const matches = elements.filter((e) => e.type === 'node' && e.id === 5);
+  assert.equal(matches.length, 1);
+  assert.deepEqual(matches[0].tags, { climbing: 'yes' });
+});
+
+test('fetchOverpassElements keeps a node and a way that share the same numeric id as separate elements', async () => {
+  const fakeFetch = fakeFetchReturningTwoSets(
+    [{ type: 'node', id: 7, tags: { climbing: 'yes' } }],
+    [{ type: 'way', id: 7, tags: { name: 'Some Rock' } }]
+  );
+
+  const elements = await fetchOverpassElements(fakeFetch);
+
+  assert.equal(elements.length, 2);
+  assert.ok(elements.some((e) => e.type === 'node' && e.id === 7));
+  assert.ok(elements.some((e) => e.type === 'way' && e.id === 7));
+});
+
 test('fetchOverpassElements posts each query with the expected request shape', async () => {
   const capturedRequests = [];
   const fakeFetch = async (url, options) => {
@@ -85,7 +111,9 @@ test('fetchOverpassElements retries transient 503 failures on the first query an
     if (callCount < 3) {
       return new Response('busy', { status: 503 });
     }
-    return new Response(JSON.stringify({ elements: [{ type: 'node', id: 1, tags: {} }] }), {
+    // id varies by callCount so the narrow- and broadened-query elements are
+    // distinct and neither is dropped by the type/id dedupe.
+    return new Response(JSON.stringify({ elements: [{ type: 'node', id: callCount, tags: {} }] }), {
       status: 200,
     });
   };
@@ -93,9 +121,8 @@ test('fetchOverpassElements retries transient 503 failures on the first query an
   const elements = await fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 });
 
   // 3 attempts to succeed on the narrow query, then 1 successful attempt on
-  // the broadened query = 4 total fetchImpl calls. Every successful
-  // response in this fake returns the same single element, so both queries
-  // contribute it - 2 elements total.
+  // the broadened query = 4 total fetchImpl calls, each contributing a
+  // distinct element - 2 elements total.
   assert.equal(callCount, 4);
   assert.equal(elements.length, 2);
 });
@@ -135,7 +162,9 @@ test('fetchOverpassElements retries on a thrown network error', async () => {
     if (callCount < 2) {
       throw new Error('network down');
     }
-    return new Response(JSON.stringify({ elements: [{ type: 'node', id: 1, tags: {} }] }), {
+    // id varies by callCount so the narrow- and broadened-query elements are
+    // distinct and neither is dropped by the type/id dedupe.
+    return new Response(JSON.stringify({ elements: [{ type: 'node', id: callCount, tags: {} }] }), {
       status: 200,
     });
   };
@@ -143,8 +172,8 @@ test('fetchOverpassElements retries on a thrown network error', async () => {
   const elements = await fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 });
 
   // 2 attempts to succeed on the narrow query, then 1 successful attempt on
-  // the broadened query = 3 total fetchImpl calls, each contributing the
-  // same single element = 2 elements total.
+  // the broadened query = 3 total fetchImpl calls, each contributing a
+  // distinct element - 2 elements total.
   assert.equal(callCount, 3);
   assert.equal(elements.length, 2);
 });
@@ -169,7 +198,9 @@ test('fetchOverpassElements retries when the response has a remark field (Overpa
         { status: 200 }
       );
     }
-    return new Response(JSON.stringify({ elements: [{ type: 'node', id: 1, tags: {} }] }), { status: 200 });
+    // id varies by callCount so the narrow- and broadened-query elements are
+    // distinct and neither is dropped by the type/id dedupe.
+    return new Response(JSON.stringify({ elements: [{ type: 'node', id: callCount, tags: {} }] }), { status: 200 });
   };
 
   const elements = await fetchOverpassElements(fakeFetch, undefined, { retryBackoffMs: 1 });

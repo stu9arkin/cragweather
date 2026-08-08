@@ -119,7 +119,21 @@ export async function fetchOverpassElements(
   // access, description) than a same-named broadened-query element, which
   // typically has none of those optional fields. Swapping this order would
   // silently strip that metadata from existing crags.
-  return [...narrowElements, ...broadenedElements];
+  //
+  // The two queries can also both match the same OSM element (e.g. a
+  // natural=cliff way with both a climbing tag and a name), so dedupe the
+  // merged array by type/id (ids are only unique within a type) before it
+  // reaches filterToSeedClusters. This must stay first-wins for the same
+  // metadata-richness reason as above - a naive last-wins Map.set would
+  // silently overwrite narrow's richer tags with broadened's sparser ones.
+  const byTypeAndId = new Map();
+  for (const element of [...narrowElements, ...broadenedElements]) {
+    const key = `${element.type}/${element.id}`;
+    if (!byTypeAndId.has(key)) {
+      byTypeAndId.set(key, element);
+    }
+  }
+  return [...byTypeAndId.values()];
 }
 
 function sleep(ms) {
