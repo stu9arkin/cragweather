@@ -55,6 +55,16 @@ test('formatValue rounds rainfall and appends mm', () => {
   assert.equal(formatValue('rainfall', 0), '0mm');
 });
 
+test('formatValue shows "<1mm" for non-zero rainfall below the first color stop', () => {
+  assert.equal(formatValue('rainfall', 0.3), '<1mm');
+  assert.equal(formatValue('rainfall', 0.49), '<1mm');
+});
+
+test('formatValue rounds rainfall at/above the first color stop as before', () => {
+  assert.equal(formatValue('rainfall', 0.5), '1mm');
+  assert.equal(formatValue('rainfall', 2.4), '2mm');
+});
+
 test('formatValue returns an en dash for null, undefined, or NaN', () => {
   assert.equal(formatValue('temperature', null), '–');
   assert.equal(formatValue('temperature', undefined), '–');

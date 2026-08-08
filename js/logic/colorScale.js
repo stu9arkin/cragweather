@@ -50,8 +50,12 @@ export function formatValue(variable, value) {
   if (value === null || value === undefined || Number.isNaN(value)) {
     return '–';
   }
-  const unit = variable === 'rainfall' ? 'mm' : '°C';
-  return `${Math.round(value)}${unit}`;
+  if (variable === 'rainfall') {
+    if (value === 0) return '0mm';
+    if (value < 0.5) return '<1mm';
+    return `${Math.round(value)}mm`;
+  }
+  return `${Math.round(value)}°C`;
 }
 
 function interpolateStops(stops, value) {
