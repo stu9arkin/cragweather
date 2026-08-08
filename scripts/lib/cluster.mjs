@@ -3,7 +3,7 @@ import { elementCoord, haversineMeters } from './geo.mjs';
 export function isSeed(tags) {
   return (
     tags.sport === 'climbing' ||
-    tags.climbing !== undefined ||
+    (tags.climbing !== undefined && tags.climbing !== 'no') ||
     /clim/i.test(tags['source:name'] || '')
   );
 }

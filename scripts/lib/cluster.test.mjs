@@ -18,6 +18,10 @@ test('isSeed is false for a plain named rock with no climbing signal', () => {
   assert.equal(isSeed({ name: 'Middle Stone', natural: 'bare_rock', source: 'survey' }), false);
 });
 
+test('isSeed is false for climbing=no (explicitly not a climbing feature)', () => {
+  assert.equal(isSeed({ climbing: 'no' }), false);
+});
+
 test('filterToSeedClusters keeps a lone seed element', () => {
   const elements = [
     { type: 'node', id: 1, lat: 53.0, lon: -1.0, tags: { name: 'Solo Crag', sport: 'climbing' } },
