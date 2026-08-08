@@ -26,10 +26,12 @@ on the map.
   clicked, showing its metadata, a 7-day forecast, and a "Search on UKC" link
   built from the crag name.
 - **The layout** is a fixed full-width top bar (search and variable/mode
-  controls) and bottom bar (the time scrollbar) around the map. The time bar's
-  background is a sunrise/sunset gradient: `js/sunFetch.js` fetches real
-  sunrise/sunset times from Open-Meteo for a fixed UK reference point, which
-  are used to shade daylight and night hours along the track.
+  controls) and bottom bar (the time scrollbar) around the map.
+- A sunrise/sunset gradient behind the time bar (`js/sunFetch.js` fetches real
+  sunrise/sunset times from Open-Meteo for a fixed UK reference point, used to
+  shade daylight and night hours along the track) is implemented but currently
+  disabled behind a feature flag (`SUN_GRADIENT_ENABLED` in `js/app.js`)
+  pending more design work.
 - A grid-based heatmap mode (`js/heatmapView.js`) is implemented but currently
   disabled behind a feature flag (`HEATMAP_ENABLED` in `js/app.js`) and has no
   UI control wired up in `index.html`.
