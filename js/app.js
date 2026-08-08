@@ -82,7 +82,7 @@ async function main() {
     },
   });
 
-  fetchSunTimes(UK_CENTER, 7)
+  fetchSunTimes(UK_CENTER, 8)
     .then((sunTimes) => {
       const stops = buildSunGradientStops(sunTimes, timeSteps[0].date, timeSteps[timeSteps.length - 1].date);
       setTimeBarGradient(stops);

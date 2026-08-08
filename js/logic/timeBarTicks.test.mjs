@@ -12,10 +12,13 @@ test('marks every 3-hour step, with major ticks (and labels) every 6 hours', () 
 
   assert.equal(ticks[0].major, true);
   assert.equal(ticks[0].label, 'Mon');
+  assert.equal(ticks[0].isDayLabel, true);
   assert.equal(ticks[1].major, false);
   assert.equal(ticks[1].label, null);
+  assert.equal(ticks[1].isDayLabel, false);
   assert.equal(ticks[2].major, true);
   assert.equal(ticks[2].label, '06:00');
+  assert.equal(ticks[2].isDayLabel, false);
 });
 
 test('offsetPercent runs from 0 to 100 across the full span', () => {

@@ -11,6 +11,7 @@ export function buildTimeBarTicks(timeSteps) {
       offsetPercent: lastIndex === 0 ? 0 : (step.index / lastIndex) * 100,
       major: isMajor,
       label: isMajor ? (isMidnight ? DAY_NAMES[step.date.getUTCDay()] : formatHourLabel(hours)) : null,
+      isDayLabel: isMidnight,
     };
   });
 }

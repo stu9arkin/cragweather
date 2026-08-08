@@ -61,7 +61,6 @@ html, body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  min-width: 0;
 }
 
 .bottom-bar {
@@ -166,7 +165,7 @@ html, body {
 
 .time-bar-floating-label {
   position: absolute;
-  top: -1.75rem;
+  top: 0.5rem;
   transform: translateX(-50%);
   background: #222;
   color: white;
@@ -309,6 +308,12 @@ html, body {
   display: block;
   font-size: 0.75rem;
   color: #666;
+}
+
+@media (max-width: 1000px) {
+  .time-bar-tick-label.hour {
+    display: none;
+  }
 }
 
 @media (max-width: 650px) {

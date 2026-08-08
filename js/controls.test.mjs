@@ -115,7 +115,7 @@ test('dragging the time scrollbar updates the floating label text/position and c
 
     assert.equal(receivedIndex, 4);
     assert.equal(elements['time-bar-floating-label'].textContent, timeSteps[4].label);
-    assert.equal(elements['time-bar-floating-label'].style.left, `${(4 / 55) * 100}%`);
+    assert.equal(elements['time-bar-floating-label'].style.left, `${(4 / (timeSteps.length - 1)) * 100}%`);
   } finally {
     uninstallDom();
   }
@@ -146,6 +146,27 @@ test('initControls renders one tick per time step, with major ticks also getting
     const timeSteps = getTimeSteps();
     const majorCount = timeSteps.filter((s) => s.date.getUTCHours() % 6 === 0).length;
     assert.equal(elements['time-bar-ticks'].children.length, timeSteps.length + majorCount);
+  } finally {
+    uninstallDom();
+  }
+});
+
+test('initControls gives midnight tick labels a "day" class and other major-tick labels an "hour" class', () => {
+  const elements = installDom({ withModeToggle: false });
+  try {
+    initControls({ onVariableChange: () => {}, onModeChange: () => {}, onTimeChange: () => {} });
+
+    const timeSteps = getTimeSteps();
+    const labelChildren = elements['time-bar-ticks'].children.filter((child) => child.textContent !== '');
+
+    const dayLabels = labelChildren.filter((child) => child.className === 'time-bar-tick-label day');
+    const hourLabels = labelChildren.filter((child) => child.className === 'time-bar-tick-label hour');
+
+    assert.ok(dayLabels.length > 0);
+    assert.ok(hourLabels.length > 0);
+    assert.equal(dayLabels.length + hourLabels.length, labelChildren.length);
+    assert.ok(dayLabels.every((child) => /^(Sun|Mon|Tue|Wed|Thu|Fri|Sat)$/.test(child.textContent)));
+    assert.ok(hourLabels.every((child) => /^\d{2}:00$/.test(child.textContent)));
   } finally {
     uninstallDom();
   }

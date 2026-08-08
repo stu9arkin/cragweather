@@ -47,3 +47,9 @@ test('resolves with an empty array on a malformed response', async () => {
   const result = await fetchSunTimes({ lat: 55.35, lon: -3.4 }, 7, { fetchImpl: fakeFetch });
   assert.deepEqual(result, []);
 });
+
+test('resolves with an empty array when fetchImpl itself rejects (network failure)', async () => {
+  const fakeFetch = async () => { throw new Error('network down'); };
+  const result = await fetchSunTimes({ lat: 55.35, lon: -3.4 }, 7, { fetchImpl: fakeFetch });
+  assert.deepEqual(result, []);
+});

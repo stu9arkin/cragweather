@@ -59,7 +59,7 @@ function renderTicks(container, timeSteps) {
 
     if (tick.label !== null) {
       const label = document.createElement('div');
-      label.className = 'time-bar-tick-label';
+      label.className = tick.isDayLabel ? 'time-bar-tick-label day' : 'time-bar-tick-label hour';
       label.style.left = `${tick.offsetPercent}%`;
       label.textContent = tick.label;
       container.appendChild(label);
