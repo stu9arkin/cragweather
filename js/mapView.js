@@ -54,13 +54,13 @@ export function buildCragIcon(value, variable, colorFn) {
   });
 }
 
-function createClusterIcon(cluster, view) {
+export function createClusterIcon(cluster, view) {
   const values = cluster.getAllChildMarkers().map((marker) => marker.cragValue);
   const avg = average(values);
   const color = avg === null ? getNeutralColor() : view.activeColorFn(avg);
-  const count = cluster.getChildCount();
+  const label = formatValue(view.activeVariable, avg);
   return L.divIcon({
-    html: `<div class="cluster-icon" style="background:${color}">${count}</div>`,
+    html: `<div class="cluster-icon" style="background:${color}">${label}</div>`,
     className: 'crag-cluster-icon',
     iconSize: L.point(36, 36),
   });
