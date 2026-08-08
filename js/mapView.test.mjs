@@ -1,7 +1,23 @@
 // js/mapView.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { focusCrag } from './mapView.js';
+import { focusCrag, buildCragIcon, updateMarkerColors, createClusterIcon } from './mapView.js';
+
+function installLeafletStub() {
+  const divIconCalls = [];
+  globalThis.L = {
+    divIcon: (opts) => {
+      divIconCalls.push(opts);
+      return { __fakeIcon: true, opts };
+    },
+    point: (x, y) => ({ x, y }),
+  };
+  return { divIconCalls };
+}
+
+function uninstallLeafletStub() {
+  delete globalThis.L;
+}
 
 test('focusCrag centers the map on the crag at zoom 14 and fires crag:selected', () => {
   const setViewCalls = [];
@@ -21,4 +37,100 @@ test('focusCrag centers the map on the crag at zoom 14 and fires crag:selected',
 
   assert.deepEqual(setViewCalls, [{ latlng: [53.34, -1.62], zoom: 14 }]);
   assert.deepEqual(fireCalls, [{ event: 'crag:selected', payload: { crag } }]);
+});
+
+test('buildCragIcon shows the formatted value on a colored background', () => {
+  const { divIconCalls } = installLeafletStub();
+  try {
+    const colorFn = (v) => `rgb(${v}, 0, 0)`;
+    const icon = buildCragIcon(14, 'temperature', colorFn);
+    assert.ok(icon.__fakeIcon);
+    assert.match(divIconCalls[0].html, /14°C/);
+    assert.match(divIconCalls[0].html, /rgb\(14, 0, 0\)/);
+    assert.equal(divIconCalls[0].className, 'crag-marker-icon-wrapper');
+    assert.deepEqual(divIconCalls[0].iconSize, { x: 28, y: 28 });
+  } finally {
+    uninstallLeafletStub();
+  }
+});
+
+test('buildCragIcon falls back to neutral color and en dash for null value', () => {
+  const { divIconCalls } = installLeafletStub();
+  try {
+    const colorFn = () => {
+      throw new Error('colorFn should not be called for a null value');
+    };
+    buildCragIcon(null, 'rainfall', colorFn);
+    assert.match(divIconCalls[0].html, /–/);
+    assert.match(divIconCalls[0].html, /#9e9e9e/);
+  } finally {
+    uninstallLeafletStub();
+  }
+});
+
+test('updateMarkerColors rebuilds each marker icon with the current value and variable', () => {
+  const { divIconCalls } = installLeafletStub();
+  try {
+    const setIconCalls = [];
+    const fakeMarker = {
+      cragValue: null,
+      setIcon(icon) {
+        setIconCalls.push(icon);
+      },
+    };
+    const view = {
+      activeColorFn: null,
+      activeVariable: null,
+      markersByCragId: new Map([['crag-1', fakeMarker]]),
+      markerCluster: { refreshClusters: () => {} },
+    };
+    const weatherByCragId = new Map([
+      ['crag-1', { hourly: { temperature: [10, 20], rainfall: [1, 2] } }],
+    ]);
+
+    updateMarkerColors(view, weatherByCragId, 'temperature', 1);
+
+    assert.equal(fakeMarker.cragValue, 20);
+    assert.equal(view.activeVariable, 'temperature');
+    assert.equal(setIconCalls.length, 1);
+    assert.match(divIconCalls[divIconCalls.length - 1].html, /20°C/);
+  } finally {
+    uninstallLeafletStub();
+  }
+});
+
+test('createClusterIcon shows the formatted average value instead of the child count', () => {
+  const { divIconCalls } = installLeafletStub();
+  try {
+    const view = { activeColorFn: (v) => `rgb(${v}, 0, 0)`, activeVariable: 'temperature' };
+    const fakeCluster = {
+      getAllChildMarkers: () => [{ cragValue: 10 }, { cragValue: 20 }],
+      getChildCount: () => 2,
+    };
+
+    createClusterIcon(fakeCluster, view);
+
+    assert.match(divIconCalls[divIconCalls.length - 1].html, /15°C/);
+    assert.doesNotMatch(divIconCalls[divIconCalls.length - 1].html, />2</);
+  } finally {
+    uninstallLeafletStub();
+  }
+});
+
+test('createClusterIcon falls back to neutral color and en dash when every child value is null', () => {
+  const { divIconCalls } = installLeafletStub();
+  try {
+    const view = { activeColorFn: () => 'rgb(255, 0, 0)', activeVariable: 'rainfall' };
+    const fakeCluster = {
+      getAllChildMarkers: () => [{ cragValue: null }, { cragValue: null }],
+      getChildCount: () => 2,
+    };
+
+    createClusterIcon(fakeCluster, view);
+
+    assert.match(divIconCalls[divIconCalls.length - 1].html, /–/);
+    assert.match(divIconCalls[divIconCalls.length - 1].html, /#9e9e9e/);
+  } finally {
+    uninstallLeafletStub();
+  }
 });

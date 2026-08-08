@@ -46,6 +46,18 @@ export function getLegendStops(variable) {
   }));
 }
 
+export function formatValue(variable, value) {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return '–';
+  }
+  if (variable === 'rainfall') {
+    if (value === 0) return '0mm';
+    if (value < 0.5) return '<1mm';
+    return `${Math.round(value)}mm`;
+  }
+  return `${Math.round(value)}°C`;
+}
+
 function interpolateStops(stops, value) {
   if (value === null || value === undefined || Number.isNaN(value)) {
     return NEUTRAL_COLOR;
