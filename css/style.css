@@ -48,7 +48,7 @@ html, body {
   background: white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   display: grid;
-  grid-template-columns: 1fr minmax(0, 280px) 1fr;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 1rem;
   padding: 0 1rem;
@@ -309,4 +309,28 @@ html, body {
   display: block;
   font-size: 0.75rem;
   color: #666;
+}
+
+@media (max-width: 650px) {
+  :root {
+    --top-bar-height: 112px;
+  }
+
+  .top-bar {
+    grid-template-columns: 1fr;
+    height: var(--top-bar-height);
+    padding: 0.5rem 1rem;
+    row-gap: 0.5rem;
+  }
+
+  .top-bar-controls,
+  .search-box {
+    grid-column: 1;
+    justify-self: center;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: 320px;
+  }
 }
