@@ -334,16 +334,26 @@ test('elementToCrag returns null for Llanfyllin High school Climbing Wall (real-
 });
 
 test('elementsToCrags maps and drops nulls, but does not dedupe', () => {
-  // 10 fixture elements: Stanage node + Stanage way (both valid, dedup is a
+  // 12 fixture elements: Stanage node + Stanage way (both valid, dedup is a
   // separate step handled in Task 5/7, not here), 1 indoor (dropped),
   // 1 unnamed (dropped), 1 Dumbarton Rock (valid), 4 real-world indoor
   // mistagging shapes (building+leisure, shop, climbing_wall, amenity
-  // community_centre - all dropped), 1 amenity=shelter real crag (valid)
-  // => 4 results
+  // community_centre - all dropped), 1 amenity=shelter real crag (valid),
+  // 2 untagged natural=bare_rock features with no climbing signal at all
+  // (both valid here - elementsToCrags has no notion of seeds/clusters,
+  // that filtering happens upstream via filterToSeedClusters, so both pass
+  // through regardless of proximity to a seed) => 6 results
   const crags = elementsToCrags(fixture.elements);
-  assert.equal(crags.length, 4);
+  assert.equal(crags.length, 6);
   assert.deepEqual(
     crags.map((c) => c.name).sort(),
-    ['Dumbarton Rock', "Parisella's Caves", 'Stanage Edge', 'Stanage Edge']
+    [
+      'Cape Wrath Rocks',
+      'Dumbarton Rock',
+      "Parisella's Caves",
+      'Stanage Edge',
+      'Stanage Edge',
+      'Stanage Plantation Boulders',
+    ]
   );
 });

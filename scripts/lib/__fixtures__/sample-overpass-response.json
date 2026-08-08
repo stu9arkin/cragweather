@@ -116,6 +116,26 @@
         "sport": "climbing",
         "climbing:boulder": "yes"
       }
+    },
+    {
+      "type": "node",
+      "id": 1008,
+      "lat": 53.3413,
+      "lon": -1.6294,
+      "tags": {
+        "name": "Stanage Plantation Boulders",
+        "natural": "bare_rock"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1009,
+      "lat": 58.6027,
+      "lon": -4.9997,
+      "tags": {
+        "name": "Cape Wrath Rocks",
+        "natural": "bare_rock"
+      }
     }
   ]
 }
