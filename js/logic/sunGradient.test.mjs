@@ -22,13 +22,13 @@ test('returns night->day->night stops with blend windows around sunrise/sunset',
   const spanMs = timelineEnd - timelineStart;
   const expectedPercent = (d) => ((d - timelineStart) / spanMs) * 100;
 
-  assert.ok(Math.abs(stops[1].offsetPercent - expectedPercent(iso('2026-08-10T04:40:00Z'))) < 0.001);
+  assert.ok(Math.abs(stops[1].offsetPercent - expectedPercent(iso('2026-08-10T03:30:00Z'))) < 0.001);
   assert.equal(stops[1].color, '#0d1b3e');
-  assert.ok(Math.abs(stops[2].offsetPercent - expectedPercent(iso('2026-08-10T05:20:00Z'))) < 0.001);
+  assert.ok(Math.abs(stops[2].offsetPercent - expectedPercent(iso('2026-08-10T06:30:00Z'))) < 0.001);
   assert.equal(stops[2].color, '#cfe8ff');
-  assert.ok(Math.abs(stops[3].offsetPercent - expectedPercent(iso('2026-08-10T18:40:00Z'))) < 0.001);
+  assert.ok(Math.abs(stops[3].offsetPercent - expectedPercent(iso('2026-08-10T17:30:00Z'))) < 0.001);
   assert.equal(stops[3].color, '#cfe8ff');
-  assert.ok(Math.abs(stops[4].offsetPercent - expectedPercent(iso('2026-08-10T19:20:00Z'))) < 0.001);
+  assert.ok(Math.abs(stops[4].offsetPercent - expectedPercent(iso('2026-08-10T20:30:00Z'))) < 0.001);
   assert.equal(stops[4].color, '#0d1b3e');
 });
 

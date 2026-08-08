@@ -1,6 +1,8 @@
 const NIGHT_COLOR = '#0d1b3e';
 const DAY_COLOR = '#cfe8ff';
-const BLEND_MS = 40 * 60 * 1000;
+// Wide enough that the transition reads as a gradual dawn/dusk rather than
+// a hard edge against the 7-day timeline's compressed per-hour width.
+const BLEND_MS = 3 * 60 * 60 * 1000;
 
 function colorAt(date, sunTimes) {
   let color = NIGHT_COLOR;
