@@ -4,15 +4,21 @@ import { fetchWeatherForLocations } from './weatherFetch.js';
 import { buildGridPoints } from './logic/grid.js';
 import { createMapView, updateMarkerColors, focusCrag } from './mapView.js';
 import { createHeatmapView, updateHeatmapColors, setHeatmapVisible } from './heatmapView.js';
-import { initControls } from './controls.js';
+import { initControls, setTimeBarGradient } from './controls.js';
 import { renderLegend } from './legendView.js';
 import { showDetailPanel, initDetailPanel } from './detailPanel.js';
 import { initSearch } from './searchView.js';
+import { fetchSunTimes } from './sunFetch.js';
+import { buildSunGradientStops } from './logic/sunGradient.js';
 
 const UK_BBOX = { south: 49.8, west: -8.6, north: 60.9, east: 1.8 };
+const UK_CENTER = { lat: (UK_BBOX.south + UK_BBOX.north) / 2, lon: (UK_BBOX.west + UK_BBOX.east) / 2 };
 const GRID_STEP_DEG = 0.5;
 // Flip to true and restore the Style dropdown in index.html to re-enable heatmap mode.
 const HEATMAP_ENABLED = false;
+// Flip to true to re-enable the sunrise/sunset gradient behind the time bar
+// (disabled for now — the current look needs more design work).
+const SUN_GRADIENT_ENABLED = false;
 
 async function main() {
   initDetailPanel();
@@ -78,6 +84,17 @@ async function main() {
       });
     },
   });
+
+  if (SUN_GRADIENT_ENABLED) {
+    fetchSunTimes(UK_CENTER, 8)
+      .then((sunTimes) => {
+        const stops = buildSunGradientStops(sunTimes, timeSteps[0].date, timeSteps[timeSteps.length - 1].date);
+        setTimeBarGradient(stops);
+      })
+      .catch((error) => {
+        console.error('Sun-times gradient setup failed; time bar will use a flat background', error);
+      });
+  }
 
   render();
 

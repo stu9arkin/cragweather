@@ -14,33 +14,37 @@
 
   <div id="error-banner" class="error-banner" hidden></div>
 
-  <div id="search-box" class="search-box">
-    <input
-      type="text"
-      id="search-input"
-      class="search-input"
-      placeholder="Search crags…"
-      role="combobox"
-      aria-expanded="false"
-      aria-autocomplete="list"
-      aria-controls="search-results"
-      aria-label="Search crags"
-      autocomplete="off"
-    />
-    <ul id="search-results" class="search-results" role="listbox" aria-label="Search results" hidden></ul>
-  </div>
-
-  <div id="controls" class="controls">
-    <div class="control-row">
+  <div id="top-bar" class="top-bar">
+    <div class="top-bar-controls">
       <label for="variable-toggle">Show:</label>
       <select id="variable-toggle">
         <option value="temperature">Temperature</option>
         <option value="rainfall">Rainfall</option>
       </select>
     </div>
-    <div class="control-row">
-      <span id="time-label" class="time-label"></span>
-      <input type="range" id="time-scrollbar" min="0" max="55" step="1" value="0" />
+
+    <div id="search-box" class="search-box">
+      <input
+        type="text"
+        id="search-input"
+        class="search-input"
+        placeholder="Search crags…"
+        role="combobox"
+        aria-expanded="false"
+        aria-autocomplete="list"
+        aria-controls="search-results"
+        aria-label="Search crags"
+        autocomplete="off"
+      />
+      <ul id="search-results" class="search-results" role="listbox" aria-label="Search results" hidden></ul>
+    </div>
+  </div>
+
+  <div id="bottom-bar" class="bottom-bar">
+    <div id="time-bar" class="time-bar">
+      <div id="time-bar-floating-label" class="time-bar-floating-label" hidden></div>
+      <input type="range" id="time-scrollbar" class="time-scrollbar" min="0" max="55" step="1" value="0" />
+      <div id="time-bar-ticks" class="time-bar-ticks"></div>
     </div>
   </div>
 
