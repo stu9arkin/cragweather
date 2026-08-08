@@ -16,6 +16,9 @@ const UK_CENTER = { lat: (UK_BBOX.south + UK_BBOX.north) / 2, lon: (UK_BBOX.west
 const GRID_STEP_DEG = 0.5;
 // Flip to true and restore the Style dropdown in index.html to re-enable heatmap mode.
 const HEATMAP_ENABLED = false;
+// Flip to true to re-enable the sunrise/sunset gradient behind the time bar
+// (disabled for now — the current look needs more design work).
+const SUN_GRADIENT_ENABLED = false;
 
 async function main() {
   initDetailPanel();
@@ -82,14 +85,16 @@ async function main() {
     },
   });
 
-  fetchSunTimes(UK_CENTER, 8)
-    .then((sunTimes) => {
-      const stops = buildSunGradientStops(sunTimes, timeSteps[0].date, timeSteps[timeSteps.length - 1].date);
-      setTimeBarGradient(stops);
-    })
-    .catch((error) => {
-      console.error('Sun-times gradient setup failed; time bar will use a flat background', error);
-    });
+  if (SUN_GRADIENT_ENABLED) {
+    fetchSunTimes(UK_CENTER, 8)
+      .then((sunTimes) => {
+        const stops = buildSunGradientStops(sunTimes, timeSteps[0].date, timeSteps[timeSteps.length - 1].date);
+        setTimeBarGradient(stops);
+      })
+      .catch((error) => {
+        console.error('Sun-times gradient setup failed; time bar will use a flat background', error);
+      });
+  }
 
   render();
 
