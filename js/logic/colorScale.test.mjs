@@ -1,7 +1,7 @@
 // js/logic/colorScale.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { temperatureColor, rainfallColor, getNeutralColor, getLegendStops } from './colorScale.js';
+import { temperatureColor, rainfallColor, getNeutralColor, getLegendStops, formatValue } from './colorScale.js';
 
 test('getNeutralColor returns a fixed grey', () => {
   assert.equal(getNeutralColor(), '#9e9e9e');
@@ -42,6 +42,23 @@ test('getLegendStops returns stops with units in the label, for both variables',
   assert.ok(rainStops.length >= 2);
   assert.match(tempStops[0].label, /°C/);
   assert.match(rainStops[0].label, /mm/);
+});
+
+test('formatValue rounds temperature and appends °C', () => {
+  assert.equal(formatValue('temperature', 14.4), '14°C');
+  assert.equal(formatValue('temperature', 14.5), '15°C');
+  assert.equal(formatValue('temperature', -2.6), '-3°C');
+});
+
+test('formatValue rounds rainfall and appends mm', () => {
+  assert.equal(formatValue('rainfall', 2.4), '2mm');
+  assert.equal(formatValue('rainfall', 0), '0mm');
+});
+
+test('formatValue returns an en dash for null, undefined, or NaN', () => {
+  assert.equal(formatValue('temperature', null), '–');
+  assert.equal(formatValue('temperature', undefined), '–');
+  assert.equal(formatValue('rainfall', NaN), '–');
 });
 
 function temperatureColorToRgbSum(rgbString) {
