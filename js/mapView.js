@@ -29,6 +29,7 @@ export function createMapView(mapElementId, crags) {
   for (const crag of crags) {
     const marker = L.marker([crag.lat, crag.lon], {
       icon: buildCragIcon(null, view.activeVariable, view.activeColorFn),
+      title: crag.name,
     });
     marker.cragId = crag.id;
     marker.cragValue = null;
