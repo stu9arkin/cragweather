@@ -13,6 +13,16 @@ test('merges same-name crags within the distance threshold', () => {
   assert.equal(result[0].id, 'node/1'); // first occurrence wins
 });
 
+test('merges same-name crags ~900m apart under the raised 1500m default (issue #28)', () => {
+  const crags = [
+    { id: 'way/1', name: 'Curbar Edge', lat: 53.2727, lon: -1.6317 },
+    { id: 'way/2', name: 'Curbar Edge', lat: 53.2808, lon: -1.6317 }, // ~901m away
+  ];
+  const result = dedupeCrags(crags);
+  assert.equal(result.length, 1); // would NOT have merged under the old 250m default
+  assert.equal(result[0].id, 'way/1'); // first occurrence wins
+});
+
 test('keeps same-name crags that are far apart', () => {
   const crags = [
     { id: 'node/1', name: 'Black Rocks', lat: 53.0806, lon: -1.5087 }, // Derbyshire
