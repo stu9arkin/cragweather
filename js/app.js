@@ -11,6 +11,7 @@ import { initSearch } from './searchView.js';
 import { fetchSunTimes } from './sunFetch.js';
 import { buildSunGradientStops } from './logic/sunGradient.js';
 import { resolveInitialTheme, toggleTheme } from './logic/theme.js';
+import { MAPBOX_ACCESS_TOKEN } from './config.js';
 
 const THEME_STORAGE_KEY = 'cragweather-theme';
 
@@ -49,7 +50,7 @@ async function main() {
   const weatherByCragId = new Map();
   let gridWeather = [];
 
-  const mapView = await createMapView('map', crags, state.theme);
+  const mapView = await createMapView('map', crags, state.theme, MAPBOX_ACCESS_TOKEN);
   const gridPoints = HEATMAP_ENABLED ? buildGridPoints(UK_BBOX, GRID_STEP_DEG) : [];
   const heatmapView = HEATMAP_ENABLED ? createHeatmapView(gridPoints, UK_BBOX) : null;
 
