@@ -45,26 +45,26 @@ export function createMapView(mapElementId, crags) {
   return view;
 }
 
-export function buildCragIcon(value, variable, colorFn) {
+export function markerAppearance(value, variable, colorFn) {
   const color = value === null ? getNeutralColor() : colorFn(value);
   const label = formatValue(variable, value);
-  return L.divIcon({
-    html: `<div class="crag-marker-icon" style="background:${color}">${label}</div>`,
-    className: 'crag-marker-icon-wrapper',
-    iconSize: L.point(28, 28),
-  });
+  return { color, label };
 }
 
-export function createClusterIcon(cluster, view) {
-  const values = cluster.getAllChildMarkers().map((marker) => marker.cragValue);
-  const avg = average(values);
-  const color = avg === null ? getNeutralColor() : view.activeColorFn(avg);
-  const label = formatValue(view.activeVariable, avg);
-  return L.divIcon({
-    html: `<div class="cluster-icon" style="background:${color}">${label}</div>`,
-    className: 'crag-cluster-icon',
-    iconSize: L.point(36, 36),
-  });
+export function buildCragIcon(value, variable, colorFn) {
+  const { color, label } = markerAppearance(value, variable, colorFn);
+  return `<div class="crag-marker-icon" style="background:${color}">${label}</div>`;
+}
+
+export function createClusterIcon(values, variable, colorFn) {
+  const { color, label } = markerAppearance(average(values), variable, colorFn);
+  return `<div class="cluster-icon" style="background:${color}">${label}</div>`;
+}
+
+export function resolveCragValue(forecast, variable, timeIndex) {
+  const valueKey = variable === 'rainfall' ? 'rainfall' : 'temperature';
+  const value = forecast ? forecast.hourly[valueKey][timeIndex] : null;
+  return value ?? null;
 }
 
 export function updateMarkerColors(view, weatherByCragId, variable, timeIndex) {

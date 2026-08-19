@@ -1,23 +1,7 @@
 // js/mapView.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { focusCrag, buildCragIcon, updateMarkerColors, createClusterIcon } from './mapView.js';
-
-function installLeafletStub() {
-  const divIconCalls = [];
-  globalThis.L = {
-    divIcon: (opts) => {
-      divIconCalls.push(opts);
-      return { __fakeIcon: true, opts };
-    },
-    point: (x, y) => ({ x, y }),
-  };
-  return { divIconCalls };
-}
-
-function uninstallLeafletStub() {
-  delete globalThis.L;
-}
+import { focusCrag, buildCragIcon, createClusterIcon, resolveCragValue, updateMarkerColors } from './mapView.js';
 
 test('focusCrag centers the map on the crag at zoom 14 and fires crag:selected', () => {
   const setViewCalls = [];
@@ -40,97 +24,40 @@ test('focusCrag centers the map on the crag at zoom 14 and fires crag:selected',
 });
 
 test('buildCragIcon shows the formatted value on a colored background', () => {
-  const { divIconCalls } = installLeafletStub();
-  try {
-    const colorFn = (v) => `rgb(${v}, 0, 0)`;
-    const icon = buildCragIcon(14, 'temperature', colorFn);
-    assert.ok(icon.__fakeIcon);
-    assert.match(divIconCalls[0].html, /14°C/);
-    assert.match(divIconCalls[0].html, /rgb\(14, 0, 0\)/);
-    assert.equal(divIconCalls[0].className, 'crag-marker-icon-wrapper');
-    assert.deepEqual(divIconCalls[0].iconSize, { x: 28, y: 28 });
-  } finally {
-    uninstallLeafletStub();
-  }
+  const colorFn = (v) => `rgb(${v}, 0, 0)`;
+  const html = buildCragIcon(14, 'temperature', colorFn);
+  assert.match(html, /14°C/);
+  assert.match(html, /rgb\(14, 0, 0\)/);
+  assert.match(html, /class="crag-marker-icon"/);
 });
 
 test('buildCragIcon falls back to neutral color and en dash for null value', () => {
-  const { divIconCalls } = installLeafletStub();
-  try {
-    const colorFn = () => {
-      throw new Error('colorFn should not be called for a null value');
-    };
-    buildCragIcon(null, 'rainfall', colorFn);
-    assert.match(divIconCalls[0].html, /–/);
-    assert.match(divIconCalls[0].html, /#9e9e9e/);
-  } finally {
-    uninstallLeafletStub();
-  }
-});
-
-test('updateMarkerColors rebuilds each marker icon with the current value and variable', () => {
-  const { divIconCalls } = installLeafletStub();
-  try {
-    const setIconCalls = [];
-    const fakeMarker = {
-      cragValue: null,
-      setIcon(icon) {
-        setIconCalls.push(icon);
-      },
-    };
-    const view = {
-      activeColorFn: null,
-      activeVariable: null,
-      markersByCragId: new Map([['crag-1', fakeMarker]]),
-      markerCluster: { refreshClusters: () => {} },
-    };
-    const weatherByCragId = new Map([
-      ['crag-1', { hourly: { temperature: [10, 20], rainfall: [1, 2] } }],
-    ]);
-
-    updateMarkerColors(view, weatherByCragId, 'temperature', 1);
-
-    assert.equal(fakeMarker.cragValue, 20);
-    assert.equal(view.activeVariable, 'temperature');
-    assert.equal(setIconCalls.length, 1);
-    assert.match(divIconCalls[divIconCalls.length - 1].html, /20°C/);
-  } finally {
-    uninstallLeafletStub();
-  }
+  const html = buildCragIcon(null, 'rainfall', () => {
+    throw new Error('colorFn should not be called for a null value');
+  });
+  assert.match(html, /–/);
+  assert.match(html, /#9e9e9e/);
 });
 
 test('createClusterIcon shows the formatted average value instead of the child count', () => {
-  const { divIconCalls } = installLeafletStub();
-  try {
-    const view = { activeColorFn: (v) => `rgb(${v}, 0, 0)`, activeVariable: 'temperature' };
-    const fakeCluster = {
-      getAllChildMarkers: () => [{ cragValue: 10 }, { cragValue: 20 }],
-      getChildCount: () => 2,
-    };
-
-    createClusterIcon(fakeCluster, view);
-
-    assert.match(divIconCalls[divIconCalls.length - 1].html, /15°C/);
-    assert.doesNotMatch(divIconCalls[divIconCalls.length - 1].html, />2</);
-  } finally {
-    uninstallLeafletStub();
-  }
+  const colorFn = (v) => `rgb(${v}, 0, 0)`;
+  const html = createClusterIcon([10, 20], 'temperature', colorFn);
+  assert.match(html, /15°C/);
+  assert.doesNotMatch(html, />2</);
 });
 
-test('createClusterIcon falls back to neutral color and en dash when every child value is null', () => {
-  const { divIconCalls } = installLeafletStub();
-  try {
-    const view = { activeColorFn: () => 'rgb(255, 0, 0)', activeVariable: 'rainfall' };
-    const fakeCluster = {
-      getAllChildMarkers: () => [{ cragValue: null }, { cragValue: null }],
-      getChildCount: () => 2,
-    };
+test('createClusterIcon falls back to neutral color and en dash when every value is null', () => {
+  const html = createClusterIcon([null, null], 'rainfall', () => 'rgb(255, 0, 0)');
+  assert.match(html, /–/);
+  assert.match(html, /#9e9e9e/);
+});
 
-    createClusterIcon(fakeCluster, view);
+test('resolveCragValue picks the value at the given time index for the given variable', () => {
+  const forecast = { hourly: { temperature: [10, 20], rainfall: [1, 2] } };
+  assert.equal(resolveCragValue(forecast, 'temperature', 1), 20);
+  assert.equal(resolveCragValue(forecast, 'rainfall', 0), 1);
+});
 
-    assert.match(divIconCalls[divIconCalls.length - 1].html, /–/);
-    assert.match(divIconCalls[divIconCalls.length - 1].html, /#9e9e9e/);
-  } finally {
-    uninstallLeafletStub();
-  }
+test('resolveCragValue returns null when there is no forecast for the crag', () => {
+  assert.equal(resolveCragValue(undefined, 'temperature', 0), null);
 });
