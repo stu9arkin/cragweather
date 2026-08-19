@@ -16,7 +16,7 @@ test('focusCrag flies the map to the crag at the focus zoom and emits crag:selec
 
   assert.equal(flyToCalls.length, 1);
   assert.deepEqual(flyToCalls[0].center, [-1.62, 53.34]);
-  assert.equal(flyToCalls[0].zoom, 13);
+  assert.equal(flyToCalls[0].zoom, 14);
   assert.deepEqual(emitCalls, [{ event: 'crag:selected', payload: { crag } }]);
 });
 
