@@ -9,6 +9,7 @@ import { initSearch } from './searchView.js';
 import { fetchSunTimes } from './sunFetch.js';
 import { buildSunGradientStops } from './logic/sunGradient.js';
 import { resolveInitialTheme, toggleTheme } from './logic/theme.js';
+import { MAPBOX_ACCESS_TOKEN } from './config.js';
 
 const THEME_STORAGE_KEY = 'cragweather-theme';
 
@@ -37,7 +38,7 @@ async function main() {
   const state = { variable: 'temperature', timeIndex: 0, theme: initialTheme };
   const weatherByCragId = new Map();
 
-  const mapView = await createMapView('map', crags, state.theme);
+  const mapView = await createMapView('map', crags, state.theme, MAPBOX_ACCESS_TOKEN);
 
   mapView.on('crag:selected', ({ crag }) => {
     showDetailPanel(crag, weatherByCragId.get(crag.id));
