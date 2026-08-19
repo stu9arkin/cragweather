@@ -1,7 +1,6 @@
 // js/mapView.js
 import { getNeutralColor, colorForVariable, formatValue } from './logic/colorScale.js';
 import { average } from './logic/clusterAggregate.js';
-import { MAPBOX_ACCESS_TOKEN } from './config.js';
 
 const SUPERCLUSTER_URL = 'https://cdn.jsdelivr.net/npm/supercluster@8/+esm';
 
@@ -20,7 +19,7 @@ const FOCUS_ZOOM = 14;
 const LIGHT_STYLE = 'mapbox://styles/mapbox/streets-v12';
 const DARK_STYLE = 'mapbox://styles/mapbox/dark-v11';
 
-export async function createMapView(mapElementId, crags, theme = 'light') {
+export async function createMapView(mapElementId, crags, theme = 'light', accessToken) {
   const { default: Supercluster } = await import(SUPERCLUSTER_URL);
 
   const view = {
@@ -32,7 +31,7 @@ export async function createMapView(mapElementId, crags, theme = 'light') {
 
   const map = new mapboxgl.Map({
     container: mapElementId,
-    accessToken: MAPBOX_ACCESS_TOKEN,
+    accessToken,
     style: theme === 'dark' ? DARK_STYLE : LIGHT_STYLE,
     center: [-3.5, 54.5],
     zoom: INITIAL_ZOOM,
