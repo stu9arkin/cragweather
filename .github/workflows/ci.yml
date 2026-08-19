@@ -1,0 +1,33 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Write placeholder Mapbox config for tests
+        run: cp js/config.example.js js/config.js
+
+      - name: Run test suite
+        run: npm test
+
+      - name: Run lint
+        run: npm run lint

@@ -2,3 +2,4 @@ docs/superpowers/
 .superpowers/
 .worktrees/
 js/config.js
+node_modules/
