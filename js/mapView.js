@@ -56,6 +56,9 @@ export async function createMapView(mapElementId, crags) {
 }
 
 function renderMarkers(view) {
+  const focusedEntry = view.activeMarkers.find((entry) => entry.el === document.activeElement);
+  const focusedCragId = focusedEntry && focusedEntry.kind === 'crag' ? focusedEntry.cragId : null;
+
   for (const entry of view.activeMarkers) entry.marker.remove();
   view.activeMarkers = [];
 
@@ -69,6 +72,11 @@ function renderMarkers(view) {
     const entry = feature.properties.cluster ? buildClusterEntry(view, feature) : buildCragEntry(view, feature);
     entry.marker.setLngLat([lon, lat]).addTo(view.map);
     view.activeMarkers.push(entry);
+  }
+
+  if (focusedCragId) {
+    const restored = view.activeMarkers.find((entry) => entry.kind === 'crag' && entry.cragId === focusedCragId);
+    if (restored) restored.el.focus();
   }
 }
 
@@ -96,6 +104,21 @@ function buildClusterEntry(view, feature) {
   const values = leaves.map((leaf) => leaf.properties.cragValue);
   const html = createClusterIcon(values, view.activeVariable, view.activeColorFn);
   const el = htmlToElement(html);
+  const [lon, lat] = feature.geometry.coordinates;
+  const expand = () => {
+    const expansionZoom = Math.min(view.index.getClusterExpansionZoom(clusterId), 20);
+    view.map.easeTo({ center: [lon, lat], zoom: expansionZoom });
+  };
+  el.title = `${feature.properties.point_count} crags`;
+  el.tabIndex = 0;
+  el.setAttribute('role', 'button');
+  el.addEventListener('click', expand);
+  el.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      expand();
+    }
+  });
   return { kind: 'cluster', clusterId, el, marker: new mapboxgl.Marker({ element: el }) };
 }
 
