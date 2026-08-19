@@ -125,7 +125,9 @@ required to run the frontend itself.
 
 ### Mapbox setup
 
-The map needs a Mapbox access token:
+The map needs a Mapbox access token. `js/config.js` is gitignored (not
+committed) — copy `js/config.example.js` to `js/config.js` and fill in
+your own token:
 
 1. Log into <https://console.mapbox.com/> (create a free account if you
    don't have one).
@@ -135,12 +137,15 @@ The map needs a Mapbox access token:
    `styles:tiles`) — no secret/write scopes are needed.
 5. Under **URL restrictions**, add the URL(s) this site is served from
    (e.g. your GitHub Pages URL) plus `http://localhost:*` and
-   `http://127.0.0.1:*` for local development. This is what keeps a
-   token that's committed to the repo safe — it can't be used to rack up
-   usage from anywhere else, even though it's visible in the page source.
-6. Create the token, copy the `pk.` value into `js/config.js` in place of
-   the placeholder.
+   `http://127.0.0.1:*` for local development.
+6. Create the token, copy `js/config.example.js` to `js/config.js`, and
+   paste the `pk.` value in place of the placeholder.
 7. The free tier covers 50,000 map loads/month.
+
+Production (GitHub Pages) gets its token from a `MAPBOX_ACCESS_TOKEN`
+repository secret (Settings → Secrets and variables → Actions), written
+into `js/config.js` at deploy time by
+`.github/workflows/deploy-site.yml` — see that workflow for details.
 
 `npm test` runs the full test suite (158 tests): pure logic modules and
 modules with injectable `fetch` implementations are unit-tested; DOM-rendering
