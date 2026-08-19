@@ -474,9 +474,28 @@ html, body {
   }
 }
 
+@media (max-width: 768px) {
+  /* Bump interactive controls to the ~44px touch-target minimum on
+     phone/tablet widths without changing their desktop sizing. */
+  #variable-toggle {
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .detail-panel-close {
+    width: 44px;
+    height: 44px;
+  }
+}
+
 @media (max-width: 650px) {
   :root {
-    --top-bar-height: 156px;
+    --top-bar-height: 180px;
   }
 
   .top-bar {
@@ -496,5 +515,9 @@ html, body {
   .search-box {
     width: 100%;
     max-width: 320px;
+  }
+
+  .search-input {
+    min-height: 44px;
   }
 }
