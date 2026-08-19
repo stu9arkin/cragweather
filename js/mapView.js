@@ -33,6 +33,9 @@ export async function createMapView(mapElementId, crags) {
     style: 'mapbox://styles/mapbox/streets-v12',
     center: [-3.5, 54.5],
     zoom: INITIAL_ZOOM,
+    // Default bottom-left logo placement sits behind the legend box (also
+    // bottom-left, see .legend in style.css); top-left is otherwise unused.
+    logoPosition: 'top-left',
   });
 
   const cragsById = new Map(crags.map((crag) => [crag.id, crag]));
