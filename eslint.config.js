@@ -3,7 +3,9 @@ import js from '@eslint/js';
 
 export default [
   {
-    ignores: ['node_modules/**', 'data/**'],
+    // .claude/ holds local Claude Code worktrees (each a full nested checkout) --
+    // not part of the repo's own source, and not worth linting here.
+    ignores: ['node_modules/**', 'data/**', '.claude/**'],
   },
   js.configs.recommended,
   {
