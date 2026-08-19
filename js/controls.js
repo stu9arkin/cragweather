@@ -3,13 +3,14 @@ import { getTimeSteps } from './logic/time.js';
 import { buildTimeBarTicks } from './logic/timeBarTicks.js';
 import { stopsToCssGradient } from './logic/sunGradient.js';
 
-export function initControls({ onVariableChange, onModeChange, onTimeChange }) {
+export function initControls({ onVariableChange, onModeChange, onTimeChange, onThemeToggle, initialTheme }) {
   const timeSteps = getTimeSteps();
   const scrollbar = document.getElementById('time-scrollbar');
   const floatingLabel = document.getElementById('time-bar-floating-label');
   const ticksContainer = document.getElementById('time-bar-ticks');
   const variableToggle = document.getElementById('variable-toggle');
   const modeToggle = document.getElementById('mode-toggle');
+  const themeToggle = document.getElementById('theme-toggle');
 
   scrollbar.max = String(timeSteps.length - 1);
   scrollbar.value = '0';
@@ -38,6 +39,11 @@ export function initControls({ onVariableChange, onModeChange, onTimeChange }) {
     });
   }
 
+  if (themeToggle) {
+    applyThemeToggleState(themeToggle, initialTheme);
+    themeToggle.addEventListener('click', () => onThemeToggle());
+  }
+
   return { timeSteps };
 }
 
@@ -45,6 +51,18 @@ export function setTimeBarGradient(stops) {
   const scrollbar = document.getElementById('time-scrollbar');
   const css = stopsToCssGradient(stops);
   scrollbar.style.background = css ?? '';
+}
+
+export function setThemeToggleState(theme) {
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) applyThemeToggleState(themeToggle, theme);
+}
+
+function applyThemeToggleState(themeToggle, theme) {
+  const isDark = theme === 'dark';
+  themeToggle.setAttribute('aria-pressed', String(isDark));
+  themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  themeToggle.textContent = isDark ? '☾' : '☀';
 }
 
 function renderTicks(container, timeSteps) {

@@ -1,7 +1,7 @@
 // js/controls.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { initControls, setTimeBarGradient } from './controls.js';
+import { initControls, setTimeBarGradient, setThemeToggleState } from './controls.js';
 import { getTimeSteps } from './logic/time.js';
 
 function makeInputElement() {
@@ -36,6 +36,26 @@ function makeLabelElement() {
   return { textContent: '', style: {}, hidden: true };
 }
 
+function makeButtonElement() {
+  return {
+    textContent: '',
+    attributes: {},
+    _handlers: {},
+    setAttribute(name, value) {
+      this.attributes[name] = value;
+    },
+    getAttribute(name) {
+      return this.attributes[name] ?? null;
+    },
+    addEventListener(event, handler) {
+      this._handlers[event] = handler;
+    },
+    fire(event) {
+      this._handlers[event]();
+    },
+  };
+}
+
 function installDom({ withModeToggle }) {
   const elements = {
     'time-scrollbar': makeInputElement(),
@@ -43,6 +63,7 @@ function installDom({ withModeToggle }) {
     'time-bar-ticks': makeContainerElement(),
     'variable-toggle': makeInputElement(),
     'mode-toggle': withModeToggle ? makeInputElement() : null,
+    'theme-toggle': makeButtonElement(),
   };
 
   globalThis.document = {
@@ -167,6 +188,64 @@ test('initControls gives midnight tick labels a "day" class and other major-tick
     assert.equal(dayLabels.length + hourLabels.length, labelChildren.length);
     assert.ok(dayLabels.every((child) => /^(Sun|Mon|Tue|Wed|Thu|Fri|Sat)$/.test(child.textContent)));
     assert.ok(hourLabels.every((child) => /^\d{2}:00$/.test(child.textContent)));
+  } finally {
+    uninstallDom();
+  }
+});
+
+test('initControls sets the theme-toggle button state to match the given initialTheme', () => {
+  const elements = installDom({ withModeToggle: false });
+  try {
+    initControls({
+      onVariableChange: () => {},
+      onModeChange: () => {},
+      onTimeChange: () => {},
+      onThemeToggle: () => {},
+      initialTheme: 'dark',
+    });
+
+    assert.equal(elements['theme-toggle'].attributes['aria-pressed'], 'true');
+    assert.equal(elements['theme-toggle'].attributes['aria-label'], 'Switch to light mode');
+    assert.equal(elements['theme-toggle'].textContent, '☾');
+  } finally {
+    uninstallDom();
+  }
+});
+
+test('clicking the theme-toggle button calls onThemeToggle', () => {
+  const elements = installDom({ withModeToggle: false });
+  try {
+    let calls = 0;
+    initControls({
+      onVariableChange: () => {},
+      onModeChange: () => {},
+      onTimeChange: () => {},
+      onThemeToggle: () => {
+        calls++;
+      },
+      initialTheme: 'light',
+    });
+
+    elements['theme-toggle'].fire('click');
+
+    assert.equal(calls, 1);
+  } finally {
+    uninstallDom();
+  }
+});
+
+test('setThemeToggleState updates the theme-toggle button to reflect the given theme', () => {
+  const elements = installDom({ withModeToggle: false });
+  try {
+    setThemeToggleState('dark');
+    assert.equal(elements['theme-toggle'].attributes['aria-pressed'], 'true');
+    assert.equal(elements['theme-toggle'].attributes['aria-label'], 'Switch to light mode');
+    assert.equal(elements['theme-toggle'].textContent, '☾');
+
+    setThemeToggleState('light');
+    assert.equal(elements['theme-toggle'].attributes['aria-pressed'], 'false');
+    assert.equal(elements['theme-toggle'].attributes['aria-label'], 'Switch to dark mode');
+    assert.equal(elements['theme-toggle'].textContent, '☀');
   } finally {
     uninstallDom();
   }

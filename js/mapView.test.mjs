@@ -9,6 +9,7 @@ import {
   resolveCragValue,
   updateMarkerColors,
   createEmitter,
+  setMapTheme,
 } from './mapView.js';
 
 function makeElement() {
@@ -70,6 +71,18 @@ test('focusCrag flies the map to the crag at the focus zoom and emits crag:selec
   assert.deepEqual(flyToCalls[0].center, [-1.62, 53.34]);
   assert.equal(flyToCalls[0].zoom, 14);
   assert.deepEqual(emitCalls, [{ event: 'crag:selected', payload: { crag } }]);
+});
+
+test('setMapTheme switches the map to the dark style for "dark" and the streets style for "light"', () => {
+  const setStyleCalls = [];
+  const view = { map: { setStyle: (style) => setStyleCalls.push(style) } };
+
+  setMapTheme(view, 'dark');
+  setMapTheme(view, 'light');
+
+  assert.equal(setStyleCalls.length, 2);
+  assert.equal(setStyleCalls[0], 'mapbox://styles/mapbox/dark-v11');
+  assert.equal(setStyleCalls[1], 'mapbox://styles/mapbox/streets-v12');
 });
 
 test('clicking a crag marker zooms in and emits crag:selected, same as focusCrag', () => {
