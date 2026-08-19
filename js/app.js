@@ -42,11 +42,11 @@ async function main() {
   const weatherByCragId = new Map();
   let gridWeather = [];
 
-  const mapView = createMapView('map', crags);
+  const mapView = await createMapView('map', crags);
   const gridPoints = HEATMAP_ENABLED ? buildGridPoints(UK_BBOX, GRID_STEP_DEG) : [];
   const heatmapView = HEATMAP_ENABLED ? createHeatmapView(gridPoints, UK_BBOX) : null;
 
-  mapView.map.on('crag:selected', ({ crag }) => {
+  mapView.on('crag:selected', ({ crag }) => {
     showDetailPanel(crag, weatherByCragId.get(crag.id));
   });
 
