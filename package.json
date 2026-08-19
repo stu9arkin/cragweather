@@ -7,6 +7,11 @@
   },
   "scripts": {
     "test": "node --test \"scripts/**/*.test.mjs\" \"js/**/*.test.mjs\"",
-    "fetch-crags": "node scripts/fetch-crags.mjs"
+    "fetch-crags": "node scripts/fetch-crags.mjs",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1"
   }
 }

@@ -82,7 +82,8 @@ Note: `ukcSearchUrl` links directly into UKC's own logbook search
 `scripts/lib/ukc-link.mjs`.
 
 Run `npm test` to run the test suite (158 tests, dependency-free, uses
-Node's built-in test runner).
+Node's built-in test runner). Run `npm run lint` to lint with ESLint
+(the project's one devDependency; run `npm install` first).
 
 ### Manual overrides
 
@@ -150,7 +151,9 @@ into `js/config.js` at deploy time by
 `npm test` runs the full test suite (158 tests): pure logic modules and
 modules with injectable `fetch` implementations are unit-tested; DOM-rendering
 modules (map/marker/heatmap/panel rendering) are verified manually in a
-browser rather than unit-tested.
+browser rather than unit-tested. `npm run lint` runs ESLint over the whole
+repo. Both run in CI on every push and pull request (see
+`.github/workflows/ci.yml`).
 
 To deploy, GitHub Pages must be enabled once, manually, on the repo: Settings
 → Pages → Build and deployment → Source → "GitHub Actions". After that,

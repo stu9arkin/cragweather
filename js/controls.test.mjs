@@ -177,7 +177,6 @@ test('initControls gives midnight tick labels a "day" class and other major-tick
   try {
     initControls({ onVariableChange: () => {}, onModeChange: () => {}, onTimeChange: () => {} });
 
-    const timeSteps = getTimeSteps();
     const labelChildren = elements['time-bar-ticks'].children.filter((child) => child.textContent !== '');
 
     const dayLabels = labelChildren.filter((child) => child.className === 'time-bar-tick-label day');
