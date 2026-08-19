@@ -18,11 +18,13 @@ html, body {
   bottom: 0;
 }
 
-.leaflet-top {
+.mapboxgl-ctrl-top-left,
+.mapboxgl-ctrl-top-right {
   top: var(--top-bar-height);
 }
 
-.leaflet-bottom {
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right {
   bottom: var(--bottom-bar-height);
 }
 
@@ -238,7 +240,7 @@ html, body {
   border-bottom: 1px solid #eee;
 }
 
-.crag-cluster-icon .cluster-icon {
+.cluster-icon {
   width: 36px;
   height: 36px;
   border-radius: 50%;

@@ -29,6 +29,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Write Mapbox config
+        run: |
+          cat > js/config.js <<'EOF'
+          // js/config.js
+          // Generated at deploy time from the MAPBOX_ACCESS_TOKEN repo secret
+          // (see .github/workflows/deploy-site.yml). Not committed -- see
+          // README "Frontend" section for local setup.
+          export const MAPBOX_ACCESS_TOKEN = '${{ secrets.MAPBOX_ACCESS_TOKEN }}';
+          EOF
+
       - name: Upload site as Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
