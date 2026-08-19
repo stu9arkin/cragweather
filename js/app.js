@@ -1,9 +1,7 @@
 // js/app.js
 import { loadCrags } from './cragData.js';
 import { fetchWeatherForLocations } from './weatherFetch.js';
-import { buildGridPoints } from './logic/grid.js';
 import { createMapView, updateMarkerColors, focusCrag, setMapTheme } from './mapView.js';
-import { createHeatmapView, updateHeatmapColors, setHeatmapVisible } from './heatmapView.js';
 import { initControls, setTimeBarGradient, setThemeToggleState } from './controls.js';
 import { renderLegend } from './legendView.js';
 import { showDetailPanel, initDetailPanel } from './detailPanel.js';
@@ -17,15 +15,6 @@ const THEME_STORAGE_KEY = 'cragweather-theme';
 
 const UK_BBOX = { south: 49.8, west: -8.6, north: 60.9, east: 1.8 };
 const UK_CENTER = { lat: (UK_BBOX.south + UK_BBOX.north) / 2, lon: (UK_BBOX.west + UK_BBOX.east) / 2 };
-const GRID_STEP_DEG = 0.5;
-// Flip to true and restore the Style dropdown in index.html to re-enable heatmap mode.
-// Heatmap mode was NOT migrated when the map moved from Leaflet to Mapbox GL JS
-// (see docs/superpowers/specs/2026-08-19-leaflet-to-mapbox-migration-design.md) --
-// js/heatmapView.js still calls the Leaflet API (L.imageOverlay, overlay.setUrl,
-// map.addLayer/removeLayer) directly, which will throw once Leaflet is removed from
-// index.html. Porting it to Mapbox's image source + raster layer is tracked as a
-// separate follow-up issue; do not flip this flag until that lands.
-const HEATMAP_ENABLED = false;
 // Flip to true to re-enable the sunrise/sunset gradient behind the time bar
 // (disabled for now — the current look needs more design work).
 const SUN_GRADIENT_ENABLED = false;
@@ -46,13 +35,10 @@ async function main() {
     stored: localStorage.getItem(THEME_STORAGE_KEY),
     prefersDark: window.matchMedia('(prefers-color-scheme: dark)').matches,
   });
-  const state = { variable: 'temperature', mode: 'markers', timeIndex: 0, theme: initialTheme };
+  const state = { variable: 'temperature', timeIndex: 0, theme: initialTheme };
   const weatherByCragId = new Map();
-  let gridWeather = [];
 
   const mapView = await createMapView('map', crags, state.theme, MAPBOX_ACCESS_TOKEN);
-  const gridPoints = HEATMAP_ENABLED ? buildGridPoints(UK_BBOX, GRID_STEP_DEG) : [];
-  const heatmapView = HEATMAP_ENABLED ? createHeatmapView(gridPoints, UK_BBOX) : null;
 
   mapView.on('crag:selected', ({ crag }) => {
     showDetailPanel(crag, weatherByCragId.get(crag.id));
@@ -65,9 +51,6 @@ async function main() {
 
   function render() {
     updateMarkerColors(mapView, weatherByCragId, state.variable, state.timeIndex);
-    if (HEATMAP_ENABLED && state.mode === 'heatmap') {
-      updateHeatmapColors(heatmapView, gridWeather, state.variable, state.timeIndex);
-    }
   }
 
   renderLegend(document.getElementById('legend'), state.variable);
@@ -82,11 +65,6 @@ async function main() {
     onVariableChange: (variable) => {
       state.variable = variable;
       renderLegend(document.getElementById('legend'), state.variable);
-      render();
-    },
-    onModeChange: (mode) => {
-      state.mode = mode;
-      if (HEATMAP_ENABLED) setHeatmapVisible(heatmapView, mapView.map, mode === 'heatmap');
       render();
     },
     onTimeChange: (index) => {
@@ -136,17 +114,6 @@ async function main() {
     .catch((error) => {
       console.error('Weather fetch failed for crags', error);
     });
-
-  if (HEATMAP_ENABLED) {
-    fetchWeatherForLocations(gridPoints, timeSteps)
-      .then((results) => {
-        gridWeather = results;
-        render();
-      })
-      .catch((error) => {
-        console.error('Weather fetch failed for grid', error);
-      });
-  }
 }
 
 function showErrorBanner(message) {

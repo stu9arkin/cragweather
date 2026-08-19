@@ -26,16 +26,13 @@ on the map.
 - **The detail panel** (`js/detailPanel.js`) opens when a crag marker is
   clicked, showing its metadata, a 7-day forecast, and a "Search on UKC" link
   built from the crag name.
-- **The layout** is a fixed full-width top bar (search and variable/mode
+- **The layout** is a fixed full-width top bar (search and variable
   controls) and bottom bar (the time scrollbar) around the map.
 - A sunrise/sunset gradient behind the time bar (`js/sunFetch.js` fetches real
   sunrise/sunset times from Open-Meteo for a fixed UK reference point, used to
   shade daylight and night hours along the track) is implemented but currently
   disabled behind a feature flag (`SUN_GRADIENT_ENABLED` in `js/app.js`)
   pending more design work.
-- A grid-based heatmap mode (`js/heatmapView.js`) is implemented but currently
-  disabled behind a feature flag (`HEATMAP_ENABLED` in `js/app.js`) and has no
-  UI control wired up in `index.html`.
 
 ## Crag data pipeline
 
@@ -147,9 +144,9 @@ repository secret (Settings → Secrets and variables → Actions), written
 into `js/config.js` at deploy time by
 `.github/workflows/deploy-site.yml` — see that workflow for details.
 
-`npm test` runs the full test suite (158 tests): pure logic modules and
+`npm test` runs the full test suite: pure logic modules and
 modules with injectable `fetch` implementations are unit-tested; DOM-rendering
-modules (map/marker/heatmap/panel rendering) are verified manually in a
+modules (map/marker/panel rendering) are verified manually in a
 browser rather than unit-tested.
 
 To deploy, GitHub Pages must be enabled once, manually, on the repo: Settings

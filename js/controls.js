@@ -3,13 +3,12 @@ import { getTimeSteps } from './logic/time.js';
 import { buildTimeBarTicks } from './logic/timeBarTicks.js';
 import { stopsToCssGradient } from './logic/sunGradient.js';
 
-export function initControls({ onVariableChange, onModeChange, onTimeChange, onThemeToggle, initialTheme }) {
+export function initControls({ onVariableChange, onTimeChange, onThemeToggle, initialTheme }) {
   const timeSteps = getTimeSteps();
   const scrollbar = document.getElementById('time-scrollbar');
   const floatingLabel = document.getElementById('time-bar-floating-label');
   const ticksContainer = document.getElementById('time-bar-ticks');
   const variableToggle = document.getElementById('variable-toggle');
-  const modeToggle = document.getElementById('mode-toggle');
   const themeToggle = document.getElementById('theme-toggle');
 
   scrollbar.max = String(timeSteps.length - 1);
@@ -32,12 +31,6 @@ export function initControls({ onVariableChange, onModeChange, onTimeChange, onT
   variableToggle.addEventListener('change', () => {
     onVariableChange(variableToggle.value);
   });
-
-  if (modeToggle) {
-    modeToggle.addEventListener('change', () => {
-      onModeChange(modeToggle.value);
-    });
-  }
 
   if (themeToggle) {
     applyThemeToggleState(themeToggle, initialTheme);

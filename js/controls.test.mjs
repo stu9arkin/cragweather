@@ -56,13 +56,12 @@ function makeButtonElement() {
   };
 }
 
-function installDom({ withModeToggle }) {
+function installDom() {
   const elements = {
     'time-scrollbar': makeInputElement(),
     'time-bar-floating-label': makeLabelElement(),
     'time-bar-ticks': makeContainerElement(),
     'variable-toggle': makeInputElement(),
-    'mode-toggle': withModeToggle ? makeInputElement() : null,
     'theme-toggle': makeButtonElement(),
   };
 
@@ -78,53 +77,32 @@ function uninstallDom() {
   delete globalThis.document;
 }
 
-test('initControls does not throw and never calls onModeChange when #mode-toggle is absent', () => {
-  const elements = installDom({ withModeToggle: false });
+test('initControls does not throw and wires up onVariableChange', () => {
+  const elements = installDom();
   try {
-    let modeChangeCalls = 0;
+    let variableChangeCalls = 0;
     assert.doesNotThrow(() => {
       initControls({
-        onVariableChange: () => {},
-        onModeChange: () => {
-          modeChangeCalls++;
+        onVariableChange: () => {
+          variableChangeCalls++;
         },
         onTimeChange: () => {},
       });
     });
     elements['variable-toggle'].value = 'rainfall';
     elements['variable-toggle'].fire('change');
-    assert.equal(modeChangeCalls, 0);
-  } finally {
-    uninstallDom();
-  }
-});
-
-test('initControls still wires onModeChange when #mode-toggle is present', () => {
-  const elements = installDom({ withModeToggle: true });
-  try {
-    let receivedMode = null;
-    initControls({
-      onVariableChange: () => {},
-      onModeChange: (mode) => {
-        receivedMode = mode;
-      },
-      onTimeChange: () => {},
-    });
-    elements['mode-toggle'].value = 'heatmap';
-    elements['mode-toggle'].fire('change');
-    assert.equal(receivedMode, 'heatmap');
+    assert.equal(variableChangeCalls, 1);
   } finally {
     uninstallDom();
   }
 });
 
 test('dragging the time scrollbar updates the floating label text/position and calls onTimeChange', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
     let receivedIndex = null;
     initControls({
       onVariableChange: () => {},
-      onModeChange: () => {},
       onTimeChange: (index) => {
         receivedIndex = index;
       },
@@ -143,9 +121,9 @@ test('dragging the time scrollbar updates the floating label text/position and c
 });
 
 test('the floating label is hidden by default and shown while the scrollbar is being dragged', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
-    initControls({ onVariableChange: () => {}, onModeChange: () => {}, onTimeChange: () => {} });
+    initControls({ onVariableChange: () => {}, onTimeChange: () => {} });
 
     assert.equal(elements['time-bar-floating-label'].hidden, true);
 
@@ -160,9 +138,9 @@ test('the floating label is hidden by default and shown while the scrollbar is b
 });
 
 test('initControls renders one tick per time step, with major ticks also getting a label element', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
-    initControls({ onVariableChange: () => {}, onModeChange: () => {}, onTimeChange: () => {} });
+    initControls({ onVariableChange: () => {}, onTimeChange: () => {} });
 
     const timeSteps = getTimeSteps();
     const majorCount = timeSteps.filter((s) => s.date.getUTCHours() % 6 === 0).length;
@@ -173,9 +151,9 @@ test('initControls renders one tick per time step, with major ticks also getting
 });
 
 test('initControls gives midnight tick labels a "day" class and other major-tick labels an "hour" class', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
-    initControls({ onVariableChange: () => {}, onModeChange: () => {}, onTimeChange: () => {} });
+    initControls({ onVariableChange: () => {}, onTimeChange: () => {} });
 
     const timeSteps = getTimeSteps();
     const labelChildren = elements['time-bar-ticks'].children.filter((child) => child.textContent !== '');
@@ -194,11 +172,10 @@ test('initControls gives midnight tick labels a "day" class and other major-tick
 });
 
 test('initControls sets the theme-toggle button state to match the given initialTheme', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
     initControls({
       onVariableChange: () => {},
-      onModeChange: () => {},
       onTimeChange: () => {},
       onThemeToggle: () => {},
       initialTheme: 'dark',
@@ -213,12 +190,11 @@ test('initControls sets the theme-toggle button state to match the given initial
 });
 
 test('clicking the theme-toggle button calls onThemeToggle', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
     let calls = 0;
     initControls({
       onVariableChange: () => {},
-      onModeChange: () => {},
       onTimeChange: () => {},
       onThemeToggle: () => {
         calls++;
@@ -235,7 +211,7 @@ test('clicking the theme-toggle button calls onThemeToggle', () => {
 });
 
 test('setThemeToggleState updates the theme-toggle button to reflect the given theme', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
     setThemeToggleState('dark');
     assert.equal(elements['theme-toggle'].attributes['aria-pressed'], 'true');
@@ -252,7 +228,7 @@ test('setThemeToggleState updates the theme-toggle button to reflect the given t
 });
 
 test('setTimeBarGradient applies a CSS linear-gradient string built from the given stops', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
     setTimeBarGradient([
       { offsetPercent: 0, color: '#0d1b3e' },
@@ -268,7 +244,7 @@ test('setTimeBarGradient applies a CSS linear-gradient string built from the giv
 });
 
 test('setTimeBarGradient clears the background when given no stops', () => {
-  const elements = installDom({ withModeToggle: false });
+  const elements = installDom();
   try {
     elements['time-scrollbar'].style.background = 'previous-value';
     setTimeBarGradient([]);
