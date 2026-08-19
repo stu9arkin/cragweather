@@ -17,7 +17,10 @@ const CLUSTER_MAX_ZOOM = 10;
 const INITIAL_ZOOM = 6;
 const FOCUS_ZOOM = 14;
 
-export async function createMapView(mapElementId, crags) {
+const LIGHT_STYLE = 'mapbox://styles/mapbox/streets-v12';
+const DARK_STYLE = 'mapbox://styles/mapbox/dark-v11';
+
+export async function createMapView(mapElementId, crags, theme = 'light') {
   const { default: Supercluster } = await import(SUPERCLUSTER_URL);
 
   const view = {
@@ -30,7 +33,7 @@ export async function createMapView(mapElementId, crags) {
   const map = new mapboxgl.Map({
     container: mapElementId,
     accessToken: MAPBOX_ACCESS_TOKEN,
-    style: 'mapbox://styles/mapbox/streets-v12',
+    style: theme === 'dark' ? DARK_STYLE : LIGHT_STYLE,
     center: [-3.5, 54.5],
     zoom: INITIAL_ZOOM,
     // Default bottom-left logo placement sits behind the legend box (also
@@ -172,6 +175,10 @@ export function updateMarkerColors(view, weatherByCragId, variable, timeIndex) {
     entry.el.style.background = color;
     entry.el.textContent = label;
   }
+}
+
+export function setMapTheme(view, theme) {
+  view.map.setStyle(theme === 'dark' ? DARK_STYLE : LIGHT_STYLE);
 }
 
 export function focusCrag(view, crag) {

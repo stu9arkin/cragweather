@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CragWeather — UK Climbing Crag Weather Map</title>
+  <script>
+    (function () {
+      var stored = localStorage.getItem('cragweather-theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = stored === 'light' || stored === 'dark' ? stored : prefersDark ? 'dark' : 'light';
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.28.1/mapbox-gl.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -35,6 +43,10 @@
         autocomplete="off"
       />
       <ul id="search-results" class="search-results" role="listbox" aria-label="Search results" hidden></ul>
+    </div>
+
+    <div class="top-bar-end">
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode"></button>
     </div>
   </div>
 

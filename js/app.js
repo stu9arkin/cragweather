@@ -2,14 +2,17 @@
 import { loadCrags } from './cragData.js';
 import { fetchWeatherForLocations } from './weatherFetch.js';
 import { buildGridPoints } from './logic/grid.js';
-import { createMapView, updateMarkerColors, focusCrag } from './mapView.js';
+import { createMapView, updateMarkerColors, focusCrag, setMapTheme } from './mapView.js';
 import { createHeatmapView, updateHeatmapColors, setHeatmapVisible } from './heatmapView.js';
-import { initControls, setTimeBarGradient } from './controls.js';
+import { initControls, setTimeBarGradient, setThemeToggleState } from './controls.js';
 import { renderLegend } from './legendView.js';
 import { showDetailPanel, initDetailPanel } from './detailPanel.js';
 import { initSearch } from './searchView.js';
 import { fetchSunTimes } from './sunFetch.js';
 import { buildSunGradientStops } from './logic/sunGradient.js';
+import { resolveInitialTheme, toggleTheme } from './logic/theme.js';
+
+const THEME_STORAGE_KEY = 'cragweather-theme';
 
 const UK_BBOX = { south: 49.8, west: -8.6, north: 60.9, east: 1.8 };
 const UK_CENTER = { lat: (UK_BBOX.south + UK_BBOX.north) / 2, lon: (UK_BBOX.west + UK_BBOX.east) / 2 };
@@ -38,11 +41,15 @@ async function main() {
     return;
   }
 
-  const state = { variable: 'temperature', mode: 'markers', timeIndex: 0 };
+  const initialTheme = resolveInitialTheme({
+    stored: localStorage.getItem(THEME_STORAGE_KEY),
+    prefersDark: window.matchMedia('(prefers-color-scheme: dark)').matches,
+  });
+  const state = { variable: 'temperature', mode: 'markers', timeIndex: 0, theme: initialTheme };
   const weatherByCragId = new Map();
   let gridWeather = [];
 
-  const mapView = await createMapView('map', crags);
+  const mapView = await createMapView('map', crags, state.theme);
   const gridPoints = HEATMAP_ENABLED ? buildGridPoints(UK_BBOX, GRID_STEP_DEG) : [];
   const heatmapView = HEATMAP_ENABLED ? createHeatmapView(gridPoints, UK_BBOX) : null;
 
@@ -89,6 +96,14 @@ async function main() {
         render();
       });
     },
+    onThemeToggle: () => {
+      state.theme = toggleTheme(state.theme);
+      document.documentElement.dataset.theme = state.theme;
+      localStorage.setItem(THEME_STORAGE_KEY, state.theme);
+      setThemeToggleState(state.theme);
+      setMapTheme(mapView, state.theme);
+    },
+    initialTheme: state.theme,
   });
 
   if (SUN_GRADIENT_ENABLED) {
