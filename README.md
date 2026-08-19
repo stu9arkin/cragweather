@@ -16,10 +16,11 @@ on the map.
   [Open-Meteo](https://open-meteo.com/) API (`js/weatherFetch.js`), in batches
   of up to 100 locations at a time, with retries on rate-limiting/server
   errors.
-- **The map** (`js/mapView.js`, using [Leaflet](https://leafletjs.com/) and
-  its marker-clustering plugin) renders one marker per crag, coloured by the
-  selected weather variable (temperature or rainfall) at the selected time
-  step. The time scrollbar covers the next 7 days in 3-hour steps.
+- **The map** (`js/mapView.js`, using [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/guides/)
+  and client-side clustering via [Supercluster](https://github.com/mapbox/supercluster))
+  renders one marker per crag, coloured by the selected weather variable
+  (temperature or rainfall) at the selected time step. The time scrollbar
+  covers the next 7 days in 3-hour steps.
 - **Search** (`js/searchView.js`, `js/logic/cragSearch.js`) is a fuzzy-matching
   combobox over the crag list; selecting a result pans/zooms the map to it.
 - **The detail panel** (`js/detailPanel.js`) opens when a crag marker is
@@ -117,10 +118,29 @@ JS app using ES modules, so it **must be served over HTTP** to work — e.g.
 via `file://` will not work: both `import`/`export` ES modules and the
 `fetch('data/crags.json')` call are blocked under the `file://` protocol.
 
-[Leaflet 1.9.4](https://leafletjs.com/) and
-[Leaflet.markercluster 1.5.3](https://github.com/Leaflet/Leaflet.markercluster)
-are loaded directly from the unpkg CDN in `index.html`, so no `npm install`
-is required to run the frontend itself.
+[Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/guides/) is loaded
+directly from the Mapbox CDN in `index.html`; `supercluster` is imported
+from a CDN ES module URL inside `js/mapView.js`. No `npm install` is
+required to run the frontend itself.
+
+### Mapbox setup
+
+The map needs a Mapbox access token:
+
+1. Log into <https://console.mapbox.com/> (create a free account if you
+   don't have one).
+2. Go to **Tokens** in the account menu → **Create a token**.
+3. Name it something identifiable, e.g. `cragweather-web`.
+4. Leave the default public scopes (`styles:read`, `fonts:read`,
+   `styles:tiles`) — no secret/write scopes are needed.
+5. Under **URL restrictions**, add the URL(s) this site is served from
+   (e.g. your GitHub Pages URL) plus `http://localhost:*` and
+   `http://127.0.0.1:*` for local development. This is what keeps a
+   token that's committed to the repo safe — it can't be used to rack up
+   usage from anywhere else, even though it's visible in the page source.
+6. Create the token, copy the `pk.` value into `js/config.js` in place of
+   the placeholder.
+7. The free tier covers 50,000 map loads/month.
 
 `npm test` runs the full test suite (158 tests): pure logic modules and
 modules with injectable `fetch` implementations are unit-tested; DOM-rendering
