@@ -5,15 +5,17 @@ import { MAPBOX_ACCESS_TOKEN } from './config.js';
 
 const SUPERCLUSTER_URL = 'https://cdn.jsdelivr.net/npm/supercluster@8/+esm';
 
-// Starting candidates ported from Leaflet's tuning (maxClusterRadius: 20 at
-// 256px tiles, disableClusteringAtZoom: 11) via GL JS's zoom-numbering
-// offset (GL JS renders 512px tiles, so GL JS zoom z corresponds to
-// roughly Leaflet zoom z+1 for the same visual scale). NOT verified against
-// the live site yet -- see Task 9.
+// Ported from Leaflet's tuning (maxClusterRadius: 20, disableClusteringAtZoom: 11,
+// center zoom 6, focus zoom 14). An earlier version of this file subtracted 1 from
+// every zoom constant on the assumption that GL JS's 512px tiles shift its zoom
+// numbering relative to Leaflet's 256px tiles -- confirmed wrong by manual testing
+// (Task 9): GL JS's public zoom API is calibrated to the same conventional
+// web-mercator zoom scale as Leaflet/OSM regardless of tile pixel size, so these
+// map directly with no offset.
 const CLUSTER_RADIUS = 40;
-const CLUSTER_MAX_ZOOM = 9;
-const INITIAL_ZOOM = 5;
-const FOCUS_ZOOM = 13;
+const CLUSTER_MAX_ZOOM = 10;
+const INITIAL_ZOOM = 6;
+const FOCUS_ZOOM = 14;
 
 export async function createMapView(mapElementId, crags) {
   const { default: Supercluster } = await import(SUPERCLUSTER_URL);
