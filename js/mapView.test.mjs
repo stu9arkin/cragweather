@@ -3,24 +3,74 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { focusCrag, buildCragIcon, createClusterIcon, resolveCragValue, updateMarkerColors, createEmitter } from './mapView.js';
 
-test('focusCrag centers the map on the crag at zoom 14 and fires crag:selected', () => {
-  const setViewCalls = [];
-  const fireCalls = [];
-  const fakeMap = {
-    setView(latlng, zoom) {
-      setViewCalls.push({ latlng, zoom });
-    },
-    fire(event, payload) {
-      fireCalls.push({ event, payload });
-    },
+test('focusCrag flies the map to the crag at the focus zoom and emits crag:selected', () => {
+  const flyToCalls = [];
+  const emitCalls = [];
+  const view = {
+    map: { flyTo: (opts) => flyToCalls.push(opts) },
+    emit: (event, payload) => emitCalls.push({ event, payload }),
   };
-  const view = { map: fakeMap };
   const crag = { id: 'node/1', name: 'Stanage Edge', lat: 53.34, lon: -1.62 };
 
   focusCrag(view, crag);
 
-  assert.deepEqual(setViewCalls, [{ latlng: [53.34, -1.62], zoom: 14 }]);
-  assert.deepEqual(fireCalls, [{ event: 'crag:selected', payload: { crag } }]);
+  assert.equal(flyToCalls.length, 1);
+  assert.deepEqual(flyToCalls[0].center, [-1.62, 53.34]);
+  assert.equal(flyToCalls[0].zoom, 13);
+  assert.deepEqual(emitCalls, [{ event: 'crag:selected', payload: { crag } }]);
+});
+
+test('updateMarkerColors updates cragValue for every crag and rewrites active marker elements in place', () => {
+  const cragEl = { style: {}, textContent: '' };
+  const clusterEl = { style: {}, textContent: '' };
+  const point1 = { properties: { cragId: 'crag-1', cragValue: null } };
+  const point2 = { properties: { cragId: 'crag-2', cragValue: null } };
+  const view = {
+    activeColorFn: null,
+    activeVariable: null,
+    pointsByCragId: new Map([
+      ['crag-1', point1],
+      ['crag-2', point2],
+    ]),
+    activeMarkers: [
+      { kind: 'crag', cragId: 'crag-1', el: cragEl },
+      { kind: 'cluster', clusterId: 7, el: clusterEl },
+    ],
+    index: {
+      getLeaves: (clusterId) => (clusterId === 7 ? [point1, point2] : []),
+    },
+  };
+  const weatherByCragId = new Map([
+    ['crag-1', { hourly: { temperature: [10, 20], rainfall: [1, 2] } }],
+    ['crag-2', { hourly: { temperature: [30, 40], rainfall: [3, 4] } }],
+  ]);
+
+  updateMarkerColors(view, weatherByCragId, 'temperature', 1);
+
+  assert.equal(point1.properties.cragValue, 20);
+  assert.equal(point2.properties.cragValue, 40);
+  assert.equal(view.activeVariable, 'temperature');
+  assert.match(cragEl.textContent, /20°C/);
+  assert.match(clusterEl.textContent, /30°C/); // average of 20 and 40
+});
+
+test('updateMarkerColors leaves activeMarkers untouched as an array (no add/remove)', () => {
+  const cragEl = { style: {}, textContent: '' };
+  const point1 = { properties: { cragId: 'crag-1', cragValue: null } };
+  const markerEntry = { kind: 'crag', cragId: 'crag-1', el: cragEl };
+  const view = {
+    activeColorFn: null,
+    activeVariable: null,
+    pointsByCragId: new Map([['crag-1', point1]]),
+    activeMarkers: [markerEntry],
+    index: { getLeaves: () => [] },
+  };
+  const weatherByCragId = new Map([['crag-1', { hourly: { temperature: [5], rainfall: [0] } }]]);
+
+  updateMarkerColors(view, weatherByCragId, 'temperature', 0);
+
+  assert.equal(view.activeMarkers.length, 1);
+  assert.equal(view.activeMarkers[0], markerEntry);
 });
 
 test('buildCragIcon shows the formatted value on a colored background', () => {

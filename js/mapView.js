@@ -151,24 +151,27 @@ export function resolveCragValue(forecast, variable, timeIndex) {
 }
 
 export function updateMarkerColors(view, weatherByCragId, variable, timeIndex) {
-  const colorFn = colorForVariable(variable);
-  const valueKey = variable === 'rainfall' ? 'rainfall' : 'temperature';
-  view.activeColorFn = colorFn;
+  view.activeColorFn = colorForVariable(variable);
   view.activeVariable = variable;
 
-  for (const [cragId, marker] of view.markersByCragId) {
-    const forecast = weatherByCragId.get(cragId);
-    const value = forecast ? forecast.hourly[valueKey][timeIndex] : null;
-    marker.cragValue = value ?? null;
-    marker.setIcon(buildCragIcon(marker.cragValue, variable, colorFn));
+  for (const [cragId, point] of view.pointsByCragId) {
+    point.properties.cragValue = resolveCragValue(weatherByCragId.get(cragId), variable, timeIndex);
   }
 
-  view.markerCluster.refreshClusters();
+  for (const entry of view.activeMarkers) {
+    const value =
+      entry.kind === 'crag'
+        ? view.pointsByCragId.get(entry.cragId).properties.cragValue
+        : average(view.index.getLeaves(entry.clusterId, Infinity).map((leaf) => leaf.properties.cragValue));
+    const { color, label } = markerAppearance(value, view.activeVariable, view.activeColorFn);
+    entry.el.style.background = color;
+    entry.el.textContent = label;
+  }
 }
 
 export function focusCrag(view, crag) {
-  view.map.setView([crag.lat, crag.lon], 14);
-  view.map.fire('crag:selected', { crag });
+  view.map.flyTo({ center: [crag.lon, crag.lat], zoom: FOCUS_ZOOM });
+  view.emit('crag:selected', { crag });
 }
 
 export function createEmitter() {
