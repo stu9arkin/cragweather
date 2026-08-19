@@ -85,14 +85,14 @@ function renderMarkers(view) {
   }
 }
 
-function buildCragEntry(view, feature) {
+export function buildCragEntry(view, feature) {
   const crag = view.cragsById.get(feature.properties.cragId);
   const html = buildCragIcon(feature.properties.cragValue, view.activeVariable, view.activeColorFn);
   const el = htmlToElement(html);
   el.title = crag.name;
   el.tabIndex = 0;
   el.setAttribute('role', 'button');
-  const select = () => view.emit('crag:selected', { crag });
+  const select = () => focusCrag(view, crag);
   el.addEventListener('click', select);
   el.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {

@@ -1,7 +1,59 @@
 // js/mapView.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { focusCrag, buildCragIcon, createClusterIcon, resolveCragValue, updateMarkerColors, createEmitter } from './mapView.js';
+import {
+  focusCrag,
+  buildCragEntry,
+  buildCragIcon,
+  createClusterIcon,
+  resolveCragValue,
+  updateMarkerColors,
+  createEmitter,
+} from './mapView.js';
+
+function makeElement() {
+  return {
+    title: '',
+    tabIndex: null,
+    attributes: {},
+    _handlers: {},
+    setAttribute(name, value) {
+      this.attributes[name] = value;
+    },
+    addEventListener(name, handler) {
+      (this._handlers[name] = this._handlers[name] || []).push(handler);
+    },
+    fire(name, eventObj = {}) {
+      (this._handlers[name] || []).forEach((handler) => handler(eventObj));
+    },
+  };
+}
+
+function installMarkerDom() {
+  globalThis.document = {
+    createElement: (tag) =>
+      tag === 'template' ? { innerHTML: '', content: { firstElementChild: makeElement() } } : makeElement(),
+  };
+  globalThis.mapboxgl = {
+    Marker: class {
+      constructor(opts) {
+        this.opts = opts;
+      }
+      setLngLat() {
+        return this;
+      }
+      addTo() {
+        return this;
+      }
+      remove() {}
+    },
+  };
+}
+
+function uninstallMarkerDom() {
+  delete globalThis.document;
+  delete globalThis.mapboxgl;
+}
 
 test('focusCrag flies the map to the crag at the focus zoom and emits crag:selected', () => {
   const flyToCalls = [];
@@ -18,6 +70,57 @@ test('focusCrag flies the map to the crag at the focus zoom and emits crag:selec
   assert.deepEqual(flyToCalls[0].center, [-1.62, 53.34]);
   assert.equal(flyToCalls[0].zoom, 14);
   assert.deepEqual(emitCalls, [{ event: 'crag:selected', payload: { crag } }]);
+});
+
+test('clicking a crag marker zooms in and emits crag:selected, same as focusCrag', () => {
+  installMarkerDom();
+  try {
+    const crag = { id: 'node/1', name: 'Stanage Edge', lat: 53.34, lon: -1.62 };
+    const flyToCalls = [];
+    const emitCalls = [];
+    const view = {
+      cragsById: new Map([[crag.id, crag]]),
+      activeVariable: 'temperature',
+      activeColorFn: () => '#000',
+      map: { flyTo: (opts) => flyToCalls.push(opts) },
+      emit: (event, payload) => emitCalls.push({ event, payload }),
+    };
+    const feature = { properties: { cragId: crag.id, cragValue: 20 } };
+
+    const entry = buildCragEntry(view, feature);
+    entry.el.fire('click');
+
+    assert.equal(flyToCalls.length, 1);
+    assert.deepEqual(flyToCalls[0].center, [-1.62, 53.34]);
+    assert.equal(flyToCalls[0].zoom, 14);
+    assert.deepEqual(emitCalls, [{ event: 'crag:selected', payload: { crag } }]);
+  } finally {
+    uninstallMarkerDom();
+  }
+});
+
+test('pressing Enter or Space on a crag marker also zooms in', () => {
+  installMarkerDom();
+  try {
+    const crag = { id: 'node/1', name: 'Stanage Edge', lat: 53.34, lon: -1.62 };
+    const flyToCalls = [];
+    const view = {
+      cragsById: new Map([[crag.id, crag]]),
+      activeVariable: 'temperature',
+      activeColorFn: () => '#000',
+      map: { flyTo: (opts) => flyToCalls.push(opts) },
+      emit: () => {},
+    };
+    const feature = { properties: { cragId: crag.id, cragValue: 20 } };
+
+    const entry = buildCragEntry(view, feature);
+    entry.el.fire('keydown', { key: 'Enter', preventDefault: () => {} });
+    entry.el.fire('keydown', { key: ' ', preventDefault: () => {} });
+
+    assert.equal(flyToCalls.length, 2);
+  } finally {
+    uninstallMarkerDom();
+  }
 });
 
 test('updateMarkerColors updates cragValue for every crag and rewrites active marker elements in place', () => {
