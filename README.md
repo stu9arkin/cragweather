@@ -2,7 +2,7 @@
 
 **🔗 Live demo: https://stu9arkin.github.io/cragweather/**
 
-![CragWeather screenshot](docs/screenshot.png)
+![CragWeather screenshot](docs/screenshot.jpg)
 
 A weather visualisation website for UK outdoor climbing crags. It plots every
 known crag on a map of the UK, colours each marker by forecast temperature or
