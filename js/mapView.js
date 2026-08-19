@@ -1,48 +1,108 @@
 // js/mapView.js
 import { getNeutralColor, colorForVariable, formatValue } from './logic/colorScale.js';
 import { average } from './logic/clusterAggregate.js';
+import { MAPBOX_ACCESS_TOKEN } from './config.js';
 
-export function createMapView(mapElementId, crags) {
+const SUPERCLUSTER_URL = 'https://cdn.jsdelivr.net/npm/supercluster@8/+esm';
+
+// Starting candidates ported from Leaflet's tuning (maxClusterRadius: 20 at
+// 256px tiles, disableClusteringAtZoom: 11) via GL JS's zoom-numbering
+// offset (GL JS renders 512px tiles, so GL JS zoom z corresponds to
+// roughly Leaflet zoom z+1 for the same visual scale). NOT verified against
+// the live site yet -- see Task 9.
+const CLUSTER_RADIUS = 40;
+const CLUSTER_MAX_ZOOM = 9;
+const INITIAL_ZOOM = 5;
+const FOCUS_ZOOM = 13;
+
+export async function createMapView(mapElementId, crags) {
+  const { default: Supercluster } = await import(SUPERCLUSTER_URL);
+
   const view = {
     activeColorFn: () => getNeutralColor(),
     activeVariable: 'temperature',
+    activeMarkers: [],
+    ...createEmitter(),
   };
 
-  const map = L.map(mapElementId, { center: [54.5, -3.5], zoom: 6 });
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-    maxZoom: 19,
-  }).addTo(map);
-
-  const markerCluster = L.markerClusterGroup({
-    iconCreateFunction: (cluster) => createClusterIcon(cluster, view),
-    // Tuned against the real 492-crag dataset (issue #12): radius 20 keeps
-    // the worst-case cluster near ~110 crags instead of the pre-tuning
-    // ~155. disableClusteringAtZoom relies on the tile layer's maxZoom
-    // (19, above) being >= 11 for clustering to actually turn off.
-    maxClusterRadius: 20,
-    disableClusteringAtZoom: 11,
+  const map = new mapboxgl.Map({
+    container: mapElementId,
+    accessToken: MAPBOX_ACCESS_TOKEN,
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: [-3.5, 54.5],
+    zoom: INITIAL_ZOOM,
   });
 
-  const markersByCragId = new Map();
-  for (const crag of crags) {
-    const marker = L.marker([crag.lat, crag.lon], {
-      icon: buildCragIcon(null, view.activeVariable, view.activeColorFn),
-      title: crag.name,
-    });
-    marker.cragId = crag.id;
-    marker.cragValue = null;
-    marker.on('click', () => map.fire('crag:selected', { crag }));
-    markersByCragId.set(crag.id, marker);
-    markerCluster.addLayer(marker);
-  }
-  map.addLayer(markerCluster);
+  const cragsById = new Map(crags.map((crag) => [crag.id, crag]));
+  const points = crags.map((crag) => ({
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [crag.lon, crag.lat] },
+    properties: { cragId: crag.id, cragValue: null },
+  }));
+  const pointsByCragId = new Map(points.map((point) => [point.properties.cragId, point]));
+
+  const index = new Supercluster({ radius: CLUSTER_RADIUS, maxZoom: CLUSTER_MAX_ZOOM });
+  index.load(points);
 
   view.map = map;
-  view.markerCluster = markerCluster;
-  view.markersByCragId = markersByCragId;
+  view.index = index;
+  view.cragsById = cragsById;
+  view.pointsByCragId = pointsByCragId;
+
+  map.on('moveend', () => renderMarkers(view));
+  renderMarkers(view);
+
   return view;
+}
+
+function renderMarkers(view) {
+  for (const entry of view.activeMarkers) entry.marker.remove();
+  view.activeMarkers = [];
+
+  const bounds = view.map.getBounds();
+  const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
+  const zoom = Math.floor(view.map.getZoom());
+  const results = view.index.getClusters(bbox, zoom);
+
+  for (const feature of results) {
+    const [lon, lat] = feature.geometry.coordinates;
+    const entry = feature.properties.cluster ? buildClusterEntry(view, feature) : buildCragEntry(view, feature);
+    entry.marker.setLngLat([lon, lat]).addTo(view.map);
+    view.activeMarkers.push(entry);
+  }
+}
+
+function buildCragEntry(view, feature) {
+  const crag = view.cragsById.get(feature.properties.cragId);
+  const html = buildCragIcon(feature.properties.cragValue, view.activeVariable, view.activeColorFn);
+  const el = htmlToElement(html);
+  el.title = crag.name;
+  el.tabIndex = 0;
+  el.setAttribute('role', 'button');
+  const select = () => view.emit('crag:selected', { crag });
+  el.addEventListener('click', select);
+  el.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      select();
+    }
+  });
+  return { kind: 'crag', cragId: crag.id, el, marker: new mapboxgl.Marker({ element: el }) };
+}
+
+function buildClusterEntry(view, feature) {
+  const clusterId = feature.properties.cluster_id;
+  const leaves = view.index.getLeaves(clusterId, Infinity);
+  const values = leaves.map((leaf) => leaf.properties.cragValue);
+  const html = createClusterIcon(values, view.activeVariable, view.activeColorFn);
+  const el = htmlToElement(html);
+  return { kind: 'cluster', clusterId, el, marker: new mapboxgl.Marker({ element: el }) };
+}
+
+function htmlToElement(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html.trim();
+  return template.content.firstElementChild;
 }
 
 export function markerAppearance(value, variable, colorFn) {
