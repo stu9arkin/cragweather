@@ -87,3 +87,16 @@ export function focusCrag(view, crag) {
   view.map.setView([crag.lat, crag.lon], 14);
   view.map.fire('crag:selected', { crag });
 }
+
+export function createEmitter() {
+  const listeners = new Map();
+  return {
+    on(name, fn) {
+      if (!listeners.has(name)) listeners.set(name, new Set());
+      listeners.get(name).add(fn);
+    },
+    emit(name, payload) {
+      for (const fn of listeners.get(name) ?? []) fn(payload);
+    },
+  };
+}

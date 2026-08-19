@@ -1,7 +1,7 @@
 // js/mapView.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { focusCrag, buildCragIcon, createClusterIcon, resolveCragValue, updateMarkerColors } from './mapView.js';
+import { focusCrag, buildCragIcon, createClusterIcon, resolveCragValue, updateMarkerColors, createEmitter } from './mapView.js';
 
 test('focusCrag centers the map on the crag at zoom 14 and fires crag:selected', () => {
   const setViewCalls = [];
@@ -60,4 +60,19 @@ test('resolveCragValue picks the value at the given time index for the given var
 
 test('resolveCragValue returns null when there is no forecast for the crag', () => {
   assert.equal(resolveCragValue(undefined, 'temperature', 0), null);
+});
+
+test('createEmitter delivers emitted payloads to every registered listener for that event name', () => {
+  const emitter = createEmitter();
+  const received = [];
+  emitter.on('crag:selected', (payload) => received.push(['a', payload]));
+  emitter.on('crag:selected', (payload) => received.push(['b', payload]));
+  emitter.on('other:event', () => received.push(['c', null]));
+
+  emitter.emit('crag:selected', { crag: { id: 'crag-1' } });
+
+  assert.deepEqual(received, [
+    ['a', { crag: { id: 'crag-1' } }],
+    ['b', { crag: { id: 'crag-1' } }],
+  ]);
 });
