@@ -2603,13 +2603,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Osgathorpe%20Boulder&type=all"
   },
   {
-    "id": "node/2417949821",
-    "name": "Outdoor climbing wall",
-    "lat": 51.4404062,
-    "lon": -0.0631736,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Outdoor%20climbing%20wall&type=all"
-  },
-  {
     "id": "node/1809665092",
     "name": "Overhang Slab",
     "lat": 51.620499,
