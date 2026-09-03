@@ -1044,11 +1044,42 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20y%20Clipiau&type=all"
   },
   {
+    "id": "way/280798682",
+    "name": "Craig y Cythraul",
+    "lat": 53.0202865,
+    "lon": -3.1448669,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20y%20Cythraul&type=all"
+  },
+  {
+    "id": "way/268552577",
+    "name": "Craig y Forwyn",
+    "lat": 53.0219727,
+    "lon": -3.1425238,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20y%20Forwyn&type=all"
+  },
+  {
     "id": "way/749553665",
     "name": "Craig Y Longridge",
     "lat": 53.8398682,
     "lon": -2.5812109,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20Y%20Longridge&type=all"
+  },
+  {
+    "id": "way/572526880",
+    "name": "Craig y Moch",
+    "lat": 53.0249391,
+    "lon": -3.1441555,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20y%20Moch&type=all"
+  },
+  {
+    "id": "node/14142978295",
+    "name": "Craig Y Moch crag",
+    "lat": 53.0247377,
+    "lon": -3.1449894,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20Y%20Moch%20crag&type=all"
   },
   {
     "id": "node/1288932334",
@@ -2130,6 +2161,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Kings%20Chimney&type=all"
   },
   {
+    "id": "node/14142781930",
+    "name": "Kitty's Crag",
+    "lat": 53.0757466,
+    "lon": -2.7459695,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Kitty's%20Crag&type=all"
+  },
+  {
     "id": "node/1969051232",
     "name": "Knockdrinna",
     "lat": 52.4994805,
@@ -2248,8 +2289,8 @@
   {
     "id": "node/14134429470",
     "name": "Limekiln Walls",
-    "lat": 53.2296564,
-    "lon": -3.204812,
+    "lat": 53.2297226,
+    "lon": -3.2047794,
     "climbingStyles": [
       "boulder"
     ],
@@ -2344,6 +2385,16 @@
     "lat": 51.6731317,
     "lon": -2.6806963,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Lower%20Tier&type=all"
+  },
+  {
+    "id": "node/14142781931",
+    "name": "Maiden Castle Crag",
+    "lat": 53.0713905,
+    "lon": -2.7514,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Maiden%20Castle%20Crag&type=all"
   },
   {
     "id": "way/805160843",
@@ -2970,8 +3021,8 @@
   {
     "id": "node/14134429468",
     "name": "Rather Decent Wall",
-    "lat": 53.2289107,
-    "lon": -3.2038655,
+    "lat": 53.2289251,
+    "lon": -3.2038471,
     "climbingStyles": [
       "boulder"
     ],
@@ -3105,8 +3156,8 @@
   {
     "id": "node/14134429471",
     "name": "Road Bay",
-    "lat": 53.229064,
-    "lon": -3.2073258,
+    "lat": 53.2291042,
+    "lon": -3.2074266,
     "climbingStyles": [
       "boulder"
     ],
@@ -3468,8 +3519,8 @@
   {
     "id": "node/14134429472",
     "name": "Small Blocks",
-    "lat": 53.2289178,
-    "lon": -3.2077085,
+    "lat": 53.2289509,
+    "lon": -3.2077401,
     "climbingStyles": [
       "boulder"
     ],
