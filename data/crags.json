@@ -188,6 +188,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bamford%20Edge&type=all"
   },
   {
+    "id": "node/14151244023",
+    "name": "Bantam Wall",
+    "lat": 53.2804427,
+    "lon": -3.6654475,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bantam%20Wall&type=all"
+  },
+  {
     "id": "way/1013749050",
     "name": "Baravore Valley Lower",
     "lat": 52.9901535,
@@ -452,16 +462,6 @@
     "lat": 50.5913548,
     "lon": -1.9695569,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Boulder%20Ruckle&type=all"
-  },
-  {
-    "id": "node/3715351288",
-    "name": "Boulder World",
-    "lat": 54.5820345,
-    "lon": -5.9580259,
-    "climbingStyles": [
-      "boulder"
-    ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Boulder%20World&type=all"
   },
   {
     "id": "node/1759697226",
@@ -1381,6 +1381,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Dyffryn%20Woods%20Crag&type=all"
   },
   {
+    "id": "node/14151157552",
+    "name": "Dyserth Castle Slab",
+    "lat": 53.3072644,
+    "lon": -3.4128815,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Dyserth%20Castle%20Slab&type=all"
+  },
+  {
     "id": "way/495230019",
     "name": "Eagle Crag",
     "lat": 54.5188201,
@@ -1492,6 +1502,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Filey%20Brigg&type=all"
   },
   {
+    "id": "node/14151244020",
+    "name": "Fine View Wall",
+    "lat": 53.2811903,
+    "lon": -3.6686285,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Fine%20View%20Wall&type=all"
+  },
+  {
     "id": "node/1310394649",
     "name": "Fire Wall",
     "lat": 51.4526802,
@@ -1590,6 +1610,16 @@
     "lat": 53.2831445,
     "lon": -1.6276881,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Froggatt%20Pinnacle&type=all"
+  },
+  {
+    "id": "node/14152306467",
+    "name": "Frogsmouth Quarry",
+    "lat": 53.3281296,
+    "lon": -2.7416513,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Frogsmouth%20Quarry&type=all"
   },
   {
     "id": "way/61161574",
@@ -2402,6 +2432,16 @@
     "lat": 50.0365927,
     "lon": -5.6813638,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Main%20Cliff&type=all"
+  },
+  {
+    "id": "node/14151244019",
+    "name": "Main Face",
+    "lat": 53.280965,
+    "lon": -3.6677912,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Main%20Face&type=all"
   },
   {
     "id": "node/1437463006",
@@ -3230,6 +3270,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Rubicon%20Wall&type=all"
   },
   {
+    "id": "node/14152306466",
+    "name": "Runcorn Heath",
+    "lat": 53.3276733,
+    "lon": -2.7408508,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Runcorn%20Heath&type=all"
+  },
+  {
     "id": "node/1274220140",
     "name": "Russian Zawn",
     "lat": 51.57047,
@@ -3728,6 +3778,16 @@
     "lat": 51.5379355,
     "lon": -3.2678746,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Taffs%20Well%20West&type=all"
+  },
+  {
+    "id": "node/14151244018",
+    "name": "Taid's Wall",
+    "lat": 53.2808465,
+    "lon": -3.6670973,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Taid's%20Wall&type=all"
   },
   {
     "id": "way/728027196",
@@ -4264,6 +4324,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Thurba%20Head&type=all"
   },
   {
+    "id": "node/14151244021",
+    "name": "Tiger Lily Wall",
+    "lat": 53.2814597,
+    "lon": -3.6691896,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Tiger%20Lily%20Wall&type=all"
+  },
+  {
     "id": "node/11028186583",
     "name": "Tintagel North",
     "lat": 50.671805,
@@ -4713,6 +4783,16 @@
     "lat": 53.1153389,
     "lon": -1.5583077,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Wildcat&type=all"
+  },
+  {
+    "id": "node/14151244022",
+    "name": "Wilderness Wall",
+    "lat": 53.2805392,
+    "lon": -3.6658694,
+    "climbingStyles": [
+      "sport"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Wilderness%20Wall&type=all"
   },
   {
     "id": "way/804352547",
