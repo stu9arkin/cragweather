@@ -925,8 +925,8 @@
   {
     "id": "node/14134429483",
     "name": "Cobra Wall",
-    "lat": 53.2303065,
-    "lon": -3.2091578,
+    "lat": 53.230315,
+    "lon": -3.2091127,
     "climbingStyles": [
       "boulder"
     ],
@@ -3151,8 +3151,8 @@
   {
     "id": "node/14134429476",
     "name": "Right Wing",
-    "lat": 53.2303086,
-    "lon": -3.2090582,
+    "lat": 53.2301572,
+    "lon": -3.2090627,
     "climbingStyles": [
       "boulder"
     ],
@@ -3426,8 +3426,8 @@
   {
     "id": "node/14134429475",
     "name": "Seismology",
-    "lat": 53.2308551,
-    "lon": -3.208638,
+    "lat": 53.2309164,
+    "lon": -3.2086879,
     "climbingStyles": [
       "boulder"
     ],
@@ -4191,8 +4191,8 @@
   {
     "id": "node/14134429473",
     "name": "The Steep",
-    "lat": 53.2306838,
-    "lon": -3.2082383,
+    "lat": 53.2307271,
+    "lon": -3.2083209,
     "climbingStyles": [
       "boulder"
     ],
@@ -4459,8 +4459,8 @@
   {
     "id": "node/14134429474",
     "name": "Tug Boat Wall",
-    "lat": 53.2306919,
-    "lon": -3.2083314,
+    "lat": 53.2307754,
+    "lon": -3.2085121,
     "climbingStyles": [
       "boulder"
     ],
