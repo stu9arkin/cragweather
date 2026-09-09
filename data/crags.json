@@ -219,6 +219,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Barnbawn&type=all"
   },
   {
+    "id": "node/14162735742",
+    "name": "Barrel Buttress",
+    "lat": 53.2727989,
+    "lon": -2.7644169,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Barrel%20Buttress&type=all"
+  },
+  {
     "id": "way/850580718",
     "name": "Bashers Harbour",
     "lat": 50.0955774,
@@ -578,6 +588,18 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bucketland&type=all"
   },
   {
+    "id": "node/14162189111",
+    "name": "Bulger",
+    "lat": 53.2302685,
+    "lon": -3.2090981,
+    "climbingStyles": [
+      "boulder",
+      "inclination:vertical"
+    ],
+    "description": "Sit Start. Big move to some questionable holds up and right.\n",
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bulger&type=all"
+  },
+  {
     "id": "way/805160822",
     "name": "Bulging Wall",
     "lat": 50.0369832,
@@ -765,6 +787,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Cemetery%20Park%20Boulder&type=all"
   },
   {
+    "id": "node/14162735741",
+    "name": "Central Buttress",
+    "lat": 53.2739354,
+    "lon": -2.7631372,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Central%20Buttress&type=all"
+  },
+  {
     "id": "way/562295209",
     "name": "Central Buttress",
     "lat": 53.2539704,
@@ -923,14 +955,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Clogwyn%20yr%20Adar&type=all"
   },
   {
-    "id": "node/14134429483",
-    "name": "Cobra Wall",
-    "lat": 53.230315,
-    "lon": -3.2091127,
+    "id": "node/14162189108",
+    "name": "Cobra",
+    "lat": 53.230276,
+    "lon": -3.2090983,
     "climbingStyles": [
-      "boulder"
+      "boulder",
+      "inclination:vertical"
     ],
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Cobra%20Wall&type=all"
+    "description": "The main crack in the centre",
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Cobra&type=all"
   },
   {
     "id": "way/258589169",
@@ -1424,6 +1458,18 @@
     "lat": 54.5770497,
     "lon": -2.4930688,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Eden%20Community%20Outdoors&type=all"
+  },
+  {
+    "id": "node/14162134986",
+    "name": "Edgey",
+    "lat": 53.2302785,
+    "lon": -3.2091002,
+    "climbingStyles": [
+      "boulder",
+      "inclination:vertical"
+    ],
+    "description": "Wall left of the Cobra crack. Go straight up",
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Edgey&type=all"
   },
   {
     "id": "node/12054730389",
@@ -2263,6 +2309,31 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Lawrencefield&type=all"
   },
   {
+    "id": "node/14162189110",
+    "name": "Layback Groove",
+    "lat": 53.2302712,
+    "lon": -3.2090969,
+    "climbingStyles": [
+      "boulder",
+      "inclination:vertical"
+    ],
+    "description": "Layback between Thin Wall and Bulger",
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Layback%20Groove&type=all"
+  },
+  {
+    "id": "node/14134429483",
+    "name": "Left Groove",
+    "lat": 53.2302805,
+    "lon": -3.2091041,
+    "climbingStyles": [
+      "boulder",
+      "hazard:loose_rock",
+      "inclination:vertical"
+    ],
+    "description": "The groove to the left of Edgey. Try and avoid pulling on the giant loose block.\n",
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Left%20Groove&type=all"
+  },
+  {
     "id": "node/14134429480",
     "name": "Left Wall",
     "lat": 53.2306518,
@@ -2383,6 +2454,16 @@
       "bouldering"
     ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Lodge%20Block&type=all"
+  },
+  {
+    "id": "node/14162735743",
+    "name": "Long Wall",
+    "lat": 53.2718393,
+    "lon": -2.7648336,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Long%20Wall&type=all"
   },
   {
     "id": "node/1284741952",
@@ -4290,6 +4371,18 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=The%20Whangie&type=all"
   },
   {
+    "id": "node/14162189109",
+    "name": "Thin Wall",
+    "lat": 53.2302737,
+    "lon": -3.2090976,
+    "climbingStyles": [
+      "boulder",
+      "inclination:vertical"
+    ],
+    "description": "The narrow wall right of the main crack.",
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Thin%20Wall&type=all"
+  },
+  {
     "id": "node/475721828",
     "name": "Third Sister",
     "lat": 51.554057,
@@ -4352,6 +4445,16 @@
       "sport"
     ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Tirpentwys%20Quarry&type=all"
+  },
+  {
+    "id": "node/14162735740",
+    "name": "Top Tier Bouldering",
+    "lat": 53.2733299,
+    "lon": -2.7633601,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Top%20Tier%20Bouldering&type=all"
   },
   {
     "id": "node/3989923566",
@@ -4671,6 +4774,16 @@
       "sport"
     ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Wedge%20Wall&type=all"
+  },
+  {
+    "id": "node/14162735744",
+    "name": "West Buttress",
+    "lat": 53.2733818,
+    "lon": -2.7640429,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=West%20Buttress&type=all"
   },
   {
     "id": "node/475721824",
