@@ -2334,6 +2334,13 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Left%20Groove&type=all"
   },
   {
+    "id": "way/1086668953",
+    "name": "Left Promontory Gully",
+    "lat": 53.0983002,
+    "lon": -1.56337,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Left%20Promontory%20Gully&type=all"
+  },
+  {
     "id": "node/14134429480",
     "name": "Left Wall",
     "lat": 53.2306518,
