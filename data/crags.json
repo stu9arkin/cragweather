@@ -908,10 +908,13 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Climbing%20Boulder&type=all"
   },
   {
-    "id": "node/269254223",
+    "id": "node/269254225",
     "name": "Climbing Boulders",
-    "lat": 54.6756059,
-    "lon": -1.2484192,
+    "lat": 54.6755004,
+    "lon": -1.2480545,
+    "climbingStyles": [
+      "boulder"
+    ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Climbing%20Boulders&type=all"
   },
   {
