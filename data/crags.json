@@ -586,6 +586,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bryn%20Melyn&type=all"
   },
   {
+    "id": "node/14213909930",
+    "name": "Bryn-Y-Baal Quarry Crag",
+    "lat": 53.1746839,
+    "lon": -3.1108235,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Bryn-Y-Baal%20Quarry%20Crag&type=all"
+  },
+  {
     "id": "node/2383975371",
     "name": "Bucketland",
     "lat": 51.562304,
@@ -1062,6 +1072,17 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Crag%20Fast&type=all"
   },
   {
+    "id": "node/14213930059",
+    "name": "Craig Arthur Crag",
+    "lat": 53.0155189,
+    "lon": -3.1580191,
+    "climbingStyles": [
+      "sport",
+      "trad"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20Arthur%20Crag&type=all"
+  },
+  {
     "id": "way/235325682",
     "name": "Craig Ddu",
     "lat": 53.0954893,
@@ -1155,6 +1176,13 @@
     "lon": -1.660823,
     "description": "Some big rocks",
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Cratcliff%20Tor&type=all"
+  },
+  {
+    "id": "way/36138805",
+    "name": "Creigiau Eglwyseg",
+    "lat": 52.9963851,
+    "lon": -3.1625129,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Creigiau%20Eglwyseg&type=all"
   },
   {
     "id": "node/7064469258",
@@ -1390,6 +1418,18 @@
     "lat": 53.0860317,
     "lon": -4.0544885,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Dinas%20Mot%20(Plexus%20Buttress)&type=all"
+  },
+  {
+    "id": "node/14213930062",
+    "name": "Dinbren Crags",
+    "lat": 52.9933265,
+    "lon": -3.1629477,
+    "climbingStyles": [
+      "boulder",
+      "sport",
+      "trad"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Dinbren%20Crags&type=all"
   },
   {
     "id": "way/61161391",
@@ -1808,6 +1848,16 @@
       "bouldering"
     ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Gorilla%20Warfare&type=all"
+  },
+  {
+    "id": "node/14213930065",
+    "name": "Graffiti Walls Bouldering",
+    "lat": 52.9784939,
+    "lon": -3.132528,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Graffiti%20Walls%20Bouldering&type=all"
   },
   {
     "id": "node/1288932331",
@@ -2700,6 +2750,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Monks%20Quarry&type=all"
   },
   {
+    "id": "node/14213930066",
+    "name": "Monument Boulders",
+    "lat": 52.9789113,
+    "lon": -3.1257825,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Monument%20Boulders&type=all"
+  },
+  {
     "id": "way/123861270",
     "name": "Mother Cap Quarry",
     "lat": 53.319937,
@@ -2885,6 +2945,16 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Oxwich%20Point&type=all"
   },
   {
+    "id": "node/14213930063",
+    "name": "Panorama Boulders",
+    "lat": 52.9815261,
+    "lon": -3.1498064,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Panorama%20Boulders&type=all"
+  },
+  {
     "id": "node/2383975375",
     "name": "Pantheon",
     "lat": 51.561964,
@@ -3034,6 +3104,17 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pine%20Wall&type=all"
   },
   {
+    "id": "node/14213930061",
+    "name": "Pinfold Area",
+    "lat": 53.0011975,
+    "lon": -3.1635533,
+    "climbingStyles": [
+      "sport",
+      "trad"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pinfold%20Area&type=all"
+  },
+  {
     "id": "way/728027197",
     "name": "Pinnacle Quarry, Tegness",
     "lat": 53.2985073,
@@ -3155,6 +3236,23 @@
       "trad"
     ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Poser%20Buttress&type=all"
+  },
+  {
+    "id": "way/1174881821",
+    "name": "Pot Hole Quarry",
+    "lat": 53.1281763,
+    "lon": -3.2095537,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pot%20Hole%20Quarry&type=all"
+  },
+  {
+    "id": "node/14213909931",
+    "name": "Pot Hole Quarry (Three Springs)",
+    "lat": 53.1281471,
+    "lon": -3.2092797,
+    "climbingStyles": [
+      "boulder"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Pot%20Hole%20Quarry%20(Three%20Springs)&type=all"
   },
   {
     "id": "node/3103940299",
@@ -3454,6 +3552,18 @@
       "boulder"
     ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Russian%20Zawn&type=all"
+  },
+  {
+    "id": "node/14213909932",
+    "name": "Ruthin Escarpment (Pwllglas Rocks)",
+    "lat": 53.0792872,
+    "lon": -3.3120483,
+    "climbingStyles": [
+      "boulder",
+      "sport",
+      "trad"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Ruthin%20Escarpment%20(Pwllglas%20Rocks)&type=all"
   },
   {
     "id": "way/520865035",
@@ -4622,6 +4732,18 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Tree%20Wall&type=all"
   },
   {
+    "id": "node/14213930064",
+    "name": "Trevor Quarry",
+    "lat": 52.9811602,
+    "lon": -3.1440218,
+    "climbingStyles": [
+      "boulder",
+      "sport",
+      "trad"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Trevor%20Quarry&type=all"
+  },
+  {
     "id": "way/850580817",
     "name": "Trewavas",
     "lat": 50.0908041,
@@ -4682,6 +4804,17 @@
     "lat": 52.7497567,
     "lon": -1.3584743,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Twenty%20Steps&type=all"
+  },
+  {
+    "id": "node/14213930060",
+    "name": "Twilight Area",
+    "lat": 53.0083335,
+    "lon": -3.157859,
+    "climbingStyles": [
+      "sport",
+      "trad"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Twilight%20Area&type=all"
   },
   {
     "id": "node/1310394645",
@@ -5034,6 +5167,17 @@
     "lat": 50.0362854,
     "lon": -5.6807391,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Wolf%20Buttress&type=all"
+  },
+  {
+    "id": "node/14213930058",
+    "name": "World's End",
+    "lat": 53.0217653,
+    "lon": -3.1429478,
+    "climbingStyles": [
+      "sport",
+      "trad"
+    ],
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=World's%20End&type=all"
   },
   {
     "id": "node/3103940233",
