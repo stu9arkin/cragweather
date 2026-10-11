@@ -4319,13 +4319,6 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20y%20Moch&type=all"
   },
   {
-    "id": "node/1288932334",
-    "name": "Craig y Pal-Glais",
-    "lat": 51.68884,
-    "lon": -3.87197,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20y%20Pal-Glais&type=all"
-  },
-  {
     "id": "way/30766417",
     "name": "Craig yr Ysfa",
     "lat": 53.1541912,
@@ -7803,13 +7796,6 @@
       "boulder"
     ],
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Graffiti%20Walls%20Bouldering&type=all"
-  },
-  {
-    "id": "node/1288932331",
-    "name": "Graig Ola",
-    "lat": 51.6951887,
-    "lon": -3.8625223,
-    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Graig%20Ola&type=all"
   },
   {
     "id": "node/14246557339",
@@ -11544,7 +11530,6 @@
     "name": "Lover's Leap",
     "lat": 53.184239,
     "lon": -6.1534444,
-    "rock": "quartzite",
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Lover's%20Leap&type=all"
   },
   {
