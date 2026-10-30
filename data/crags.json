@@ -2383,6 +2383,13 @@
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Breaktime&type=all"
   },
   {
+    "id": "node/12791740993",
+    "name": "Breeze 18m VD",
+    "lat": 52.9995445,
+    "lon": -4.3396464,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Breeze%2018m%20VD&type=all"
+  },
+  {
     "id": "node/14246334806",
     "name": "Brewing Up With Les Williams",
     "lat": 53.145071,
@@ -4282,6 +4289,13 @@
     "lat": 56.6288785,
     "lon": -3.6161818,
     "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20na%20h'Eighe&type=all"
+  },
+  {
+    "id": "way/1381129154",
+    "name": "Craig Wen",
+    "lat": 52.9996716,
+    "lon": -4.3399992,
+    "ukcSearchUrl": "https://www.ukclimbing.com/logbook/search/?sort=score&query=Craig%20Wen&type=all"
   },
   {
     "id": "way/1097670534",
